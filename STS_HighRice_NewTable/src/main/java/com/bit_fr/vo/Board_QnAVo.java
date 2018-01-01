@@ -2,7 +2,7 @@ package com.bit_fr.vo;
 
 import java.util.Date;
 
-public class Board_QnaVo {
+public class Board_QnAVo {
 	private String board_id;
 	private String title;
 	private String member_id;
@@ -79,7 +79,7 @@ public class Board_QnaVo {
 	}
 
 	// Constructor
-	public Board_QnaVo(String board_id, String title, String member_id, int product_id, Date regdate, String content,
+	public Board_QnAVo(String board_id, String title, String member_id, int product_id, Date regdate, String content,
 			int b_ref, int b_level) {
 		super();
 		this.board_id = board_id;
@@ -92,7 +92,7 @@ public class Board_QnaVo {
 		this.b_level = b_level;
 	}
 
-	public Board_QnaVo() {
+	public Board_QnAVo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
