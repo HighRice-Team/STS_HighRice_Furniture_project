@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <style type="text/css">
 a {
@@ -132,7 +132,7 @@ a {
 <body>
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
 		<div style="width: 40%; float: left;">
-			<a href="main.jsp"><img src="img/logo.png"
+			<a href="main.jsp"><img src="resources/img/logo.png"
 				style="width: auto; height: 100px;"></a>
 		</div>
 		<div style="width: 60%; float: right; text-align: left; color: white;">

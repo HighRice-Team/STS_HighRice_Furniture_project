@@ -9,7 +9,7 @@
 <body>
 	<div style="margin: 60px 28% 0 28%; padding: 10px 0 10px 0; ">
 		<div style="width: 65%; float: left; ">
-			<img  src="img/logo.png" style="width:70%; height: auto;">
+			<img src="resources/img/logo.png" style="width:70%; height: auto;">
 		</div>
 		<div style="width: 35%; float: right; text-align: left;">
 			BIR FR Company<br>
