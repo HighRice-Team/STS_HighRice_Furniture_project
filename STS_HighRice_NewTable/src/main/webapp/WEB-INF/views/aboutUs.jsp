@@ -9,7 +9,7 @@
 <body>
 <div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0; ">
 		<h2>ABOUT US</h2><hr>
-	<img alt="AboutUs" src="img/aboutus.jpg" width="100%">
+	<img alt="AboutUs" src="resources/img/aboutus.jpg" width="100%">
 </div>
 </body>
 </html>
