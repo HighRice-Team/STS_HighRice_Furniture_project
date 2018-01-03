@@ -2,7 +2,7 @@ package com.bit_fr.vo;
 
 import java.util.Date;
 
-public class Board_QnAVo {
+public class QnaBoardVo {
 	private int board_id;
 	private String title;
 	private String member_id;
@@ -12,11 +12,11 @@ public class Board_QnAVo {
 	private int b_ref;
 	private int b_level;
 
-	public Board_QnAVo() {
+	public QnaBoardVo() {
 		super();
 	}
 
-	public Board_QnAVo(int board_id, String title, String member_id, int product_id, Date regdate, String content,
+	public QnaBoardVo(int board_id, String title, String member_id, int product_id, Date regdate, String content,
 			int b_ref, int b_level) {
 		super();
 		this.board_id = board_id;

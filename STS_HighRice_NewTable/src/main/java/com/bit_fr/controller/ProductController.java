@@ -1,4 +1,4 @@
-package com.bit_fr.Controller;
+package com.bit_fr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +21,7 @@ public class ProductController {
 	public ModelAndView main() {
 		ModelAndView mav = new ModelAndView();
 
-		mav.addObject("viewPage", "login.jsp");
+		mav.addObject("viewPage", "index.jsp");
 		mav.setViewName("main");
 		
 		return mav;

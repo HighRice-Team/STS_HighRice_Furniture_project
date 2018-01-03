@@ -1,17 +1,17 @@
-package com.bit_fr.Controller;
+package com.bit_fr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.bit_fr.dao.Board_QnADao;
+import com.bit_fr.dao.QnaBoardDao;
 
 @Controller
-public class Board_QnAController {
+public class QnaBoardController {
 
 	@Autowired
-	private Board_QnADao dao;
+	private QnaBoardDao dao;
 
-	public void setDao(Board_QnADao dao) {
+	public void setDao(QnaBoardDao dao) {
 		this.dao = dao;
 	}
 	

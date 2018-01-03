@@ -6,7 +6,7 @@
   <properties resource="com/bit_fr/db/bit_fr.properties"/>
  
  <typeAliases>
- 	<typeAlias type="com.bit_fr.vo.Board_QnAVo" alias="board_QnAVo"/>
+ 	<typeAlias type="com.bit_fr.vo.QnaBoardVo" alias="qnaBoardVo"/>
  	<typeAlias type="com.bit_fr.vo.MemberVo" alias="memberVo"/>
  	<typeAlias type="com.bit_fr.vo.OrderlistVo" alias="orderlistVo"/>
  	<typeAlias type="com.bit_fr.vo.ProductVo" alias="productVo"/>
@@ -24,7 +24,7 @@
     </environment>
   </environments>
   <mappers>
-    <mapper resource="com/bit_fr/db/Board_QnAMapper.xml"/>
+    <mapper resource="com/bit_fr/db/QnaBoardMapper.xml"/>
     <mapper resource="com/bit_fr/db/MemberMapper.xml"/>
     <mapper resource="com/bit_fr/db/OrderlistMapper.xml"/>
     <mapper resource="com/bit_fr/db/ProductMapper.xml"/>
