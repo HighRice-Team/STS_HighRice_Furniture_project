@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <style type="text/css">
 .slide-box {
    width: 600px;
@@ -46,7 +46,7 @@
 </style>
 <title>Insert title here</title>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src = "./js/jquery-ui.min.js"></script>
+<script type="text/javascript" src = "resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
    
    $(function() {
@@ -152,11 +152,11 @@
       <input type="submit" value="검색">
       
       <br><br>
-      <c:if test="${list==null }"><jsp:forward page="index.do"></jsp:forward> </c:if>
+<%--       <c:if test="${list==null }"><jsp:forward page="index.do"></jsp:forward> </c:if> --%>
       <table width="70%" border="0" cellpadding="4" cellspacing="4">
          <tr>
          <c:forEach items="${list }" var="list">
-               <td class="hover1" width="17%" height="250px" bgColor="#DDDDDD"><a href="productDetail.do?product_id=${list.product_id }"><br>${list.product_name }<br><br><img src="img/product/${list.main_img }" class="item_img"><br>${list.item }<br>${list.quality }<br>\ ${list.price }</a></td>
+               <td class="hover1" width="17%" height="250px" bgColor="#DDDDDD"><a href="productDetail.do?product_id=${list.product_id }"><br>${list.product_name }<br><br><img src="resources/img/product/${list.main_img }" class="item_img"><br>${list.item }<br>${list.quality }<br>\ ${list.price }</a></td>
             
             <c:if test="${list.rownum%4==0 }">
                </tr>
