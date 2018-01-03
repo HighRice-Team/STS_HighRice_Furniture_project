@@ -31,7 +31,7 @@
 </style>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src = "./js/jquery-ui.min.js"></script>
+<script type="text/javascript" src = "resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
    $(function(){
       
@@ -108,7 +108,7 @@
 <body>
    <div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0; ">
    <h2><a href="customize.do">CUSTOMIZE</a></h2><hr id="hr">
-   <form action="customize.do" method="post" name="F">
+   <form action="customize.do" method="post" id=F ,name="F">
       <select name="item"> 
          <option value=null disabled="disabled" selected="selected">분류</option>
          <option value="">선택 안함</option>
@@ -144,7 +144,7 @@
       <input type="submit" value="검색">
 
       <br><br>
-      <c:if test="${list==null }"><jsp:forward page="index.do"></jsp:forward> </c:if>
+<%--       <c:if test="${list==null }"><jsp:forward page="index.do"></jsp:forward> </c:if> --%>
       <table width="70%" border="0" cellpadding="4" cellspacing="4">
          <tr>
          <c:forEach items="${list }" var="list">

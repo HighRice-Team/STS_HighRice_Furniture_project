@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <style type="text/css">
 a {
@@ -19,120 +19,13 @@ a {
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
 <script type="text/javascript" src = "./js/jquery-ui.min.js"></script>
-<script type="text/javascript">
-   
-   $(function(){
-      $("#loginDialog").dialog({
-         autoOpen:false,
-         modal:true,
-         resizable:false,
-         buttons:{
-            "로그인":function(){
-               var id = $("#login_member_id").val()
-               var pwd = $("#login_pwd").val()
-               var data = {"member_id":id,"pwd":pwd};
-               $.ajax({
-                  url:"login/loginAjax.jsp",
-                  data:data,
-                  success:function(data){
-                     data = eval("("+data+")");
-                     if(data.str==""){
-                        location.href="";
-                        $("#loginDialog").dialog("close")
-                     }else{
-                        $("#msg").html("*"+data.str);
-                     }
-                  }
-               })
-            },
-            "취소":function(){
-               $("#loginDialog").dialog("close")
-            },
-            "회원가입":function(){
-               location.href = "join.do"
-            }
-         }
-      });
-      $("#login").click(function(){
-         $("#loginDialog").dialog("open");
-      })
-      
-		$(document).on("click",".chk_login",function(){
-           var id = '<%=session.getAttribute("id")%>'
-			if (id == "null") {
-				if (confirm("로그인이 필요한 서비스 입니다.\n 로그인 하시겠습니까?", "a")) {
-					$("#loginDialog").dialog("open");
-				}
-			} else {
-				location.href = $(this).attr("value")
-			}
-		})
-		
-	      $("#mloginDialog").dialog({
-         autoOpen:false,
-         modal:true,
-         resizable:false,
-         buttons:{
-            "로그인":function(){
-               var id = $("#mid").val()
-               var pwd = $("#mpwd").val()
-               var data = {"id":id,"pwd":pwd};
-               $.ajax({
-                  url:"admin/loginAjax.jsp",
-                  data:data,
-                  success:function(data){
-                     data = eval("("+data+")");
-                     if(data.str==""){
-                        location.href="productList.do";
-                        $("#mloginDialog").dialog("close")
-                     }else{
-                        $("#msg").html("*"+data.str);
-                     }
-                  }
-               })
-            },
-            "취소":function(){
-               $("#mloginDialog").dialog("close")
-            }
-         }
-      });
-      $("#mlogin").click(function(){
-         $("#mloginDialog").dialog("open");
-      })
-	})
-	function logout() {
-		''
-		if (confirm("로그아웃 하시겠습니까?")) {
-			$.ajax({
-				url : "login/logoutAjax.jsp",
-				success : function() {
-					alert("로그아웃 완료");
-					location.href = "index.do";
-				}
 
-			})
-		}
-	}
-	function mlogout() {
-		''
-		if (confirm("로그아웃 하시겠습니까?")) {
-			$.ajax({
-				url : "admin/logoutAjax.jsp",
-				success : function() {
-					alert("로그아웃 완료");
-					location.href = "index.do";
-				}
-
-			})
-		}
-	}
-</script>
 <title>Insert title here</title>
 </head>
 <body>
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
 		<div style="width: 40%; float: left;">
-			<a href="main.jsp"><img src="img/logo.png"
+			<a href="main.jsp"><img src="resources/img/logo.png"
 				style="width: auto; height: 100px;"></a>
 		</div>
 		<div style="width: 60%; float: right; text-align: left; color: white;">
@@ -140,25 +33,7 @@ a {
 				<c:if test="${sessionScope.id==null}">
 					<a id="login">LOGIN</a>
 					<br>
-					<div id="loginDialog" title="로그인">
-						<form id="loginForm">
-							<table>
-								<tr>
-									<td>ID:</td>
-									<td><input type="text" id="login_member_id"
-										name="login_member_id"></td>
-								</tr>
-								<tr>
-									<td>PW:</td>
-									<td><input type="password" id="login_pwd" name="login_pwd"></td>
-								</tr>
-								<tr>
-									<td colspan="2" style="color: red" id="msg"></td>
-								</tr>
-							</table>
-						</form>
-						<br>
-					</div>
+					
 				</c:if>
 				<c:if test="${sessionScope.id!=null}">
 					<a onclick="logout()">LOGOUT</a>
@@ -176,25 +51,7 @@ a {
 				<c:if test="${sessionScope.mid==null}">
 					<a id="mlogin">ADMIN</a>
 					<br>
-					<div id="mloginDialog" title="관리자로그인">
-						<form id="mloginForm">
-							<table>
-								<tr>
-									<td>ID:</td>
-									<td><input type="text" id="mid"
-										name="mid"></td>
-								</tr>
-								<tr>
-									<td>PW:</td>
-									<td><input type="password" id="mpwd" name="mpwd"></td>
-								</tr>
-								<tr>
-									<td colspan="2" style="color: red" id="msg"></td>
-								</tr>
-							</table>
-						</form>
-						<br>
-					</div>
+					
 				</c:if>
 				<c:if test="${sessionScope.mid!=null}">
 					<a href="productList.do">ADMIN</a>
