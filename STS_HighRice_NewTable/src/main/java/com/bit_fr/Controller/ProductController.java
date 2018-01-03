@@ -21,7 +21,7 @@ public class ProductController {
 	public ModelAndView main() {
 		ModelAndView mav = new ModelAndView();
 
-		mav.addObject("viewPage", "login");
+		mav.addObject("viewPage", "login.jsp");
 		mav.setViewName("main");
 		
 		return mav;
