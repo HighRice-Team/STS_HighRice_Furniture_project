@@ -55,5 +55,6 @@ public class OrderlistDao {
 	public int delete_orderlist(String member_id, int product_id) {
 		return OrderlistManager.delete_orderlist(member_id, product_id);
 	}
+	
 
 }
