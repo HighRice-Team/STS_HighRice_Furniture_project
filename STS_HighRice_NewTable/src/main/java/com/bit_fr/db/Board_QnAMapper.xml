@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.mybatis.example.BlogMapper">
-  <select id="selectBlog" resultType="Blog">
-    select * from Blog where id = #{id}
-  </select>
+	<select id="totalRecord" resultType="java.lang.Integer">
+		select count(*) from board
+		<if test="my != null and  writer != null">
+			where writer = #{writer}
+		</if>
+	</select>
+	<update id="updateStep">
+		update board set b_step = b_step + 1
+		where b_ref=#{b_ref} and b_step > #{b_step}
+	</update>
+	<update id="update">
+		update board set
+		title=#{title},writer=#{writer},content=#{content},fname=#{fname},fszie=#{fszie}
+		where no=#{no} and pwd=#{pwd}
+	</update>
+	<delete id="delete">
+		delete board where no = #{no}
+	</delete>
+	<select id="nextNo" resultType="java.lang.Integer">
+		select nvl(max(no),0)+1 from board
+	</select>
+	<insert id="insert">
+		insert into board values(#{no},#{title},#{writer},#{pwd},#{content},sysdate,#{ip},#{fname},#{b_ref},#{b_level},#{b_step},#{fszie},0)
+	</insert>
+	<select id="selectAll" resultType="boardVo">
+		select no, title,writer,pwd,content,regdate,ip,fname,b_ref,b_level,b_step,fszie,hit from
+		(select rownum n, no, title,writer,pwd,content,regdate,ip,fname,b_ref,b_level,b_step,fszie,hit from
+		(select * from board
+		<if test="my != null and  writer != null">
+			where writer = #{writer}
+		</if>
+		order by b_ref desc, b_step)) a where a.n between #{start} and #{end}
+	</select>
+	<select id="getBoard" resultType="boardVo">
+		select * from board where no = #{no}
+	</select>
 </mapper>
