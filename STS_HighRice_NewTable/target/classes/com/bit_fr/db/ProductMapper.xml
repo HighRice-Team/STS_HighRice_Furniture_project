@@ -2,8 +2,130 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.mybatis.example.BlogMapper">
-  <select id="selectBlog" resultType="Blog">
-    select * from Blog where id = #{id}
-  </select>
+<mapper namespace="product">
+	<select id="getAll_product" resultType="productVo">
+		select * from product
+	</select>
+
+	<select id="getOne_product" resultType="productVo">
+		select * from product where product_id=#{id}
+	</select>
+	
+<!-- 	<select id="" resultType="productVo"> -->
+<!-- 		#{sql} -->
+<!-- 	</select> -->
+	
+	<!-- Sell에서 쓰인 것, 매니저 등 처리 확인할 것 -->
+	<select id="selectMySell_product" resultType="productVo">
+		select * from product where member_id=#{member_id} order by product_id
+	</select>
+
+	<!-- min, max 값이 무엇? -> 페이징
+	<select id="selectAll_product" resultType="productVo">
+		select * from(select rownum a, product_id, condition, product_name, item, quality,member_id,price,main_img,sub_img
+		from(select * from product where member_id=#{id} order by product_id))
+		where a>=#{start} and a<=#{end}
+	</select>-->
+
+	<!-- 상태가 무엇인 것을 검색? -->
+	<select id="getXXXCount_product" resultType="java.lang.Integer">
+		select count(*) from product where item=#{item} and condition='臾쇳뭹寃뚯떆'
+	</select>
+	
+	<!-- 상태가 무엇인 것을 검색? -->
+	<select id="getXXXCount_product" resultType="java.lang.Integer">
+		select nvl(count(*),0) from product where condition='臾쇳뭹寃뚯떆'
+	</select>
+
+	<select id="getNextId_product" resultType="java.lang.Integer">
+		select nvl(max(product_id),0) from product
+	</select>
+	
+	<select id="getForAdmin_product" resultType="?????">
+		select product_id, item, product_name, m.member_id, condition, a.address2, quality, price from product p, member m, address a where p.member_id=m.member_id and m.address_id=a.address_id
+	</select>
+	
+	<select id="getCount_product" resultType="java.lang.Integer">
+		select count(*) from product
+	</select>	
+	
+	<insert id="insert_product">
+		insert into product values(#{product_id},null,#{product_name},#{category},#{quality},0,#{main_img},#{sub_img},#{member_id})
+	</insert>
+
+	<update id="updateCondition_product">
+		update product set condition=#{condition} where product_id=#{id}
+	</update>
+	
+	<update id="update_product">
+		update product set product_name=#{product_name}, item=#{item}, quality=#{quality}, main_img=#{main_img}, sub_img=#{sub_img}
+	</update>
+	
+	<update id="updateAdmin_product">
+		update product set item = #{item}, product_name =#{product_name}, condition = #{condition}, quality =#{quality}, price = #{price} where product_id =#{product_id}
+	</update>
+	
+	<delete id="delete_product">
+		delete product where product_id=#{id}
+	</delete>
+	
 </mapper>
+
+<!-- 모르겠는 부분 처리 못함 커스터마이즈 카테고리별 리스트 출력 부분
+public ArrayList<ProductVo> getCust(String sql2) {
+		ArrayList<ProductVo> list = new ArrayList<ProductVo>();
+		String sql = sql2;
+		try {
+
+			InitialContext context = new InitialContext();
+			DataSource ds = (DataSource) context.lookup("java:/comp/env/bit");
+			Connection conn = ds.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				list.add(new ProductVo(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getInt(7)));
+			}
+ 
+			if (conn != null)
+				conn.close();
+			if (stmt != null)
+				stmt.close();
+			if (rs != null)
+				rs.close();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return list;
+	}
+	
+	//기능 : getMySellCount 
+	public int getTotal(String sql) {
+		int re=-1;
+		
+		try {
+			InitialContext context = new InitialContext();
+			DataSource ds = (DataSource) context.lookup("java:/comp/env/bit");
+			Connection conn = ds.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			if(rs.next())
+				re = rs.getInt(1);
+
+			if (conn != null)
+				conn.close();
+			if (stmt != null)
+				stmt.close();
+			if (rs != null)
+				rs.close();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return re;
+	}
+-->
+
