@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css">
-<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <style type="text/css">
 a {
 	font-family: 고딕;
@@ -17,59 +16,68 @@ a {
 	cursor: pointer;
 }
 </style>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src = "./js/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
+<script type="text/javascript" src="./js/jquery-ui.min.js"></script>
 
 <title>Insert title here</title>
 </head>
 <body>
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
+
+		<!-- 메인 로고 -->
 		<div style="width: 40%; float: left;">
-			<a href="main.jsp"><img src="resources/img/logo.png"
-				style="width: auto; height: 100px;"></a>
+			<a href="main.jsp"> <img src="resources/img/logo.png"
+				style="width: auto; height: 100px;">
+			</a>
 		</div>
+
+		<!-- 메뉴 -->
 		<div style="width: 60%; float: right; text-align: left; color: white;">
 			<div style="width: 20%; float: right;">
+
+				<!-- 로그인 -->
 				<c:if test="${sessionScope.id==null}">
-					<a id="login">LOGIN</a>
-					<br>
-					
+					<a href="">LOGIN</a>
 				</c:if>
 				<c:if test="${sessionScope.id!=null}">
-					<a onclick="logout()">LOGOUT</a>
+					<a href="">LOGOUT</a>
 					<br>
 				</c:if>
+
+				<!-- 회원가입 -->
 				<c:if test="${sessionScope.id!=null}">
 					<br>
 				</c:if>
 				<c:if test="${sessionScope.id==null}">
-					<a href="join.do">JOIN</a>
+					<a href="">JOIN</a>
 					<br>
 				</c:if>
-				<a class="chk_login" value="myPage.do">MYPAGE</a><br> <a
-					class="chk_login" value="cartList.do">CART</a><br>
-				<c:if test="${sessionScope.mid==null}">
-					<a id="mlogin">ADMIN</a>
-					<br>
-					
+
+
+				<a href="">MYPAGE</a><br>
+				
+				
+				<a href="">CART</a><br>
+				
+				<!-- 관리자 -->
+				<c:if test="${sessionScope.grade==1}">
+					<a href="">ADMIN</a><br>
 				</c:if>
-				<c:if test="${sessionScope.mid!=null}">
-					<a href="productList.do">ADMIN</a>
-					<a onclick="mlogout()">OUT</a>
-				</c:if>
+				
 			</div>
 			<div style="width: 20%; float: right;">
-				<a class="chk_login" value="sellList.do">SELL</a><br>
-				<br> <a href="aboutUs.do">ABOUT US</a><br> <a
-					href="faq.do">FAQ</a><br> <a class="chk_login"
-					value="listQna.do">QNA</a><br>
+				<a href="">SELL</a><br><br>
+				<a href="">ABOUT US</a><br>
+				<a href="">FAQ</a><br>
+				<a href="">QNA</a><br>
 			</div>
 			<div style="width: 20%; float: right;">
-				<a href="customize.do">CUSTMIZE</a><br> <a
-					href="product.do?item=BED">BED</a><br> <a
-					href="product.do?item=SOFA">SOFA</a><br> <a
-					href="product.do?item=CLOSET">CLOSET</a><br> <a
-					href="product.do?item=DESK">DESK</a><br>
+				<a href="">CUSTMIZE</a><br>
+				<a href="">BED</a><br>
+				<a href="">SOFA</a><br>
+				<a href="">CLOSET</a><br>
+				<a href="">DESK</a><br>
 			</div>
 		</div>
 	</div>
