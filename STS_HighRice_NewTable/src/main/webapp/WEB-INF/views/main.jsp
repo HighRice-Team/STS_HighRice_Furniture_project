@@ -14,17 +14,14 @@ html, body {
 	padding: 0px;
 }
 </style>
-<title>Insert title here</title>
+<title>BIT FR COMPANY</title>
 
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
 <script type="text/javascript" src = "./js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		function aa(){
-			alert("a");
-		}
-		
+
 	})
 </script>
 </head>
