@@ -28,12 +28,12 @@
 	</select>-->
 
 	<!-- 상태가 무엇인 것을 검색? -->
-	<select id="getXXXCount_product" resultType="java.lang.Integer">
+	<select id="getItemCount_product" resultType="java.lang.Integer">
 		select count(*) from product where item=#{item} and condition='臾쇳뭹寃뚯떆'
 	</select>
 	
 	<!-- 상태가 무엇인 것을 검색? -->
-	<select id="getXXXCount_product" resultType="java.lang.Integer">
+	<select id="getAllCount_product" resultType="java.lang.Integer">
 		select nvl(count(*),0) from product where condition='臾쇳뭹寃뚯떆'
 	</select>
 
@@ -41,9 +41,10 @@
 		select nvl(max(product_id),0) from product
 	</select>
 	
-	<select id="getForAdmin_product" resultType="?????">
-		select product_id, item, product_name, m.member_id, condition, a.address2, quality, price from product p, member m, address a where p.member_id=m.member_id and m.address_id=a.address_id
-	</select>
+	<!-- 당장 타입 안나오는거 일단 주석처리함. Vo를 따로 만들던지 하기 바람(정 힘들면 내가 하고) -->
+<!-- 	<select id="getForAdmin_product" resultType="?????"> -->
+<!-- 		select product_id, item, product_name, m.member_id, condition, a.address2, quality, price from product p, member m, address a where p.member_id=m.member_id and m.address_id=a.address_id -->
+<!-- 	</select> -->
 	
 	<select id="getCount_product" resultType="java.lang.Integer">
 		select count(*) from product

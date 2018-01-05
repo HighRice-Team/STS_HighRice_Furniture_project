@@ -25,7 +25,7 @@
 	<insert id="insert">
 		insert into board values(#{no},#{title},#{writer},#{pwd},#{content},sysdate,#{ip},#{fname},#{b_ref},#{b_level},#{b_step},#{fszie},0)
 	</insert>
-	<select id="selectAll" resultType="boardVo">
+	<select id="selectAll" resultType="qnaBoardVo">
 		select no, title,writer,pwd,content,regdate,ip,fname,b_ref,b_level,b_step,fszie,hit from
 		(select rownum n, no, title,writer,pwd,content,regdate,ip,fname,b_ref,b_level,b_step,fszie,hit from
 		(select * from board
@@ -34,7 +34,7 @@
 		</if>
 		order by b_ref desc, b_step)) a where a.n between #{start} and #{end}
 	</select>
-	<select id="getBoard" resultType="boardVo">
+	<select id="getBoard" resultType="qnaBoardVo">
 		select * from board where no = #{no}
 	</select>
 </mapper>

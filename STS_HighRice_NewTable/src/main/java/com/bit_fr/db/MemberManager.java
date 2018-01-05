@@ -36,6 +36,7 @@ public class MemberManager {
 	}
 
 	public static MemberVo getOne_member(String member_id) { // member_id를 매개변수로 받아 해당 member의 정보를 Vo로 반환한다.
+	
 		SqlSession session = factory.openSession();
 		MemberVo v = session.selectOne("member.getOne_member", member_id);
 		session.close();

@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <style type="text/css">
 .over {
 		
@@ -24,7 +24,7 @@
 	color : white;
 	}
 </style>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(function () {
@@ -160,7 +160,7 @@
 		<h2>MY PAGE</h2><hr>
 		<div style="border: 1px solid; height: 100px;">
 			<div style="width: 100px; float: left; margin-left:  0px ">
-				<img src="img/myPage.JPG"  style="position:absolute; height: 100px; width:100px; background: grey;">
+				<img src="resources/img/myPage.JPG"  style="position:absolute; height: 100px; width:100px; background: grey;">
 			</div>
 			<div style="width: 80%; float: right;">
 				<p>${member.name }회원님 저희 비트가구 대여 사이트를 이용해 주셔서 감사합니다.
@@ -174,7 +174,7 @@
 		<div>
 			<table border="0" width="100%">
 				<tr><td><h2>SELL</h2></td><td><h2>MY RENT</h2></td></tr>
-				<tr><td rowspan="4" width="30%" style="border: 1px solid;"><a href="sellWrite.do"><img src="img/SELL.JPG" style="width:100%; background: grey;"></a></td><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>입금완료 : ${rent1 }</b></a></td></tr>		
+				<tr><td rowspan="4" width="30%" style="border: 1px solid;"><a href="sellWrite.do"><img src="resources/img/SELL.JPG" style="width:100%; background: grey;"></a></td><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>입금완료 : ${rent1 }</b></a></td></tr>		
 				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>배송중 : ${rent2 }</b></a></td></tr>		
 				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>대여중 : ${rent3 }</b></a></td></tr>		
 				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>반납 : ${rent4 }</b></a></td></tr>		
@@ -185,7 +185,7 @@
 		<table width="100%" cellspacing="20">
 			<tr>
 				<c:if test="${min>=2 }">
-					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="img/left.jpg" style="width:60%;"></a></td>
+					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="resources/img/left.jpg" style="width:60%;"></a></td>
 				</c:if>
 				<c:forEach items="${list }" var="list">
 					<td class="hover1" width="15%" style="border:1px solid; height: 250px;"><a href="productDetail.do?product_id=${list.product_id }"><center>${list.main_img}<br>${list.product_name }<br>${list.condition }<br>${list.quality }<br>${list.price } <input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></center></td>
@@ -197,7 +197,7 @@
 				</c:if>
 				
 				<c:if test="${min+3<total }">
-					<td width="2%"><a href="myPage.do?min=${min+1 }"><img src="img/right.jpg" style="width:60%;"></a></td>	
+					<td width="2%"><a href="myPage.do?min=${min+1 }"><img src="resources/img/right.jpg" style="width:60%;"></a></td>	
 				</c:if>
 			</tr>		
 		</table>
