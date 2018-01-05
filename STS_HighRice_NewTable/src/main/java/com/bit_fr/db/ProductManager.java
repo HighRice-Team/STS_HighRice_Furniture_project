@@ -25,96 +25,95 @@ public class ProductManager {
 		}
 	}
 	
-	public static List<ProductVo> selectAll() {
+	public static List<ProductVo> getAll_product() {
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.selectAll_product");
+		List<ProductVo> list = session.selectList("product.getAll_product");
 		session.close();
 		return list;
 	}
 	
-	public static ProductVo selectOne(int id) {
+	public static ProductVo getOne_product(int id) {
 		SqlSession session = factory.openSession();
-		ProductVo p = (ProductVo) session.selectList("product.selectOne_product", id);
+		ProductVo p = (ProductVo) session.selectList("product.getOne_product", id);
 		session.close();
 		return p;
 	}
 	
-	public static List<ProductVo> selectSell(String member_id){
+	public static int getNextId_product() {
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.selectSell_product", member_id);
-		session.close();
-		return list;
-	}
-	
-	//min, max 값이 무엇인지 모르겠는 부분
-	public static List<ProductVo> selectAllByCondition() {
-		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.selectAll_product");
-		session.close();
-		return list;
-	}
-	
-	// 상태 미상 1
-	public static int getXXXCount(String condition) {
-		SqlSession session = factory.openSession();
-		int re = session.selectOne("product.getXXXCount_product");
-		session.close();
-		return re;
-	}
-	
-	// 상태 미상 2
-	public static int getXXXCount(String category, String condition) {
-		SqlSession session = factory.openSession();
-		HashMap map = new HashMap();
-		map.put("category", category);
-		map.put("condition", condition);
-		
-		int re = session.selectOne("product.getXXXCount_product", map);
-		session.close();
-		return re;
-	}
-	
-	public static int nextNextId() {
-		SqlSession session = factory.openSession();
-		int n = session.selectOne("product.getNextId");
+		int n = session.selectOne("product.etNextId_product");
 		session.close();
 		return n;
 	}
-	
-/* 자료형 모르겠는 부분	
-	public static ??????????? {
-		SqlSession session = factory.openSession();
-		int n = session.selectOne("product.getNextId");
-		session.close();
-		return n;
-	}
-*/
-	
-	public static int getCount() {
+
+	public static int getCount_product() {
 		SqlSession session = factory.openSession();
 		int re = session.selectOne("product.getCount_product");
 		session.close();
 		return re;
 	}
+
+	public static ProductVo getCutomizeList_product(String sql) {
+		SqlSession session = factory.openSession();
+		ProductVo p = (ProductVo) session.selectList("product.getCutomizeList_product", sql);
+		session.close();
+		return p;
+	}
 	
-	public static int insertProduct(ProductVo p) {
+	public static List<ProductVo> getMySell_product(String member_id){
+		SqlSession session = factory.openSession();
+		List<ProductVo> list = session.selectList("product.getMySell_product", member_id);
+		session.close();
+		return list;
+	}
+
+	public static int getMySellCount_product(String sql2) {
+		SqlSession session = factory.openSession();
+		int n = session.selectOne("product.getMySellCount_product", sql2);
+		session.close();
+		return n;
+	}
+	
+	public static List<ProductVo> getMySellForPaging_product(String member_id) {
+		SqlSession session = factory.openSession();
+		List<ProductVo> list = session.selectList("product.getMySellForPaging_product");
+		session.close();
+		return list;
+	}
+	
+	public static int getAllPublishingCount_product(String category, String condition) {
+		SqlSession session = factory.openSession();
+		HashMap map = new HashMap();
+		map.put("category", category);
+		map.put("condition", condition);
+		
+		int re = session.selectOne("product.getAllPublishingCount_product", map);
+		session.close();
+		return re;
+	}
+
+	public static int getItemPublishingCount_product(String condition) {
+		SqlSession session = factory.openSession();
+		int re = session.selectOne("product.getItemPublishingCount_product");
+		session.close();
+		return re;
+	}
+	
+	public static ProductVo getForAdmin_product() {
+		SqlSession session = factory.openSession();
+		ProductVo p = (ProductVo) session.selectList("product.getForAdmin_product");
+		session.close();
+		return p;
+	}
+
+	public static int insert_product(ProductVo p) {
 		SqlSession session = factory.openSession();
 		int re = session.insert("product.insert_product", p);
 		session.close();
 		return re;
 	}
 	
-	public static int updateCondition(int id, String condition) {
-		SqlSession session = factory.openSession();
-		HashMap map = new HashMap();
-		map.put("id", id);
-		map.put("condition", condition);
-		int re = session.update("product.updateCondition_product", map);
-		session.close();
-		return re;
-	}
-	
-	public static int updateProduct(String product_name, String category, String quality, String main_img, String sub_img) {
+	public static int update_product(String product_name, String category, String quality, String main_img, String sub_img) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
 		map.put("product_name", product_name);
@@ -126,8 +125,18 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
+
+	public static int updateCondition_product(int id, String condition) {
+		SqlSession session = factory.openSession();
+		HashMap map = new HashMap();
+		map.put("id", id);
+		map.put("condition", condition);
+		int re = session.update("product.updateCondition_product", map);
+		session.close();
+		return re;
+	}
 	
-	public static int updateAdmin(String category, String product_name, String condition, String quality, int price) {
+	public static int updateAdmin_product(String category, String product_name, String condition, String quality, int price) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
 		map.put("category", category);
@@ -140,12 +149,10 @@ public class ProductManager {
 		return re;
 	}
 	
-	public static int deleteProduct(int id) {
+	public static int delete_product(int id) {
 		SqlSession session = factory.openSession();
 		int re = session.delete("product.delete_product", id);
 		session.close();
 		return re;
 	}
-	
-	// 모르겠는 부분 처리 못함(매퍼 내)
 }
