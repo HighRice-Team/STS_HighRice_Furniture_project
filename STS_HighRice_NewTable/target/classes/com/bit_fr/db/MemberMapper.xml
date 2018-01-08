@@ -65,6 +65,8 @@
 	<update id="updateInfo_member">
 		update member set 
 		
+		name = #{name},
+		jumin = #{jumin},
 		tel = #{tel},
 		pwd_q = #{pwd_q},
 		pwd_a = #{pwd_a},
