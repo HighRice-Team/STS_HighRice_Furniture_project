@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <style type="text/css">
 .slide-box {
 	width: 600px;
@@ -42,9 +41,7 @@
 }
 </style>
 <title>Insert title here</title>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src="resources/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		// 상태유지. 드롭박스를 선택 후 페이지가 넘어가도 현재 상태가 유지 된다.
