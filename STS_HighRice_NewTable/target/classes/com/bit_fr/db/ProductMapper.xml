@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="getMySellCount_product" resultType="java.lang.Integer">
- 		#{sql2}
+ 		
  	</select>	
 
 	<select id="getMySellForPaging_product" resultType="productVo">	

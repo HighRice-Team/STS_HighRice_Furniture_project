@@ -104,8 +104,8 @@ public class HomeController {
 		mav.addObject("rent3", rent3);
 		mav.addObject("rent4", rent4);
 		mav.addObject("total", total);
-		//mav.addObject("list", list);
-		//mav.addObject("len", list.length());
+		mav.addObject("list", list);
+		mav.addObject("len", list.size());
 		
 		mav.addObject("viewPage", "myPage.jsp");
 		
