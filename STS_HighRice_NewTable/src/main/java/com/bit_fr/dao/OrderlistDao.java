@@ -19,6 +19,7 @@ public class OrderlistDao {
 	}
 
 	public int getCountToMyCondition_orderlist(String member_id, String condition) {
+		System.out.println("22");
 		return OrderlistManager.getCountToMyCondition_orderlist(member_id, condition);
 	}
 
@@ -28,10 +29,6 @@ public class OrderlistDao {
 
 	public List<OrderlistVo> getMyOrderlistToCondition_orderlist(String member_id, String condition) {
 		return OrderlistManager.getMyOrderlistToCondition_orderlist(member_id, condition);
-	}
-
-	public int getCountMyOrderToCondition_orderlist(String member_id, String condition) {
-		return OrderlistManager.getCountMyOrderToCondition_orderlist(member_id, condition);
 	}
 
 	public List<OrderlistVo> getAllMyOrder_orderlist(String member_id) {

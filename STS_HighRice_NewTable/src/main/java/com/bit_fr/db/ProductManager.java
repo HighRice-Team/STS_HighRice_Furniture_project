@@ -84,9 +84,13 @@ public class ProductManager {
 		return n;
 	}
 	
-	public static List<ProductVo> getMySellForPaging_product(String member_id) {
+	public static List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.getMySellForPaging_product");
+		HashMap map = new HashMap();
+		map.put("member_id", member_id);
+		map.put("start", start);
+		map.put("end", end);
+		List<ProductVo> list = session.selectList("product.getMySellForPaging_product", map);
 		session.close();
 		return list;
 	}

@@ -50,13 +50,14 @@ public class OrderlistManager {
 	}
 
 	public static int getCountToMyCondition_orderlist(String member_id, String condition) {
+		System.out.println("333");
 		int count_MyProduct = -1;
 		SqlSession session = factory.openSession();
 
 		HashMap map = new HashMap();
 		map.put("member_id", member_id);
 		map.put("condition", condition);
-
+		
 		count_MyProduct = session.selectOne("orderlist.getCountToMyCondition_orderlist", map);
 		session.close();
 
@@ -85,19 +86,6 @@ public class OrderlistManager {
 		return list;
 	}
 	
-	public static int getCountMyOrderToCondition_orderlist(String member_id, String condition) {
-		int count = -1;
-		SqlSession session = factory.openSession();
-		
-		HashMap map = new HashMap();
-		map.put("member_id", member_id);
-		map.put("condition", condition);
-		
-		count = session.selectOne("orderlist.getCountMyOrderToCondition_orderlist", map);
-		session.close();
-		
-		return count;
-	}
 
 	public static List<OrderlistVo> getAllMyOrder_orderlist(String member_id) {
 		SqlSession session = factory.openSession();
