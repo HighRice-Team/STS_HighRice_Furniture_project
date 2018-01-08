@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
+<link rel="stylesheet" href="/resources/css/jquery-ui.min.css">
 <style type="text/css">
 .over {
 		
@@ -28,6 +28,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(function () {
+			
 		$(document).on("mouseover",".hover1",function(){
 			$(this).addClass("over");
 		})
@@ -48,7 +49,7 @@
 					var pwd2 = $("#chk_newPwd").val();
 					var data ={"pwd":pwd,"pwd2":pwd2,"oldPwd":oldPwd};
 						$.ajax({
-							url:"./login/pwdChk2.jsp",
+							url:"pwdChk.do",
 							data:data,
 							success:function(data){
 								data = eval("("+data+")");
@@ -56,7 +57,7 @@
 								if(data=="일치"){
 									data = {"pwd":pwd}
 									$.ajax({
-										url:"./login/updatePwdAjax.jsp",
+										url:"updatePwdAjax.do",
 										data:data,
 									})
 									alert("비밀번호 변경 완료");

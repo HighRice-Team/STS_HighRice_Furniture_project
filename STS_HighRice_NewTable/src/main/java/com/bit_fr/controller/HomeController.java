@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit_fr.dao.MemberDao;
@@ -23,6 +24,8 @@ import com.bit_fr.dao.OrderlistDao;
 import com.bit_fr.dao.ProductDao;
 import com.bit_fr.vo.MemberVo;
 import com.bit_fr.vo.ProductVo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /**
@@ -130,4 +133,66 @@ public class HomeController {
 		
 		return mav;
 	}
+	
+	@RequestMapping("pwdChk.do")
+	@ResponseBody
+	public String pwdChk(HttpSession session, String old_pwd, String input_pwd, String input_pwd2) {
+		String id = (String) session.getAttribute("id");
+		MemberVo memberVo = memberDao.getOne_member(id);
+		
+		String str = "";
+		String pwd = memberVo.getPwd();
+		
+		if(input_pwd.equals(input_pwd2)){
+			if(old_pwd.equals(pwd))
+			{
+				str = "일치";
+			}else{
+				str = "비밀번호가 일치하지 않습니다.";
+			}
+		}else{
+			str = "입력한 두 번호가 일치하지 않습니다.";
+		}
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(str);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return str;
+	}
+	
+	@RequestMapping("updatePwdAjax.do")
+	@ResponseBody
+	public String updatePwdAjax(HttpSession session, String pwd) {
+		String str = "";
+		String member_id = (String)session.getAttribute("id");
+		MemberVo v = new MemberVo();
+		v.setMember_id(member_id);
+		v.setPwd(pwd);
+		
+		int re = memberDao.updatePwd_member(v);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
