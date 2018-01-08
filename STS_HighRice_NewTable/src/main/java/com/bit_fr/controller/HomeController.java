@@ -1,32 +1,15 @@
 package com.bit_fr.controller;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
-import com.bit_fr.dao.MemberDao;
-import com.bit_fr.dao.OrderlistDao;
-import com.bit_fr.dao.ProductDao;
-import com.bit_fr.vo.MemberVo;
-import com.bit_fr.vo.ProductVo;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 /**
  * Handles requests for the application home page.
@@ -35,28 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
-	@Autowired
-	private MemberDao memberDao;
-	
-	@Autowired
-	private OrderlistDao orderlistDao;
-	
-	@Autowired
-	private ProductDao productDao;
-	
-
-	public void setProductDao(ProductDao productDao) {
-		this.productDao = productDao;
-	}
-
-	public void setOrderlistDao(OrderlistDao orderlistDao) {
-		this.orderlistDao = orderlistDao;
-	}
-
-	public void setMemberDao(MemberDao memberDao) {
-		this.memberDao = memberDao;
-	}
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -74,7 +35,7 @@ public class HomeController {
 
 		return "home";
 	}
-	
+
 	@RequestMapping("myPage.do")
 	public ModelAndView goMyPage(HttpSession session, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
@@ -203,11 +164,5 @@ public class HomeController {
 		
 		return str;
 	}
-	
-	
-	
-	
-	
-	
 	
 }

@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="./css/jquery-ui.min.css">
 <style type="text/css">
 .over {
 		
@@ -23,10 +24,10 @@
 	color : white;
 	}
 </style>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(function () {
-			
 		$(document).on("mouseover",".hover1",function(){
 			$(this).addClass("over");
 		})
@@ -47,7 +48,7 @@
 					var pwd2 = $("#chk_newPwd").val();
 					var data ={"pwd":pwd,"pwd2":pwd2,"oldPwd":oldPwd};
 						$.ajax({
-							url:"pwdChk.do",
+							url:"./login/pwdChk2.jsp",
 							data:data,
 							success:function(data){
 								data = eval("("+data+")");
@@ -55,7 +56,7 @@
 								if(data=="일치"){
 									data = {"pwd":pwd}
 									$.ajax({
-										url:"updatePwdAjax.do",
+										url:"./login/updatePwdAjax.jsp",
 										data:data,
 									})
 									alert("비밀번호 변경 완료");
@@ -88,7 +89,7 @@
 				"수정":function(){
 					var str="";
 					var data = $("#myForm").serializeArray();
-					$.ajax({url:"updateMemberAjax.do",data:data,success:function(str){
+					$.ajax({url:"./login/updateMemberOkAjax.jsp",data:data,success:function(str){
 						str = eval("("+str+")");
 						alert(str.str)
 						if(str.str=="회원정보 변경 완료")
@@ -159,7 +160,7 @@
 		<h2>MY PAGE</h2><hr>
 		<div style="border: 1px solid; height: 100px;">
 			<div style="width: 100px; float: left; margin-left:  0px ">
-				<img src="resources/img/myPage.JPG"  style="position:absolute; height: 100px; width:100px; background: grey;">
+				<img src="img/myPage.JPG"  style="position:absolute; height: 100px; width:100px; background: grey;">
 			</div>
 			<div style="width: 80%; float: right;">
 				<p>${member.name }회원님 저희 비트가구 대여 사이트를 이용해 주셔서 감사합니다.
@@ -173,7 +174,7 @@
 		<div>
 			<table border="0" width="100%">
 				<tr><td><h2>SELL</h2></td><td><h2>MY RENT</h2></td></tr>
-				<tr><td rowspan="4" width="30%" style="border: 1px solid;"><a href="sellWrite.do"><img src="resources/img/SELL.JPG" style="width:100%; background: grey;"></a></td><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>입금완료 : ${rent1 }</b></a></td></tr>		
+				<tr><td rowspan="4" width="30%" style="border: 1px solid;"><a href="sellWrite.do"><img src="img/SELL.JPG" style="width:100%; background: grey;"></a></td><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>입금완료 : ${rent1 }</b></a></td></tr>		
 				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>배송중 : ${rent2 }</b></a></td></tr>		
 				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>대여중 : ${rent3 }</b></a></td></tr>		
 				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>반납 : ${rent4 }</b></a></td></tr>		
@@ -184,7 +185,7 @@
 		<table width="100%" cellspacing="20">
 			<tr>
 				<c:if test="${min>=2 }">
-					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="resources/img/left.jpg" style="width:60%;"></a></td>
+					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="img/left.jpg" style="width:60%;"></a></td>
 				</c:if>
 				<c:forEach items="${list }" var="list">
 					<td class="hover1" width="15%" style="border:1px solid; height: 250px;"><a href="productDetail.do?product_id=${list.product_id }"><center>${list.main_img}<br>${list.product_name }<br>${list.condition }<br>${list.quality }<br>${list.price } <input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></center></td>
@@ -196,7 +197,7 @@
 				</c:if>
 				
 				<c:if test="${min+3<total }">
-					<td width="2%"><a href="myPage.do?min=${min+1 }"><img src="resources/img/right.jpg" style="width:60%;"></a></td>	
+					<td width="2%"><a href="myPage.do?min=${min+1 }"><img src="img/right.jpg" style="width:60%;"></a></td>	
 				</c:if>
 			</tr>		
 		</table>
@@ -248,28 +249,36 @@
 
 			<tr>
 				<td id="title">계좌번호</td>
-				<td colspan="4"><input type="text" id="account_no" name="account_no" size="40" value="" required="required">
+				<td colspan="4"><input type="hidden" id="account_id" value="${v.getAccount_id() }">
 
-				
+				<input type="hidden" value="${account_v.getBank()}" id="getBank">
 				<select id="bank" name="bank">
 						<option value="kb">한국은행</option>
 						<option value="sh">신한은행</option>
 						<option value="nh">농협</option>
 						<option value="bs">부산은행</option>
 						<option value="wr">우리은행</option>
-				</select> </td>
+				</select> <input type="text" id="account_no" name="account_no" size="40" value="" required="required"></td>
 			</tr>
 
 			<tr>
 				<td id="title">주소</td>
+				<input type="hidden" value="${address_v.getAddress1()}" id="getAddress1">
+				<input type="hidden" value="${address_v.getAddress2()}" id="getAddress2" >
 				<td colspan="4"><input type="hidden" name="n2" value="${n2 }">
-					<select id="address"  name="address">
+					<select id="address1"  name="address1">
 						<option value="서울시">서울시</option>
 						<option value="경기도">경기도</option>
 						<option value="충남">충남</option>
 						<option value="세종시">세종시</option>
 					</select> 
-					<input type="text" id="address_detail" name="address_detail" size="50" value="" required="required"></td>
+					<select id="address2" name="address2">
+						<option value="마포구">마포구</option>
+						<option value="고양시">고양시</option>
+						<option value="천안시">천안시</option>
+						<option value="다정동">다정동</option>
+						<option value="중랑구">중랑구</option>
+				</select> <input type="text" id="address3" name="address3" size="50" value="" required="required"></td>
 			</tr>
 			<tr>
 				<td id="title">핸드폰번호</td>
@@ -278,6 +287,7 @@
 			</tr>
 			<tr>
 				<td id="title">비밀번호 힌트</td>
+				<input type="hidden" value="${v.getPwd_q()}" id="getPwd_q" >
 				<td colspan="4"><select id="pwd_q" name="pwd_q">
 						<option value="a">a</option>
 						<option value="b">b</option>

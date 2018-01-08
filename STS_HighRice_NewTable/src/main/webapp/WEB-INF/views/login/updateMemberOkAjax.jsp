@@ -27,7 +27,16 @@
 		String tel = request.getParameter("tel");
 		String member_id = (String) session.getAttribute("id");
 		
-	
+		System.out.println(bank);
+		System.out.println(account);
+		System.out.println(address1);
+		System.out.println(address2);
+		System.out.println(address3);
+		System.out.println(pwd_q);
+		System.out.println(pwd_a);
+		System.out.println(tel);
+		System.out.println(member_id);
+		
 		if (input_pwd.equals(pwd)) {
 			MemberDao mem_dao = MemberDao.getInstance();
 			mem_dao.updateMember(input_pwd2, pwd_q, pwd_a, tel, member_id);

@@ -16,7 +16,9 @@
 	</select>
 
 	<select id="getCountToMyCondition_orderlist" resultType="java.lang.Integer">
-		select count(product_id) from orderlist where member_id = #{member_id} and product_id in
+		select
+		count(product_id) from orderlist
+		where member_id = #{member_id} and product_id in
 		(select product_id from product where condition = #{condition})
 	</select>
 
@@ -25,8 +27,14 @@
 	</select>
 
 	<select id="getMyOrderlistToCondition_orderlist" resultType="orderlistVo">
-		select * from orderlist	where member_id = #{member_id} and product_id in
+		select * from orderlist
+		where member_id = #{member_id} and product_id in
 		(select product_id from product where condition = #{condition})
+	</select>
+
+	<select id="getCountMyOrderToCondition_orderlist" resultType="java.lang.Integer">
+		select count(product_id) from orderlist 
+		where member_id = #{member_id} and product_id in (select product_id from product where condition = #{condition})
 	</select>
 
 	<select id="getAllMyOrder_orderlist" resultType="orderlistVo">
