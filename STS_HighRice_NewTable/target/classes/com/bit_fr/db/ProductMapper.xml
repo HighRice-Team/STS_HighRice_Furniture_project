@@ -71,4 +71,8 @@
 		delete product where product_id=#{product_id}
 	</delete>
 	
+	<select id="getCust" resultType="productVo">
+		${sql}
+	</select>
+	
 </mapper>

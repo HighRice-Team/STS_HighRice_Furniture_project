@@ -25,6 +25,16 @@ public class ProductManager {
 		}
 	}
 	
+	public static List<ProductVo> getCust(String sql){
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+		
+		SqlSession session = factory.openSession();
+		List<ProductVo> list = session.selectList("product.getCust",map);
+		session.close();
+		return list;
+	}
+	
 	public static List<ProductVo> getAll_product() {
 		SqlSession session = factory.openSession();
 		List<ProductVo> list = session.selectList("product.getAll_product");

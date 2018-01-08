@@ -10,7 +10,7 @@ public class ProductVo {
 	private String main_img;
 	private String sub_img;
 	private String member_id;
-	private int rownum;
+	private int rnum;
 
 	// Setter
 	public void setProduct_id(int product_id) {
@@ -49,8 +49,8 @@ public class ProductVo {
 		this.member_id = member_id;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 
 	// Getter
@@ -90,8 +90,8 @@ public class ProductVo {
 		return member_id;
 	}
 
-	public int getRownum() {
-		return rownum;
+	public int getRnum() {
+		return rnum;
 	}
 
 	// Constructor
@@ -101,8 +101,8 @@ public class ProductVo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductVo(int product_id, String condition, String product_name, String category, String quality, int price,
-			String main_img, String sub_img, String member_id, int rownum) {
+	public ProductVo(int rnum, int product_id, String condition, String product_name, String category, String quality, int price,
+			String main_img, String sub_img, String member_id) {
 		super();
 		this.product_id = product_id;
 		this.condition = condition;
@@ -113,7 +113,7 @@ public class ProductVo {
 		this.main_img = main_img;
 		this.sub_img = sub_img;
 		this.member_id = member_id;
-		this.rownum = rownum;
+		this.rnum = rnum;
 	}
 
 }
