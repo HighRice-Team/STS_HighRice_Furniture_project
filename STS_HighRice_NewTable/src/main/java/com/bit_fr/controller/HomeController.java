@@ -94,8 +94,8 @@ public class HomeController {
 		int rent3 = orderlistDao.getCountToMyCondition_orderlist(member_id, "대여중");
 		int rent4 = orderlistDao.getCountToMyCondition_orderlist(member_id, "반납");
 		
-		//int total = productDao.("select count(*) from product where member_id=" + "'" + member_id + "'");
-		//List<ProductVo> list = productDao.selectAll();//(member_id, min, max);
+		int total = productDao.getMySellCount_product("select count(*) from product where member_id=" + "'" + member_id + "'");
+		List<ProductVo> list = productDao.getMySellForPaging_product(member_id, min, max);
 		
 		
 		mav.addObject("member", member);
@@ -103,9 +103,9 @@ public class HomeController {
 		mav.addObject("rent2", rent2);
 		mav.addObject("rent3", rent3);
 		mav.addObject("rent4", rent4);
-		//mav.addObject("total", total);
+		mav.addObject("total", total);
 		//mav.addObject("list", list);
-		//mav.addObject("len", list.length())
+		//mav.addObject("len", list.length());
 		
 		mav.addObject("viewPage", "myPage.jsp");
 		
@@ -192,6 +192,14 @@ public class HomeController {
 	public String updateMemberAjax(MemberVo v) {
 		String str = "";
 		int re = memberDao.updateInfo_member(v);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
 		
 		return str;
 	}
