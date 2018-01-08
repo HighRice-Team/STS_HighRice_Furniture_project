@@ -28,7 +28,7 @@ a {
 		<!-- 메인 로고 -->
 		<div style="width: 40%; float: left;">
 			<a href="main.jsp"> <img src="resources/img/logo.png"
-				style="width: auto; height: 100px;">
+				style="width: 100%;">
 			</a>
 		</div>
 

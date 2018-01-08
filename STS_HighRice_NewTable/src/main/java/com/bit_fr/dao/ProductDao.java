@@ -20,6 +20,10 @@ public class ProductDao {
 	public int getNextId_product() {
 		return ProductManager.getNextId_product();
 	}
+	
+	public List<ProductVo> getCust(String sql){
+		return ProductManager.getCust(sql);
+	}
 
 	public int getCount_product() {
 		return ProductManager.getCount_product();
