@@ -45,8 +45,8 @@ public class ProductDao {
 		return ProductManager.getAllPublishingCount_product(category, condition);
 	}
 
-	public List<ProductVo> getMySellForPaging_product(String member_id) {
-		return ProductManager.getMySellForPaging_product(member_id);
+	public List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
+		return ProductManager.getMySellForPaging_product(member_id, start, end);
 	}
 	
 	public int getItemPublishingCount_product(String condition) {
