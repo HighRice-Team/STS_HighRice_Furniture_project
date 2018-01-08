@@ -47,8 +47,9 @@
 <script type="text/javascript" src="resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		if ($("#item2").val() != "") {
-			$("select[name=item]").val($("#item2").val())
+		// 상태유지. 드롭박스를 선택 후 페이지가 넘어가도 현재 상태가 유지 된다.
+		if ($("#category2").val() != "") {
+			$("select[name=category]").val($("#category2").val())
 		}
 		if ($("#max2").val() != 0) {
 			$("select[name=max]").val($("#max2").val())
@@ -59,19 +60,25 @@
 		if ($("#quality2").val() != "") {
 			$("select[name=quality]").val($("#quality2").val())
 		}
-
-		$(document).on("mouseover", ".hover1", function() {
+		
+		
+		// 각 상품에 대하여 하이라이트 효과를 적용.
+		$(document).on("mouseover",".hover", function() {
 			$(this).addClass("over");
 		})
-		$(document).on("mouseout", ".hover1", function() {
+		$(document).on("mouseout",".hover", function() {
 			$(this).removeClass("over");
 		})
+		
 
-		$(".item_img").css("width", $("#hr").width() * 0.24)
-		$(".item_img").css("height", $("#hr").width() * 0.13)
+		//창을 띄울 때 상품들의 이미지 크기를 조정.
+		$(".category_img").css("width", $("#product_box").width() * 0.22)
+		$(".category_img").css("height", $("#product_box").width() * 0.13)
+		
+		//창의 크기가 변동 될 때 상품들의 이미지 크기를 조정.
 		$(window).resize(function() {
-			$(".item_img").css("width", $("#hr").width() * 0.24)
-			$(".item_img").css("height", $("#hr").width() * 0.13)
+			$(".category_img").css("width", $("#product_box").width() * 0.22)
+			$(".category_img").css("height", $("#product_box").width() * 0.13)
 		})
 
 		var auto_slide;
@@ -114,23 +121,27 @@
 <body>
 	<!-- 이미지 슬라이드 -->
 	<div class="slide-box" style="width: 100%; height: 300px; position: relative;">
-		<a href="#"><img src="img/slide1.jpg" alt="slide"></a>
-		<a href="#"><img src="img/slide2.jpg" alt="slide"></a>
-		<a href="#"><img src="img/slide3.jpg" alt="slide"></a>
-		<a href="#"><img src="img/slide4.jpg" alt="slide"></a>
+		<a href="#"><img src="resources/img/slide1.jpg" alt="slide"></a>
+		<a href="#"><img src="resources/img/slide2.jpg" alt="slide"></a>
+		<a href="#"><img src="resources/img/slide3.jpg" alt="slide"></a>
+		<a href="#"><img src="resources/img/slide4.jpg" alt="slide"></a>
 	</div>
 	
 	
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
 		<form action="index.do" method="post" name="F">
-			<select name="item">
+
+			<!--카테고리 드롭박스 -->
+			<select name="category">
 				<option value=null disabled="disabled" selected="selected">분류</option>
 				<option value="">선택 안함</option>
-				<option value='SOFA'>소파</option>
-				<option value='BED'>침대</option>
-				<option value='CLOSET'>옷장</option>
-				<option value='DESK'>책상</option>
+				<option value='sofa'>소파</option>
+				<option value='bed'>침대</option>
+				<option value='closet'>옷장</option>
+				<option value='desk'>책상</option>
 			</select>
+			
+			<!--품질 드롭박스 -->
 			<select name="quality">
 				<option value=null disabled="disabled" selected="selected">품질</option>
 				<option value="">선택 안함</option>
@@ -138,6 +149,8 @@
 				<option value='B'>B급</option>
 				<option value='C'>C급</option>
 			</select>
+			
+			<!--최소금액 드롭박스 -->
 			<select name="min" onchange="cus()">
 				<option value=null disabled="disabled" selected="selected">최저금액</option>
 				<option value=0>선택 안함</option>
@@ -146,6 +159,8 @@
 				<option value=5000>5,000~</option>
 				<option value=7000>7,000~</option>
 			</select>
+			
+			<!--최대금액 드롭박스 -->
 			<select name="max" id="max">
 				<option value=null disabled="disabled" selected="selected">최고금액</option>
 				<option value=0>선택 안함</option>
@@ -157,39 +172,34 @@
 			</select>
 			
 			<input type="submit" value="검색"><br><br>
-			<table width="70%" border="0" cellpadding="4" cellspacing="4">
-				<tr>
-					<c:forEach items="${list }" var="list">
-						<td class="hover1" width="17%" height="250px" bgColor="#DDDDDD"><a
-							href="productDetail.do?product_id=${list.product_id }"><br>${list.product_name }<br>
-							<br>
-							<img src="resources/img/product/${list.main_img }"
-								class="item_img"><br>${list.item }<br>${list.quality }<br>\
-								${list.price }</a></td>
-
-						<c:if test="${list.rownum%4==0 }">
-				</tr>
-				<tr>
-					</c:if>
-					</c:forEach>
-					<c:if test="${len%4!=0}">
-						<c:forEach var="i" begin="1" end="${4-(len%4) }">
-							<td></td>
-						</c:forEach>
-					</c:if>
-				</tr>
-			</table>
 			
-			<center>
-				<c:forEach var="pageNum" begin="1" end="${pageMax }">
-					<a href="index.do?pageNum=${pageNum }&item=${item}&quality=${quality}&max=${max }&min=${min }">${pageNum}</a>
+			<!--상품목록 -->
+			<div style="width:100%; float: left;" id="product_box">
+				<c:forEach items="${list }" var="list">
+					<div class="hover" style="width:24%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
+						<a href="productDetail.do?product_id=${list.product_id }">
+						<br>${list.product_name }<br><br>
+						<img src="resources/img/product/${list.main_img }" class="category_img">
+						<br>${list.category }
+						<br>${list.quality }
+						<br>${list.price }</a>
+					</div>
 				</c:forEach>
-			</center>
+			</div>
 			
-			<hr id="hr" style="visibility: hidden;">
+			
+			<!--페이징처리 부분 -->
+			<div>
+				<center>
+					<c:forEach var="pageNum" begin="1" end="${pageMax }">
+						<a href="index.do?pageNum=${pageNum }&category=${category}&quality=${quality}&max=${max }&min=${min }">${pageNum}</a>
+					</c:forEach>
+				</center>
+			</div>
 		</form>
 		
-		<input type="hidden" id="item2" value="${item }">
+		<!--검색조건 상태유지 -->
+		<input type="hidden" id="category2" value="${category }">
 		<input type="hidden" id="max2" value="${max }">
 		<input type="hidden" id="min2" value="${min }">
 		<input type="hidden" id="quality2" value="${quality }">
