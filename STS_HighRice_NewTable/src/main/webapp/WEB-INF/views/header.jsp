@@ -21,6 +21,7 @@ a {
 		
 	})
 </script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -56,7 +57,7 @@ a {
 				</c:if>
 
 
-				<a href="myPage.do">MYPAGE</a><br>
+				<a href="">MYPAGE</a><br>
 				
 				
 				<a href="">CART</a><br>
