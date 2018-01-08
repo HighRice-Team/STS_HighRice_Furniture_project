@@ -57,7 +57,7 @@ a {
 				</c:if>
 
 
-				<a href="">MYPAGE</a><br>
+				<a href="myPage.do">MYPAGE</a><br>
 				
 				
 				<a href="">CART</a><br>
