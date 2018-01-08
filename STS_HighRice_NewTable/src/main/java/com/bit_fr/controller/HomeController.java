@@ -187,7 +187,14 @@ public class HomeController {
 		return str;
 	}
 	
-	
+	@RequestMapping("updateMemberAjax.do")
+	@ResponseBody
+	public String updateMemberAjax(MemberVo v) {
+		String str = "";
+		int re = memberDao.updateInfo_member(v);
+		
+		return str;
+	}
 	
 	
 	
