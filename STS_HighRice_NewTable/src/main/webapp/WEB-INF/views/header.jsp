@@ -5,7 +5,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <style type="text/css">
 a {
 	font-family: 고딕;
@@ -16,10 +15,6 @@ a {
 	cursor: pointer;
 }
 </style>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src="./js/jquery-ui.min.js"></script>
-
 <title>Insert title here</title>
 </head>
 <body>
@@ -27,7 +22,7 @@ a {
 
 		<!-- 메인 로고 -->
 		<div style="width: 40%; float: left;">
-			<a href="main.jsp"> <img src="resources/img/logo.png"
+			<a href="index.do"> <img src="resources/img/logo.png"
 				style="width: 100%;">
 			</a>
 		</div>

@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src="./js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="./resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 
