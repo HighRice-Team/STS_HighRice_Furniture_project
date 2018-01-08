@@ -29,12 +29,16 @@
 	</select>
 	
 	<select id="getMySellCount_product" resultType="java.lang.Integer">
- 		
+ 		select count(*) from product where member_id = #{member_id}
+ 	</select>
+ 	
+ 	<select id="getMySellCountWithCondition_product" resultType="java.lang.Integer">
+ 		select count(*) from product where member_id = #{member_id} and condition = #{condition}
  	</select>	
 
 	<select id="getMySellForPaging_product" resultType="productVo">	
 		<![CDATA[
-		select * from(select rownum a, product_id, condition, product_name, item, quality,member_id,price,main_img,sub_img
+		select * from(select rownum a, product_id, condition, product_name, category, quality,member_id,price,main_img,sub_img
 		from(select * from product where member_id=#{member_id} order by product_id))
 		where a>=#{start} and a<=#{end}]]>
 	</select>
