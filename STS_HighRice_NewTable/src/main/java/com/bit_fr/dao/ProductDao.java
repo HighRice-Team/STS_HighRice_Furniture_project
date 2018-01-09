@@ -37,8 +37,12 @@ public class ProductDao {
 		return ProductManager.getMySell_product(member_id);
 	}
 	
-	public int getMySellCount_product(String sql2) {
-		return ProductManager.getMySellCount_product(sql2);
+	public int getMySellCount_product(String member_id) {
+		return ProductManager.getMySellCount_product(member_id);
+	}
+	
+	public int getMySellCountWithCondition_product(String member_id, String condition) {
+		return ProductManager.getMySellCountWithCondition_product(member_id, condition);
 	}
 	
 	public int getAllPublishingCount_product(String category, String condition) {

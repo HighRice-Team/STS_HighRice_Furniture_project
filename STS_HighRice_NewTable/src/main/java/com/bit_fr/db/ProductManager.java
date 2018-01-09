@@ -77,9 +77,21 @@ public class ProductManager {
 		return list;
 	}
 
-	public static int getMySellCount_product(String sql2) {
+	public static int getMySellCount_product(String member_id) {
 		SqlSession session = factory.openSession();
-		int n = session.selectOne("product.getMySellCount_product", sql2);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", member_id);
+		int n = session.selectOne("product.getMySellCount_product", map);
+		session.close();
+		return n;
+	}
+	
+	public static int getMySellCountWithCondition_product(String member_id, String condition) {
+		SqlSession session = factory.openSession();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", member_id);
+		map.put("condition", condition);
+		int n = session.selectOne("product.getMySellCountWithCondition_product", map);
 		session.close();
 		return n;
 	}

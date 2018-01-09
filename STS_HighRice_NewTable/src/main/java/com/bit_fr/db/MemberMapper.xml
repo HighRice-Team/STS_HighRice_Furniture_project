@@ -17,7 +17,7 @@
 	</select>
 	
 	<!-- 회원정보 찾기. name과 jumin을 매개변수로 받아 일치하는 member의 member_id값을 반환 -->
-	<select id="getId_member" resultType="java.lang.String">
+	<select id="getId_member">
 		select member_id from member where name=#{name} and jumin=#{jumin}
 	</select>
 	
@@ -65,8 +65,6 @@
 	<update id="updateInfo_member">
 		update member set 
 		
-		name = #{name},
-		jumin = #{jumin},
 		tel = #{tel},
 		pwd_q = #{pwd_q},
 		pwd_a = #{pwd_a},

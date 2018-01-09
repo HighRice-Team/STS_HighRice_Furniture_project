@@ -1,7 +1,6 @@
 package com.bit_fr.controller;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,16 +35,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
+
 	@Autowired
 	private MemberDao memberDao;
 	
 	@Autowired
-	private OrderlistDao orderlistDao;
-	
-	@Autowired
 	private ProductDao productDao;
 	
+	@Autowired
+	private OrderlistDao orderlistDao;
+	
+	
+	public void setMemberDao(MemberDao memberDao) {
+		this.memberDao = memberDao;
+	}
 
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
@@ -52,10 +56,6 @@ public class HomeController {
 
 	public void setOrderlistDao(OrderlistDao orderlistDao) {
 		this.orderlistDao = orderlistDao;
-	}
-
-	public void setMemberDao(MemberDao memberDao) {
-		this.memberDao = memberDao;
 	}
 
 	/**
@@ -74,27 +74,28 @@ public class HomeController {
 
 		return "home";
 	}
-	
+
 	@RequestMapping("myPage.do")
-	public ModelAndView goMyPage(HttpSession session, HttpServletRequest request) {
+	public ModelAndView goMyPage(HttpSession session, @RequestParam(value="min", defaultValue="1")int min) {
 		ModelAndView mav = new ModelAndView();
 		
 //		String member_id = (String)session.getAttribute("member_id");
-		String member_id = "lasah";
+		String member_id = "a1";
 		MemberVo member = memberDao.getOne_member(member_id);
 		
-		int min = 1;
-		if (request.getParameter("min") != null && !request.getParameter("min").equals("")) {
-			min = Integer.parseInt(request.getParameter("min"));
-		}
 		int max = min + 3;
 		
 		int rent1 = orderlistDao.getCountToMyCondition_orderlist(member_id, "입금완료");
-		int rent2 = orderlistDao.getCountToMyCondition_orderlist(member_id, "배송중");
-		int rent3 = orderlistDao.getCountToMyCondition_orderlist(member_id, "대여중");
+		int rent2 = orderlistDao.getCountToMyCondition_orderlist(member_id, "대여중");
+		int rent3 = orderlistDao.getCountToMyCondition_orderlist(member_id, "배송중");
 		int rent4 = orderlistDao.getCountToMyCondition_orderlist(member_id, "반납");
 		
-		int total = productDao.getMySellCount_product("select count(*) from product where member_id=" + "'" + member_id + "'");
+//		int rent1 = productDao.getMySellCountWithCondition_product(member_id, "입금완료");
+//		int rent2 = productDao.getMySellCountWithCondition_product(member_id, "대여중");
+//		int rent3 = productDao.getMySellCountWithCondition_product(member_id, "베송중");
+//		int rent4 = productDao.getMySellCountWithCondition_product(member_id, "반납");
+//		
+		int total = productDao.getMySellCount_product(member_id);
 		List<ProductVo> list = productDao.getMySellForPaging_product(member_id, min, max);
 		
 		
@@ -104,8 +105,9 @@ public class HomeController {
 		mav.addObject("rent3", rent3);
 		mav.addObject("rent4", rent4);
 		mav.addObject("total", total);
-		//mav.addObject("list", list);
-		//mav.addObject("len", list.length());
+		mav.addObject("list", list);
+		mav.addObject("len", list.size());
+		mav.addObject("min", min);
 		
 		mav.addObject("viewPage", "myPage.jsp");
 		
@@ -143,16 +145,17 @@ public class HomeController {
 		String str = "";
 		String pwd = memberVo.getPwd();
 		
-		if(input_pwd.equals(input_pwd2)){
-			if(old_pwd.equals(pwd))
-			{
-				str = "일치";
-			}else{
-				str = "비밀번호가 일치하지 않습니다.";
-			}
-		}else{
-			str = "입력한 두 번호가 일치하지 않습니다.";
-		}
+	    if(input_pwd.equals(input_pwd2)){
+	          if(old_pwd.equals(pwd))
+	          {
+	             str = "일치";
+	          }else{
+	             str = "비밀번호가 일치하지 않습니다.";
+	          }
+	     }else{
+	         str = "입력한 두 번호가 일치하지 않습니다.";
+	     }
+	       
 		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -203,11 +206,5 @@ public class HomeController {
 		
 		return str;
 	}
-	
-	
-	
-	
-	
-	
 	
 }
