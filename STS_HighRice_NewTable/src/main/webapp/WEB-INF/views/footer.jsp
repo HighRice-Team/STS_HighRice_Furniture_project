@@ -18,7 +18,24 @@
 			resizable : false,
 			buttons : {
 				"로그인" : function() {
-
+					var member_id_footer = $("#member_id_footer").val();
+					var pwd_footer = $("#pwd_footer").val();
+					data = {"member_id":member_id_footer,"pwd":pwd_footer}
+					$.ajax({
+						url:"login.do",
+						data:data,
+						success:function(data){
+							if(data==1)
+							{
+								$("#loginDialog_footer").dialog("close")
+								location.href=""
+							}else if(data==0){
+								$("#msg_footer").html("비밀번호 오류")
+							}else{
+								$("#msg_footer").html("존재하지 않는 아이디 입니다.")
+							}
+						}
+					})
 				},
 				"취소" : function() {
 					$("#loginDialog_footer").dialog("close")

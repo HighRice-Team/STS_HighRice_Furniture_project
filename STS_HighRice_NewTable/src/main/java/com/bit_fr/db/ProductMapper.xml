@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 
+	<select id="getCust" resultType="productVo">
+		${sql}
+	</select>
+
 	<select id="getAll_product" resultType="productVo">
 		select * from product
 	</select>
@@ -75,8 +79,8 @@
 		delete product where product_id=#{product_id}
 	</delete>
 	
-	<select id="getCust" resultType="productVo">
-		${sql}
-	</select>
-	
 </mapper>
+
+	
+	
+
