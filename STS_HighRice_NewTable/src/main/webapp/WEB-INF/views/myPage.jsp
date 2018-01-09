@@ -231,7 +231,7 @@
 
 			<tr>
 				<td id="title">비밀번호</td>
-				<td width="20%"><input type="password" name="j_pwd"
+				<td width="20%"><input type="password" name="pwd"
 					maxlength="50" required="required"></td>
 				<td id="title">비밀번호 확인</td>
 				<td><input type="password" id="pwdcheck" maxlength="50"required="required" name="pwd_chk"></td>
