@@ -50,6 +50,121 @@
 	function onDialog(){
 		$("#loginDialog_footer").dialog("open")
 	}
+	
+	$("#changePwd").dialog({
+		width:400,
+		maxWidth:400,
+		minWidth:400,
+		autoOpen:false,
+		modal:true,
+		buttons:{
+			"수정":function(){
+				var oldPwd = $("#oldPwd").val();
+				var pwd = $("#newPwd").val();
+				var pwd2 = $("#chk_newPwd").val();
+				var data ={"pwd":pwd,"pwd2":pwd2,"oldPwd":oldPwd};
+					$.ajax({
+						url:"pwdChk2.do",
+						data:data,
+						success:function(data){
+							data = eval("("+data+")");
+							data = data.str;
+							if(data=="일치"){
+								data = {"pwd":pwd}
+								$.ajax({
+									url:"updatePwdAjax.do",
+									data:data,
+								})
+								alert("비밀번호 변경 완료");
+								location.href="";
+								$("#changePwd").dialog("close")
+							}else{
+								alert(data)
+							}
+						}
+					})
+				
+			},
+			"취소":function(){
+				$("#changePwd").dialog("close")
+			}
+		}
+	});
+	
+	$("#change_pwd").click(function(){
+		$("#changePwd").dialog("open")
+	})
+	
+	$("#dialog").dialog({
+		width:800,
+		maxWidth:800,
+		minWidth:800,
+		autoOpen:false,
+		modal:true,
+		buttons:{
+			"수정":function(){
+				var str="";
+				var data = $("#myForm").serializeArray();
+				$.ajax({url:"updateMemberOkAjax.do",data:data,success:function(str){
+					str = eval("("+str+")");
+					alert(str.str)
+					if(str.str=="회원정보 변경 완료")
+					{
+						location.href="";
+						$("#dialog").dialog("close");
+					}						
+				}})
+				
+			},
+			"취소":function(){
+				$("#dialog").dialog("close");
+			}
+		}
+	});
+	$("input[value=로그아웃]").click(function(){
+		 if(confirm("로그아웃 하시겠습니까?")){
+	         $.ajax({
+	            url:"login/logoutAjax.jsp",
+	            success:function(){
+	               alert("로그아웃 완료");
+	               location.href="index.do";
+	            }
+	            
+	         })
+	      }
+	})
+	$("input[value=회원정보수정]").click(function(){
+		$.getJSON("./login/updateMemberAjax.jsp",function(data){
+			$("#member_id").html(data.member_id);
+			$("#name").html(data.name);
+			$("#jumin").html(data.jumin);
+			$("#account_no").val(data.account_no);
+			$("#address3").val(data.address3);
+			$("#tel").val(data.tel);
+			$("#pwd_a").val(data.pwd_a);
+			$("#pwd_q").val(data.pwd_q);
+			$("#bank").val(data.bank);
+			$("#address1").val(data.address1);
+			$("#address2").val(data.address2);
+		})
+		$("#dialog").dialog("open");
+	})
+	$("input[value=삭제]").click(function(){
+//			location.href="productDelete.do?product_id="+$(this).parent().find("#product_id").val();
+		if(confirm("상품을 삭제하시겠습니까?")){
+			var product_id=$(this).parent().find("#product_id").val();
+			data = {"product_id":product_id};
+			$.ajax({
+				url:"product/deleteProductAjax.jsp",
+				data:data,
+				success:function(){
+					alert("삭제완료")
+				}
+			})
+			location.href="";
+			
+		}
+	})
 </script>
 </head>
 <body>
