@@ -1,5 +1,7 @@
 package com.bit_fr.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +22,64 @@ public class MemberController {
 	public void setDao(MemberDao dao) {
 		this.member_dao = dao;
 	}
+	
+	//단순 뷰페이지 이동
+	@RequestMapping("joinAccess.do")
+	public ModelAndView gotoJoinAccess() {
+		ModelAndView mav = new ModelAndView("main");
+		
+		mav.addObject("viewPage","join/joinAccess.jsp");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value="joinCheck.do",method = RequestMethod.GET)
+	public ModelAndView gotoJoinCheck() {
+		ModelAndView mav = new ModelAndView("main");
+		
+		mav.addObject("viewPage","join/joinCheck.jsp");
+		
+		return mav;
+	}
 
 	//Select
+	@RequestMapping(value="logout.do",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String logout(HttpSession session) {
+		String str="";
+		
+		session.invalidate();
+
+		return str;
+	}
+	
+	@RequestMapping(value="login.do",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String login(MemberVo v,HttpSession session) {
+		String str="";
+		
+		MemberVo v2 = member_dao.getOne_member(v.getMember_id());
+		
+		String input_pwd = v.getPwd();
+	   
+		if (v2 != null && !v2.equals("")) {
+			
+			String pwd = v2.getPwd();
+			if(pwd.equals(input_pwd)) {
+				str = "1";
+				session.setAttribute("id", v.getMember_id());
+				session.setAttribute("grade", v2.getGrade());
+				session.setAttribute("pwd", v2.getPwd());
+			}else {
+				str = "0";
+			}
+		}else{
+			str = "-1";
+		}
+
+		return str;
+	}
+	
 	@RequestMapping("/getAll_member.do")
 	public ModelAndView getAll_member() {
 		ModelAndView mav = new ModelAndView();
@@ -29,7 +87,7 @@ public class MemberController {
 
 		return mav;
 	}
-
+	
 	@RequestMapping("/getOne_member.do")
 	public ModelAndView getOne_member(String member_id) {
 		ModelAndView mav = new ModelAndView();
@@ -38,12 +96,17 @@ public class MemberController {
 		return mav;
 	}
 
-	@RequestMapping("/getId_member.do")
-	public ModelAndView getId_member(MemberVo v) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("member_id", member_dao.getId_member(v));
+	@RequestMapping(value="getId_member.do",method = RequestMethod.POST,produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String getId_member(MemberVo v) {
+		String str ="";
+		
+		if(member_dao.getId_member(v)!=null&&!member_dao.getId_member(v).equals(""))
+		{
+			str = member_dao.getId_member(v);
+		}
 
-		return mav;
+		return str;
 	}
 
 	@RequestMapping("/getCount_member.do")
@@ -57,7 +120,13 @@ public class MemberController {
 	//Insert
 	
 	@RequestMapping(value = "/insert_member.do", method = RequestMethod.GET)
-	public void goToInsertMember() {
+	public ModelAndView goToInsertMember(MemberVo v) {
+		ModelAndView mav = new ModelAndView("main");
+		
+		mav.addObject("viewPage","join/insert_member.jsp");
+		mav.addObject("v",v);
+		
+		return mav;
 	}
 	
 	@RequestMapping(value = "/insert_member.do", method = RequestMethod.POST)
