@@ -18,6 +18,20 @@ a {
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
+		$("#login_header").click(function(){
+			$("#loginDialog_footer").dialog("open")
+		})
+		$("#logout_header").click(function(){
+
+			if(confirm("로그아웃 하시겠습니까?")){
+				$.ajax({
+					url:"logout.do",
+					success:function(data){
+						location.href="";
+					}
+				})
+			}
+		})
 		
 	})
 </script>
@@ -39,10 +53,10 @@ a {
 
 				<!-- 로그인 -->
 				<c:if test="${sessionScope.id==null}">
-					<a href="">LOGIN</a>
+					<a id="login_header">LOGIN</a><br>
 				</c:if>
 				<c:if test="${sessionScope.id!=null}">
-					<a href="">LOGOUT</a>
+					<a id="logout_header">LOGOUT</a>
 					<br>
 				</c:if>
 
@@ -51,7 +65,7 @@ a {
 					<br>
 				</c:if>
 				<c:if test="${sessionScope.id==null}">
-					<a href="">JOIN</a>
+					<a href="joinAccess.do">JOIN</a>
 					<br>
 				</c:if>
 
