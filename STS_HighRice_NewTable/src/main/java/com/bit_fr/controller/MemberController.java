@@ -67,9 +67,11 @@ public class MemberController {
 			String pwd = v2.getPwd();
 			if(pwd.equals(input_pwd)) {
 				str = "1";
+				session.setAttribute("needToLogin", null);
 				session.setAttribute("id", v.getMember_id());
 				session.setAttribute("grade", v2.getGrade());
 				session.setAttribute("pwd", v2.getPwd());
+				
 			}else {
 				str = "0";
 			}

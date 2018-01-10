@@ -53,15 +53,15 @@ a {
 		<%
 			String needToLogin = "";
 			
-			if( request.getParameter("needToLogin") != null){
-				needToLogin = request.getParameter("needToLogin");
+			if( session.getAttribute("needToLogin") != null){
+				needToLogin = (String)session.getAttribute("needToLogin");
 			}
 		%>
 		
 		var needToLogin = '<%=needToLogin%>';
 		
 		// 권한이 없는 페이지에 접속을 시도할 경우
-		if( needToLogin != null && needToLogin != ''){
+		if( needToLogin == 'plz'){
 			
 			if($("#msg_footer").html() == ''){
 				$("#msg_footer").html("로그인이 필요한 서비스입니다.")

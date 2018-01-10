@@ -39,7 +39,8 @@ public class LoginFilter implements Filter {
 		}
 
 		if (id == null) {
-			((HttpServletResponse) response).sendRedirect("index.do?needToLogin=plz");
+			(((HttpServletRequest)request).getSession()).setAttribute("needToLogin", "plz");
+			((HttpServletResponse) response).sendRedirect("index.do");
 		} else {
 			chain.doFilter(request, response);
 		}
