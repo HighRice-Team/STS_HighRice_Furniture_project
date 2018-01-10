@@ -19,6 +19,8 @@ a {
 <script type="text/javascript">
 	$(function(){
 		$("#login_header").click(function(){
+			//로그인 dialog 메세지 초기화.
+			$("#msg_footer").html('')
 			$("#loginDialog_footer").dialog("open")
 		})
 		$("#logout_header").click(function(){
@@ -32,6 +34,42 @@ a {
 				})
 			}
 		})
+		
+		
+		
+	})
+</script>
+<script type="text/javascript">
+	//로그인 관련 header.
+	
+	//필터에서 적용된 get 방식의 쿼리스트링을 리셋하기 위함.   location.href="" 방식은 쿼리스트링이 남아있음.
+	function resetPage() {
+		location.href="index.do";
+	}
+	
+	$(function () {
+		
+		// 필터에서 파라미터값 가져오기.
+		<%
+			String needToLogin = "";
+			
+			if( session.getAttribute("needToLogin") != null){
+				needToLogin = (String)session.getAttribute("needToLogin");
+			}
+		%>
+		
+		var needToLogin = '<%=needToLogin%>';
+		
+		// 권한이 없는 페이지에 접속을 시도할 경우
+		if( needToLogin == 'plz'){
+			
+			if($("#msg_footer").html() == ''){
+				$("#msg_footer").html("로그인이 필요한 서비스입니다.")
+				onDialog();
+			}
+		}
+		
+		
 		
 	})
 </script>

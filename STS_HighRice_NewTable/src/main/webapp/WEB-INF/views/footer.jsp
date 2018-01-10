@@ -28,7 +28,7 @@
 							if(data==1)
 							{
 								$("#loginDialog_footer").dialog("close")
-								location.href=""
+								location.href="";
 							}else if(data==0){
 								$("#msg_footer").html("비밀번호 오류")
 							}else{
@@ -41,7 +41,7 @@
 					$("#loginDialog_footer").dialog("close")
 				},
 				"회원가입" : function() {
-
+					location.replace("joinAccess.do");
 				}
 			}
 		});
