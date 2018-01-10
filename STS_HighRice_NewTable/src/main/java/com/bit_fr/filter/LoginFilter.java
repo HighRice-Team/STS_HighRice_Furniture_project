@@ -30,10 +30,16 @@ public class LoginFilter implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String id = (String) ((HttpServletRequest) request).getSession().getAttribute("id");
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		String id = null;
+
+		if (((HttpServletRequest) request).getSession().getAttribute("id") != null) {
+			id = (String) ((HttpServletRequest) request).getSession().getAttribute("id");
+		}
+
 		if (id == null) {
-			((HttpServletResponse) response).sendRedirect("login.do");
+			((HttpServletResponse) response).sendRedirect("index.do?needToLogin=plz");
 		} else {
 			chain.doFilter(request, response);
 		}
