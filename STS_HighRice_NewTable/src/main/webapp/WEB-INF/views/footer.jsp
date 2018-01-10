@@ -28,7 +28,7 @@
 							if(data==1)
 							{
 								$("#loginDialog_footer").dialog("close")
-								resetPage();
+								location.href="";
 							}else if(data==0){
 								$("#msg_footer").html("비밀번호 오류")
 							}else{
