@@ -6,7 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
+<!-- <link rel="stylesheet" href="./css/jquery-ui.min.css"> -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
 <style type="text/css">
 .over {
 		
@@ -26,9 +27,12 @@
 .img_myPage{
 	width:100%;
 	}
+
+	
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script type="text/javascript">
 	$(function () {
 		$(document).on("mouseover",".hover1",function(){
@@ -38,7 +42,16 @@
 			$(this).removeClass("over");
 		})
 		
-
+		$(".slider").bxSlider({
+			mode:'horizontal',
+			captions:true,
+			slideWidth : 300,
+			pager:true,
+			preloadImages:'all',
+			minSlides:4,
+			maxSlides:4,
+			moveSlides:4
+		});
 		
 		
 		
@@ -72,25 +85,30 @@
 		</div>
 		<div style="height: 100px;"></div>
 		<div style="height: 30px;"><h2>SELL LIST</h2></div>
-		<table width="100%" cellspacing="20">
-			<tr>
-				<c:if test="${min>=2 }">
-					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="resources/img/left.jpg" style="width:60%;"></a></td>
-				</c:if>
-				<c:forEach items="${list }" var="list">
-					<td class="hover1" width="15%" style="border:1px solid; height: 250px;"><a href="productDetail.do?product_id=${list.product_id }"><center><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price } <input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></center></td>
-				</c:forEach>
-				<c:if test="${len%4!=0}">
-					<c:forEach var="i" begin="1" end="${4-(len%4) }">
-						<td width="15%"></td>
-					</c:forEach>
-				</c:if>
+<!-- 		<table width="100%" cellspacing="20"> -->
+<!-- 			<tr> -->
+<%-- 				<c:if test="${min>=2 }"> --%>
+<%-- 					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="resources/img/left.jpg" style="width:60%;"></a></td> --%>
+<%-- 				</c:if> --%>
+<%-- 				<c:forEach items="${list }" var="list"> --%>
+<%-- 					<td class="hover1" width="15%" style="border:1px solid; height: 250px;"><div class="slider"><a href="productDetail.do?product_id=${list.product_id }"><center><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price } <input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></center></div></td> --%>
+<%-- 				</c:forEach> --%>
+<%-- 				<c:if test="${len%4!=0}"> --%>
+<%-- 					<c:forEach var="i" begin="1" end="${4-(len%4) }"> --%>
+<!-- 						<td width="15%"></td> -->
+<%-- 					</c:forEach> --%>
+<%-- 				</c:if> --%>
 				
-				<c:if test="${min+3<total }">
-					<td width="2%"><a href="myPage.do?min=${min+1 }"><img src="resources/img/right.jpg" style="width:60%;"></a></td>	
-				</c:if>
-			</tr>		
-		</table>
+<%-- 				<c:if test="${min+3<total }"> --%>
+<%-- 					<td width="2%"><a href="myPage.do?min=${min+1 }"><img src="resources/img/right.jpg" style="width:60%;"></a></td>	 --%>
+<%-- 				</c:if> --%>
+<!-- 			</tr>		 -->
+<!-- 		</table> -->
+			<div class="slider">
+				<c:forEach items="${list }" var="list">
+ 					<div id="slider_img"><a href="productDetail.do?product_id=${list.product_id }"><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></div>
+- 				</c:forEach>
+			</div>
 	</div>
 	
 	<div id="changePwd">
