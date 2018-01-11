@@ -101,8 +101,8 @@ public class ProductVo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductVo(int rnum, int product_id, String condition, String product_name, String category, String quality, int price,
-			String main_img, String sub_img, String member_id) {
+	public ProductVo(int rnum, int product_id, String condition, String product_name, String category, String quality,
+			int price, String main_img, String sub_img, String member_id) {
 		super();
 		this.product_id = product_id;
 		this.condition = condition;
