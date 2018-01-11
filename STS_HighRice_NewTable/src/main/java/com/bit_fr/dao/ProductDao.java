@@ -77,8 +77,11 @@ public class ProductDao {
 		return ProductManager.updateAdmin_product(category, product_name, condition, quality, price);
 	}
 
-	public int delete_product(int id) {
-		return ProductManager.delete_product(id);
+	
+	public int delete_product(int product_id) {
+		return ProductManager.delete_product(product_id);
+
+
 	}
 
 }
