@@ -173,7 +173,7 @@
 			<!--상품목록 -->
 			<div style="width:100%; float: left;" id="product_box">
 				<c:forEach items="${list }" var="list">
-					<div class="hover" style="width:24%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
+					<div class="hover" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
 						<a href="productDetail.do?product_id=${list.product_id }">
 						<br>${list.product_name }<br><br>
 						<img src="resources/img/product/${list.main_img }" class="category_img">
