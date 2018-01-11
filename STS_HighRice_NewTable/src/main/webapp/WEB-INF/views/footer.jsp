@@ -184,9 +184,9 @@
 			var product_id=$(this).parent().find("#product_id").val();
 			data = {"product_id":product_id};
 			$.ajax({
-				url:"product/deleteProductAjax.jsp",
+				url:"delete_product.do",
 				data:data,
-				success:function(){
+				success:function(data){
 					alert("삭제완료")
 				}
 			})

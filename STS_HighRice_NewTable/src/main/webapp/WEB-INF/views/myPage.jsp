@@ -27,6 +27,13 @@
 .img_myPage{
 	width:100%;
 	}
+	
+ #slider_img{ 
+ 	border:1px solid; 
+ 	border-color: white; 
+ 	height: 300px;
+ } 
+
 
 	
 </style>
@@ -48,9 +55,10 @@
 			slideWidth : 300,
 			pager:true,
 			preloadImages:'all',
-			minSlides:4,
+ 			minSlides:4,
 			maxSlides:4,
-			moveSlides:4
+			moveSlides:4,
+			infiniteLoop:false
 		});
 		
 		
@@ -85,28 +93,16 @@
 		</div>
 		<div style="height: 100px;"></div>
 		<div style="height: 30px;"><h2>SELL LIST</h2></div>
-<!-- 		<table width="100%" cellspacing="20"> -->
-<!-- 			<tr> -->
-<%-- 				<c:if test="${min>=2 }"> --%>
-<%-- 					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="resources/img/left.jpg" style="width:60%;"></a></td> --%>
-<%-- 				</c:if> --%>
-<%-- 				<c:forEach items="${list }" var="list"> --%>
-<%-- 					<td class="hover1" width="15%" style="border:1px solid; height: 250px;"><div class="slider"><a href="productDetail.do?product_id=${list.product_id }"><center><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price } <input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></center></div></td> --%>
-<%-- 				</c:forEach> --%>
-<%-- 				<c:if test="${len%4!=0}"> --%>
-<%-- 					<c:forEach var="i" begin="1" end="${4-(len%4) }"> --%>
-<!-- 						<td width="15%"></td> -->
-<%-- 					</c:forEach> --%>
-<%-- 				</c:if> --%>
-				
-<%-- 				<c:if test="${min+3<total }"> --%>
-<%-- 					<td width="2%"><a href="myPage.do?min=${min+1 }"><img src="resources/img/right.jpg" style="width:60%;"></a></td>	 --%>
-<%-- 				</c:if> --%>
-<!-- 			</tr>		 -->
-<!-- 		</table> -->
-			<div class="slider">
+
+			<div class="slider" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
 				<c:forEach items="${list }" var="list">
- 					<div id="slider_img"><a href="productDetail.do?product_id=${list.product_id }"><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></div>
+ 					<div id="slider_img" class="hover1">
+ 						<a href="productDetail.do?product_id=${list.product_id }"><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a>
+ 						<c:if test="${list.condition=='등록' }">
+ 							<br><input type="button" value="삭제">
+ 						</c:if>
+ 					</div>
+ 					
 - 				</c:forEach>
 			</div>
 	</div>
