@@ -13,7 +13,7 @@
 	</select>
 
 	<select id="getOne_product" resultType="productVo">
-		select * from product where product_id=#{id}
+		select * from product where product_id=#{product_id}
 	</select>
 	
  	<select id="getNextId_product" resultType="java.lang.Integer">

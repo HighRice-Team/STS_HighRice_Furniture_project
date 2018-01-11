@@ -132,10 +132,10 @@
 			<select name="category">
 				<option value=null disabled="disabled" selected="selected">분류</option>
 				<option value="">선택 안함</option>
-				<option value='sofa'>소파</option>
-				<option value='bed'>침대</option>
-				<option value='closet'>옷장</option>
-				<option value='desk'>책상</option>
+				<option value='SOFA'>소파</option>
+				<option value='BED'>침대</option>
+				<option value='CLOSET'>옷장</option>
+				<option value='DESK'>책상</option>
 			</select>
 			
 			<!--품질 드롭박스 -->

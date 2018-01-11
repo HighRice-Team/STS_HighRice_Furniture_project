@@ -101,8 +101,10 @@ public class ProductController {
 	@RequestMapping("/productDetail.do")
 	public ModelAndView getOne_product(int product_id) {
 		ModelAndView view = new ModelAndView();
-		List<ProductVo> list = dao.getOne_product(product_id);
-		view.addObject("v", list);
+		view.setViewName("main");
+		ProductVo p = dao.getOne_product(product_id);
+		view.addObject("list", p);
+		view.addObject("viewPage", "product/productDetail.jsp");
 		return view;
 	}
 
