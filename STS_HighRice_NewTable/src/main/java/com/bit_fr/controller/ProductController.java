@@ -22,7 +22,7 @@ public class ProductController {
 	public void setDao(ProductDao dao) {
 		this.dao = dao;
 	}
-	
+
 	@RequestMapping("/index.do")
 	public ModelAndView main(@RequestParam(defaultValue = "1") int pageNum, String category, String quality,
 			@RequestParam(defaultValue = "0") int min, @RequestParam(defaultValue = "0") int max) {
@@ -77,6 +77,7 @@ public class ProductController {
 
 		return mav;
 	}
+
 	
 	@RequestMapping(value="delete_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
@@ -98,4 +99,37 @@ public class ProductController {
 	}
 	
 	
+
+
+	@RequestMapping("/product.do")
+	public ModelAndView getAll_product(@RequestParam(defaultValue = "") String sort, String category) {
+		ModelAndView view = new ModelAndView();
+
+		view.setViewName("main");
+		if (sort != null && sort.equals("")) {
+			sort = null;
+		}
+		if (sort != null && sort.equals("price_min")) {
+			sort = "price";
+		}
+		if (sort != null && sort.equals("price_max")) {
+			sort = "price desc";
+		}
+		List<ProductVo> list = dao.getAll_product(sort, category);
+		view.addObject("list", list);
+		view.addObject("viewPage", "product/product.jsp");
+		view.addObject("category", category);
+		view.addObject("sort", sort);
+		return view;
+	}
+
+	@RequestMapping("/productDetail.do")
+	public ModelAndView getOne_product(int product_id) {
+		ModelAndView view = new ModelAndView();
+		List<ProductVo> list = dao.getOne_product(product_id);
+		view.addObject("v", list);
+		return view;
+	}
+
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 }

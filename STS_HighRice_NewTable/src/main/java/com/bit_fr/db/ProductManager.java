@@ -24,31 +24,34 @@ public class ProductManager {
 			System.out.println(e);
 		}
 	}
-	
-	public static List<ProductVo> getCust(String sql){
+
+	public static List<ProductVo> getCust(String sql) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("sql", sql);
-		
+
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.getCust",map);
+		List<ProductVo> list = session.selectList("product.getCust", map);
 		session.close();
 		return list;
 	}
-	
-	public static List<ProductVo> getAll_product() {
+
+	public static List<ProductVo> getAll_product(String sort, String category) {
+		HashMap map = new HashMap();
+		map.put("sort", sort);
+		map.put("category", category);
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.getAll_product");
+		List<ProductVo> list = session.selectList("product.getAll_product", map);
 		session.close();
 		return list;
 	}
-	
-	public static ProductVo getOne_product(int id) {
+
+	public static List<ProductVo> getOne_product(int id) {
 		SqlSession session = factory.openSession();
-		ProductVo p = (ProductVo) session.selectList("product.getOne_product", id);
+		List<ProductVo> p = session.selectList("product.getOne_product", id);
 		session.close();
 		return p;
 	}
-	
+
 	public static int getNextId_product() {
 		SqlSession session = factory.openSession();
 		int n = session.selectOne("product.etNextId_product");
@@ -69,8 +72,8 @@ public class ProductManager {
 		session.close();
 		return p;
 	}
-	
-	public static List<ProductVo> getMySell_product(String member_id){
+
+	public static List<ProductVo> getMySell_product(String member_id) {
 		SqlSession session = factory.openSession();
 		List<ProductVo> list = session.selectList("product.getMySell_product", member_id);
 		session.close();
@@ -85,7 +88,7 @@ public class ProductManager {
 		session.close();
 		return n;
 	}
-	
+
 	public static int getMySellCountWithCondition_product(String member_id, String condition) {
 		SqlSession session = factory.openSession();
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -95,7 +98,7 @@ public class ProductManager {
 		session.close();
 		return n;
 	}
-	
+
 	public static List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
@@ -106,13 +109,13 @@ public class ProductManager {
 		session.close();
 		return list;
 	}
-	
+
 	public static int getAllPublishingCount_product(String category, String condition) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
 		map.put("category", category);
 		map.put("condition", condition);
-		
+
 		int re = session.selectOne("product.getAllPublishingCount_product", map);
 		session.close();
 		return re;
@@ -124,7 +127,7 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
-	
+
 	public static ProductVo getForAdmin_product() {
 		SqlSession session = factory.openSession();
 		ProductVo p = (ProductVo) session.selectList("product.getForAdmin_product");
@@ -138,8 +141,9 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
-	
-	public static int update_product(String product_name, String category, String quality, String main_img, String sub_img) {
+
+	public static int update_product(String product_name, String category, String quality, String main_img,
+			String sub_img) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
 		map.put("product_name", product_name);
@@ -161,8 +165,9 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
-	
-	public static int updateAdmin_product(String category, String product_name, String condition, String quality, int price) {
+
+	public static int updateAdmin_product(String category, String product_name, String condition, String quality,
+			int price) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
 		map.put("category", category);
@@ -174,8 +179,9 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
-	
-	public static int delete_product(int product_id) {
+
+	public static int delete_product(int id) {
+
 		SqlSession session = factory.openSession();
 		int re = session.delete("product.delete_product", product_id);
 		session.commit();
