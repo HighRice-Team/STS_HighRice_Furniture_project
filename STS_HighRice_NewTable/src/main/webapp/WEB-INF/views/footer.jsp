@@ -16,6 +16,10 @@
 			autoOpen : false,
 			modal : true,
 			resizable : false,
+			closeOnEscape: false,
+			open: function(event, ui) { 
+				$(".ui-dialog-titlebar-close", $(this).parent()).hide();
+			},
 			buttons : {
 				"로그인" : function() {
 					var member_id_footer = $("#member_id_footer").val();
@@ -39,6 +43,12 @@
 				},
 				"취소" : function() {
 					$("#loginDialog_footer").dialog("close")
+					$.ajax({
+						url : "logout.do",
+						success : function () {
+							location.href="";
+						}
+					});
 				},
 				"회원가입" : function() {
 					location.replace("joinAccess.do");
