@@ -183,7 +183,7 @@ public class MemberController {
 		return str;
 	}
 	
-	@RequestMapping(value = "pwdChk_member.do", produces="text/plain; charset=utf-8")
+	@RequestMapping(value = "changePwdChk.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String pwdChk(HttpSession session, String old_pwd, String input_pwd, String input_pwd2) {
 		String id = (String) session.getAttribute("id");

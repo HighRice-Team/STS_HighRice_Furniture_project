@@ -79,7 +79,7 @@
 				
 				var data ={"input_pwd":pwd,"input_pwd2":pwd2,"old_pwd":oldPwd};
 					$.ajax({
-						url:"pwdChk_member.do",
+						url:"changePwdChk.do",
 						data:data,
 						success:function(data){
 							data = eval('('+data+')')

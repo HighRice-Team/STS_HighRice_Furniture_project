@@ -31,7 +31,7 @@
  #slider_img{ 
  	border:1px solid; 
  	border-color: white; 
- 	height: 300px;
+ 	height: 370px;
  } 
 
 
@@ -97,7 +97,7 @@
 			<div class="slider" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
 				<c:forEach items="${list }" var="list">
  					<div id="slider_img" class="hover1">
- 						<a href="productDetail.do?product_id=${list.product_id }"><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a>
+ 						<a href="productDetail.do?product_id=${list.product_id }"><p>${list.product_name }</p><p><img src="resources/img/product/${list.main_img}" class="img_myPage"></p>${list.condition }<br>${list.quality }<br>${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a>
  						<c:if test="${list.condition=='등록' }">
  							<br><input type="button" value="삭제">
  						</c:if>

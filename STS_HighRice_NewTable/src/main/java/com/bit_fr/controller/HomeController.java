@@ -136,6 +136,33 @@ public class HomeController {
 		return mav;
 	}
 	
+	@RequestMapping("admin.do")
+	public ModelAndView admin(){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		mav.addObject("viewPage", "admin/adminPage.jsp");
+		
+		int page = 10;
+		
+		int totalRecord_product = productDao.getCount_product();
+		int totalRecord_orderList = orderlistDao.getCountNextOrderId_orderlist() -1;
+		int totalRecord_member = memberDao.getCount_member();
+		
+		int totalPage_product = totalRecord_product/page;
+		if(totalRecord_product%page != 0 ){
+			totalPage_product++;
+		}
+		
+		mav.addObject("listProduct", productDao.getAll_product());
+		mav.addObject("totalPage_product", totalPage_product);
+		
+		mav.addObject("listOrder", orderlistDao.getAll_orderlist());
+		mav.addObject("listMember", memberDao.getAll_member());
+		
+		
+		return mav;
+	}
+	
 	
 	
 	

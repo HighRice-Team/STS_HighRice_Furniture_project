@@ -114,8 +114,8 @@ a {
 				<a href="">CART</a><br>
 				
 				<!-- 관리자 -->
-				<c:if test="${sessionScope.grade==1}">
-					<a href="">ADMIN</a><br>
+				<c:if test="${sessionScope.grade==0}">
+					<a href="admin.do">ADMIN</a><br>
 				</c:if>
 				
 			</div>
