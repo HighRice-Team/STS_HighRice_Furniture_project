@@ -24,6 +24,14 @@ public class MemberVo {
 		this.member_id = member_id;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberVo [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", tel=" + tel + ", jumin="
+				+ jumin + ", pwd_q=" + pwd_q + ", pwd_a=" + pwd_a + ", address=" + address + ", address_detail="
+				+ address_detail + ", payback=" + payback + ", account_no=" + account_no + ", bank=" + bank
+				+ ", balance=" + balance + ", grade=" + grade + "]";
+	}
+
 	public String getPwd() {
 		return pwd;
 	}

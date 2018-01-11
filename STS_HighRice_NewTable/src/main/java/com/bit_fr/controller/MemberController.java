@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit_fr.dao.MemberDao;
 import com.bit_fr.vo.MemberVo;
 //import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MemberController {
@@ -95,6 +97,23 @@ public class MemberController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/getOne_member_ajax.do", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String getOne_member_ajax(String member_id) {
+		
+		String str = "";
+		MemberVo m = member_dao.getOne_member(member_id);
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			str = mapper.writeValueAsString(m);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+
+		return str;
+	}
 
 	@RequestMapping(value="getId_member.do",method = RequestMethod.POST,produces = "text/plain;charset=utf-8")
 	@ResponseBody
@@ -162,6 +181,38 @@ public class MemberController {
 		return str;
 	}
 	
+	@RequestMapping(value = "pwdChk_member.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String pwdChk(HttpSession session, String old_pwd, String input_pwd, String input_pwd2) {
+		String id = (String) session.getAttribute("id");
+		MemberVo memberVo = member_dao.getOne_member(id);
+		
+		String str = "";
+		String pwd = memberVo.getPwd();
+		
+	    if(input_pwd.equals(input_pwd2)){
+	          if(old_pwd.equals(pwd))
+	          {
+	             str = "일치";
+	          }else{
+	             str = "비밀번호가 일치하지 않습니다.";
+	          }
+	     }else{
+	         str = "입력한 두 번호가 일치하지 않습니다.";
+	     }
+	       
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(str);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return str;
+	}
+	
 	@RequestMapping(value="/updatePwd_member.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
 	public String updatePwd_member(MemberVo v)
@@ -181,15 +232,16 @@ public class MemberController {
 	
 	@RequestMapping(value="/updateInfo_member.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
-	public String updateInfo_member(MemberVo v)
+	public String updateInfo_member(MemberVo v, HttpSession session)
 	{
 		String str = "";
-//		ObjectMapper om = new ObjectMapper();
-		
+		ObjectMapper om = new ObjectMapper();
+		String member_id = (String) session.getAttribute("id");
+		v.setMember_id(member_id);
 		int re = member_dao.updateInfo_member(v);
 		
 		try {
-//			str = om.writeValueAsString(re);
+			str = om.writeValueAsString(re);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

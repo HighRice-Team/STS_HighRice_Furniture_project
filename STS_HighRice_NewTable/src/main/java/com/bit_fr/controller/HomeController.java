@@ -79,8 +79,8 @@ public class HomeController {
 	public ModelAndView goMyPage(HttpSession session, @RequestParam(value="min", defaultValue="1")int min) {
 		ModelAndView mav = new ModelAndView();
 		
-//		String member_id = (String)session.getAttribute("member_id");
-		String member_id = "a1";
+		String member_id = (String)session.getAttribute("id");
+//		String member_id = "a1";
 		MemberVo member = memberDao.getOne_member(member_id);
 		
 		int max = min + 3;
@@ -116,7 +116,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "sellWrite.do")
+	@RequestMapping(value = "/sellWrite.do")
 	public ModelAndView sellWrite() {
 		ModelAndView mav =  new ModelAndView();
 		
@@ -126,7 +126,7 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "orderlistByCondition.do")
+	@RequestMapping(value = "/orderlistByCondition.do")
 	public ModelAndView orderlistByCondition() {
 		ModelAndView mav = new ModelAndView();
 		
@@ -136,75 +136,8 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping("pwdChk.do")
-	@ResponseBody
-	public String pwdChk(HttpSession session, String old_pwd, String input_pwd, String input_pwd2) {
-		String id = (String) session.getAttribute("id");
-		MemberVo memberVo = memberDao.getOne_member(id);
-		
-		String str = "";
-		String pwd = memberVo.getPwd();
-		
-	    if(input_pwd.equals(input_pwd2)){
-	          if(old_pwd.equals(pwd))
-	          {
-	             str = "일치";
-	          }else{
-	             str = "비밀번호가 일치하지 않습니다.";
-	          }
-	     }else{
-	         str = "입력한 두 번호가 일치하지 않습니다.";
-	     }
-	       
-		
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			str = mapper.writeValueAsString(str);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return str;
-	}
 	
-	@RequestMapping("updatePwdAjax.do")
-	@ResponseBody
-	public String updatePwdAjax(HttpSession session, String pwd) {
-		String str = "";
-		String member_id = (String)session.getAttribute("id");
-		MemberVo v = new MemberVo();
-		v.setMember_id(member_id);
-		v.setPwd(pwd);
-		
-		int re = memberDao.updatePwd_member(v);
-		
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			str = mapper.writeValueAsString(re);
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-		
-		return str;
-	}
 	
-	@RequestMapping("updateMemberAjax.do")
-	@ResponseBody
-	public String updateMemberAjax(MemberVo v) {
-		String str = "";
-		int re = memberDao.updateInfo_member(v);
-		
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			str = mapper.writeValueAsString(re);
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-		
-		return str;
-	}
+	
 	
 }

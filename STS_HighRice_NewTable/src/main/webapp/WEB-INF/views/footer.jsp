@@ -51,6 +51,7 @@
 		$("#loginDialog_footer").dialog("open")
 	}
 	
+// 	마이페이지에서 비밀번호 변경
 	$("#changePwd").dialog({
 		width:400,
 		maxWidth:400,
@@ -62,17 +63,19 @@
 				var oldPwd = $("#oldPwd").val();
 				var pwd = $("#newPwd").val();
 				var pwd2 = $("#chk_newPwd").val();
-				var data ={"pwd":pwd,"pwd2":pwd2,"oldPwd":oldPwd};
+				
+				
+				var data ={"input_pwd":pwd,"input_pwd2":pwd2,"old_pwd":oldPwd};
 					$.ajax({
-						url:"pwdChk2.do",
+						url:"pwdChk_member.do",
 						data:data,
 						success:function(data){
-							data = eval("("+data+")");
-							data = data.str;
+							data = eval('('+data+')')
 							if(data=="일치"){
-								data = {"pwd":pwd}
+								var member_id = $("#id_mypage").val()
+								data = {"member_id":member_id ,"pwd":pwd}
 								$.ajax({
-									url:"updatePwdAjax.do",
+									url:"updatePwd_member.do",
 									data:data,
 								})
 								alert("비밀번호 변경 완료");
@@ -91,10 +94,12 @@
 		}
 	});
 	
+// 	마이페이지에서 비밀번호를 변경할때 쓰는 다일로그 오픈
 	$("#change_pwd").click(function(){
 		$("#changePwd").dialog("open")
 	})
 	
+// 	마이페이지에서 회원정보 변경
 	$("#dialog").dialog({
 		width:800,
 		maxWidth:800,
@@ -105,10 +110,10 @@
 			"수정":function(){
 				var str="";
 				var data = $("#myForm").serializeArray();
-				$.ajax({url:"updateMemberOkAjax.do",data:data,success:function(str){
-					str = eval("("+str+")");
-					alert(str.str)
-					if(str.str=="회원정보 변경 완료")
+				
+				$.ajax({url:"updateInfo_member.do",data:data,success:function(data){
+					
+					if(data==1)
 					{
 						location.href="";
 						$("#dialog").dialog("close");
@@ -121,10 +126,12 @@
 			}
 		}
 	});
+	
+// 	마이페이지에서 로그아웃 버튼
 	$("input[value=로그아웃]").click(function(){
 		 if(confirm("로그아웃 하시겠습니까?")){
 	         $.ajax({
-	            url:"login/logoutAjax.jsp",
+	            url:"logout.do",
 	            success:function(){
 	               alert("로그아웃 완료");
 	               location.href="index.do";
@@ -133,8 +140,16 @@
 	         })
 	      }
 	})
+	
+// 	마이페이지에서 회원정보 변경을 위한 다일로그 오픈
 	$("input[value=회원정보수정]").click(function(){
-		$.getJSON("./login/updateMemberAjax.jsp",function(data){
+		
+		var data = {'member_id':$("#id_mypage").val()}
+		
+		$.ajax({url:"getOne_member_ajax.do", data:data ,success:function(data){
+			
+			data = eval('('+data+')')
+			
 			$("#member_id").html(data.member_id);
 			$("#name").html(data.name);
 			$("#jumin").html(data.jumin);
@@ -146,9 +161,11 @@
 			$("#bank").val(data.bank);
 			$("#address1").val(data.address1);
 			$("#address2").val(data.address2);
-		})
+		}})
 		$("#dialog").dialog("open");
 	})
+	
+// 	마이페이지 상품삭제 버튼
 	$("input[value=삭제]").click(function(){
 //			location.href="productDelete.do?product_id="+$(this).parent().find("#product_id").val();
 		if(confirm("상품을 삭제하시겠습니까?")){

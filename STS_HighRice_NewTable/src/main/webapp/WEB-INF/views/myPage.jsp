@@ -23,6 +23,9 @@
 .over a{
 	color : white;
 	}
+.img_myPage{
+	width:100%;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -75,7 +78,7 @@
 					<td width="2%"><a href="myPage.do?min=${min-1 }"><img src="resources/img/left.jpg" style="width:60%;"></a></td>
 				</c:if>
 				<c:forEach items="${list }" var="list">
-					<td class="hover1" width="15%" style="border:1px solid; height: 250px;"><a href="productDetail.do?product_id=${list.product_id }"><center><img src="resources/img/product/${list.main_img}"><br>${list.condition }<br>${list.quality }<br>${list.price } <input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></center></td>
+					<td class="hover1" width="15%" style="border:1px solid; height: 250px;"><a href="productDetail.do?product_id=${list.product_id }"><center><img src="resources/img/product/${list.main_img}" class="img_myPage"><br>${list.condition }<br>${list.quality }<br>${list.price } <input type="hidden" value="${list.product_id }" id="product_id"></a><c:if test="${list.condition=='등록' }"><br><br><br><input type="button" value="삭제"></c:if></center></td>
 				</c:forEach>
 				<c:if test="${len%4!=0}">
 					<c:forEach var="i" begin="1" end="${4-(len%4) }">
@@ -109,19 +112,21 @@
 	
 	<div id="dialog">
 		<center><h1>회원정보 수정</h1></center><br><br>
-		<form id="myForm">
+		<form id="myForm" method="post">
 			<table border="1" cellpadding="5" cellspacing="0" width="100%">
 			<tr>
 				<td id="title" width="15%">아이디</td>
-				<td colspan="3" id="member_id" name="member_id"></td>
+					<td colspan="3" id="member_id">
+					<input type="hidden" id="id_mypage" name = "member_id" value="${member.member_id }">
+				</td>
 			</tr>
 
-			<tr>
-				<td id="title">비밀번호</td>
-				<td width="20%"><input type="password" name="pwd" maxlength="50" required="required"></td>
-				<td id="title">비밀번호 확인</td>
-				<td><input type="password" id="pwdcheck" maxlength="50"required="required" name="pwd_chk"></td>
-			</tr>
+<!-- 			<tr> -->
+<!-- 				<td id="title">비밀번호</td> -->
+<!-- 				<td width="20%"><input type="password" name="pwd" maxlength="50" required="required"></td> -->
+<!-- 				<td id="title">비밀번호 확인</td> -->
+<!-- 				<td><input type="password" id="pwdcheck" maxlength="50"required="required" name="pwd_chk"></td> -->
+<!-- 			</tr> -->
 
 			<tr>
 				<td id="title">이름</td>
