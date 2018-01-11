@@ -127,10 +127,10 @@ a {
 			</div>
 			<div style="width: 20%; float: right;">
 				<a href="">CUSTMIZE</a><br>
-				<a href="">BED</a><br>
-				<a href="">SOFA</a><br>
-				<a href="">CLOSET</a><br>
-				<a href="">DESK</a><br>
+				<a href="product.do?category=bed">BED</a><br>
+				<a href="product.do?category=sofa">SOFA</a><br>
+				<a href="product.do?category=closet">CLOSET</a><br>
+				<a href="product.do?category=desk">DESK</a><br>
 			</div>
 		</div>
 	</div>

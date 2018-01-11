@@ -9,19 +9,19 @@ import com.bit_fr.vo.ProductVo;
 
 @Repository
 public class ProductDao {
-	public List<ProductVo> getAll_product(){
-		return ProductManager.getAll_product();
+	public List<ProductVo> getAll_product(String sort, String category) {
+		return ProductManager.getAll_product(sort, category);
 	}
-	
-	public ProductVo getOne_product(int id) {
+
+	public List<ProductVo> getOne_product(int id) {
 		return ProductManager.getOne_product(id);
 	}
-	
+
 	public int getNextId_product() {
 		return ProductManager.getNextId_product();
 	}
-	
-	public List<ProductVo> getCust(String sql){
+
+	public List<ProductVo> getCust(String sql) {
 		return ProductManager.getCust(sql);
 	}
 
@@ -32,19 +32,19 @@ public class ProductDao {
 	public ProductVo getCutomizeList_product(String sql) {
 		return ProductManager.getCutomizeList_product(sql);
 	}
-	
+
 	public List<ProductVo> getMySell_product(String member_id) {
 		return ProductManager.getMySell_product(member_id);
 	}
-	
+
 	public int getMySellCount_product(String member_id) {
 		return ProductManager.getMySellCount_product(member_id);
 	}
-	
+
 	public int getMySellCountWithCondition_product(String member_id, String condition) {
 		return ProductManager.getMySellCountWithCondition_product(member_id, condition);
 	}
-	
+
 	public int getAllPublishingCount_product(String category, String condition) {
 		return ProductManager.getAllPublishingCount_product(category, condition);
 	}
@@ -52,19 +52,19 @@ public class ProductDao {
 	public List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
 		return ProductManager.getMySellForPaging_product(member_id, start, end);
 	}
-	
+
 	public int getItemPublishingCount_product(String condition) {
-		return ProductManager.getItemPublishingCount_product(condition);		
+		return ProductManager.getItemPublishingCount_product(condition);
 	}
-	
+
 	public ProductVo getForAdmin_product() {
 		return ProductManager.getForAdmin_product();
 	}
-	
+
 	public int insert_product(ProductVo p) {
 		return ProductManager.insert_product(p);
 	}
-	
+
 	public int update_product(String product_name, String category, String quality, String main_img, String sub_img) {
 		return ProductManager.update_product(product_name, category, quality, main_img, sub_img);
 	}
@@ -72,13 +72,13 @@ public class ProductDao {
 	public int updateCondition_product(int id, String condition) {
 		return ProductManager.updateCondition_product(id, condition);
 	}
-	
+
 	public int updateAdmin_product(String category, String product_name, String condition, String quality, int price) {
-		return ProductManager.updateAdmin_product(category, product_name, condition, quality, price);		
+		return ProductManager.updateAdmin_product(category, product_name, condition, quality, price);
 	}
-	
+
 	public int delete_product(int id) {
 		return ProductManager.delete_product(id);
 	}
-	
+
 }
