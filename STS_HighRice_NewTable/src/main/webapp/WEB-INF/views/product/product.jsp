@@ -7,9 +7,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
 .sort {
 	text-align: right;
-	font-size: 10px;
+	padding-right: 20px;
+}
+
+.sort a {
+	font-size: 15px;
 }
 
 p{
@@ -82,8 +87,8 @@ p{
 			<a href="product.do?category=${category }">${category}</a>
 		</div>
 		<hr id="hr">
-		<div>
-			<br>
+		<br>
+		<div class="sort">
 			<a href="product.do?sort=quality&category=${category}">품질등급순</a>&nbsp;&nbsp;
 			<a href="product.do?sort=price_min&category=${category }">낮은가격순</a>&nbsp;&nbsp;
 			<a href="product.do?sort=price_max&category=${category }">높은가격순</a>
