@@ -13,6 +13,10 @@ public class ProductDao {
 	public List<ProductVo> getAll_product(String sql) {
 		return ProductManager.getAll_product(sql);
 	}
+	
+	public List<ProductVo> getAll_productAdmin(){
+		return ProductManager.getAll_productAdmin();
+	}
 
 	public ProductVo getOne_product(int product_id) {
 		return ProductManager.getOne_product(product_id);
@@ -74,8 +78,8 @@ public class ProductDao {
 		return ProductManager.updateCondition_product(product_id, condition);
 	}
 
-	public int updateAdmin_product(String category, String product_name, String condition, String quality, int price) {
-		return ProductManager.updateAdmin_product(category, product_name, condition, quality, price);
+	public int updateAdmin_product(ProductVo p) {
+		return ProductManager.updateAdmin_product(p);
 	}
 
 	

@@ -185,6 +185,7 @@ public class MemberController {
 
 	@RequestMapping(value = "/insert_member.do", method = RequestMethod.POST)
 	public ModelAndView insert_member(MemberVo v) {
+
 		ModelAndView mav = new ModelAndView("main");
 		int re = member_dao.insert_member(v);
 
