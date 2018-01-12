@@ -115,11 +115,7 @@ a {
 				
 				<!-- 관리자 -->
 				<c:if test="${sessionScope.grade==0}">
-<<<<<<< HEAD
-					<a href="">ADMIN</a><br>
-=======
 					<a href="admin.do">ADMIN</a><br>
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 				</c:if>
 				
 			</div>
