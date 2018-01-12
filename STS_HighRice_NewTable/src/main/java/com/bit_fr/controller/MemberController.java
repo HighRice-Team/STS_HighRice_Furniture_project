@@ -3,6 +3,8 @@ package com.bit_fr.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,9 +14,19 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bit_fr.dao.MemberDao;
 import com.bit_fr.vo.MemberVo;
 //import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MemberController {
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+
+	public void setMailSender(JavaMailSender mailSender) {
+		this.mailSender = mailSender;
+	}
+
 
 	@Autowired
 	private MemberDao member_dao;
@@ -24,6 +36,18 @@ public class MemberController {
 	}
 	
 	//단순 뷰페이지 이동
+	@RequestMapping("findMember.do")
+	public ModelAndView gotofindMemberPage() {
+		ModelAndView mav = new ModelAndView("main");
+		
+		mav.addObject("viewPage","join/findMember.jsp" );
+		
+		return mav;
+	}
+	
+	@RequestMapping("search.do")
+	public void goSearchAddress() {}
+	
 	@RequestMapping("joinAccess.do")
 	public ModelAndView gotoJoinAccess() {
 		ModelAndView mav = new ModelAndView("main");
@@ -90,12 +114,22 @@ public class MemberController {
 		return mav;
 	}
 	
-	@RequestMapping("/getOne_member.do")
-	public ModelAndView getOne_member(String member_id) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("v", member_dao.getOne_member(member_id));
+	@RequestMapping(value="/getOne_member.do",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String getOne_member(String member_id) {
+		String str="";
+		MemberVo v =  member_dao.getOne_member(member_id);
+		
+		try {
+			
+			ObjectMapper om = new ObjectMapper();
+			str = om.writeValueAsString(v);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 
-		return mav;
+		return str;
 	}
 
 	@RequestMapping(value="getId_member.do",method = RequestMethod.POST,produces = "text/plain;charset=utf-8")
@@ -127,6 +161,8 @@ public class MemberController {
 		
 		mav.addObject("viewPage","join/insert_member.jsp");
 		mav.addObject("v",v);
+//		String jumin = v.getJumin().substring(0, 6);
+//		mav.addObject("jumin",jumin);
 		
 		return mav;
 	}
@@ -195,6 +231,30 @@ public class MemberController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return str;
+	}
+	
+	
+	@RequestMapping(value="sendMail.do",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String mail(String member_id) {
+		String str = "";
+		System.out.println(member_id);
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setSubject("[BIT FR]비밀번호 안내.");
+		mailMessage.setFrom("bitfr@naver.com");
+		
+		MemberVo v = member_dao.getOne_member(member_id);
+		
+		mailMessage.setText("귀하의 비밀번호는 < "+v.getPwd()+" > 입니다.");
+		mailMessage.setTo(member_id);
+		
+		try {
+			mailSender.send(mailMessage);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		return str;
 	}
 	

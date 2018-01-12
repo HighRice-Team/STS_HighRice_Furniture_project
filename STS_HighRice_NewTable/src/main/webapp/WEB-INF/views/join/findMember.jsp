@@ -10,10 +10,10 @@
 	$(function(){
 		// 취소 버튼 클릭시 첫화면으로 이동
 		$("#back").click(function(){
-			location.href="index.do"
+			history.go(-1)
 		})
 		
-		$("#joinChkBtn").click(function(){
+		$(".findInfo").click(function(){
 			if($("#name").val()!=""&&$("#jumin").val()!=""){
 				var name = $("#name").val()
 				var jumin = $("#jumin1").val()+"-"+$("#jumin2").val()
@@ -28,9 +28,17 @@
 						success:function(data){
 							if(data!="")
 							{
-								alert("이미 가입된 회원입니다.")
+								if(confirm("가입한 ID : "+data +"\n비밀번호를 찾으시겠습니까?")){
+									$.ajax({
+										url:"sendMail.do",
+										data:{"member_id":data},
+										success:function(re){
+											alert("비밀번호를 메일로 발송하였습니다.")
+										}
+									})
+								}
 							}else{
-								location.href="insert_member.do";
+								alert("가입 된 정보가 없습니다.")
 							}
 						}
 					})
@@ -40,10 +48,6 @@
 			}else{
 				alert("입력정보를 모두 작성해주시길 바랍니다.")
 			}
-		})
-		
-		$("#findMemberBtn").click(function(){
-			location.href="findMember.do"
 		})
 	})
 </script>
@@ -55,15 +59,15 @@
 		<div style="border: 1px solid; width: 40%;">
 			<table align="center" width="400" height="200">
 				<tr>
-					<td align="center" colspan="2" style="font-size: 15px;"><b>주민번호 인증이 필요합니다.</b></td><br><br>
+					<td align="center" colspan="2" style="font-size: 15px;"><b>회원정보 입력.</b></td><br><br>
 				</tr>
 				<tr>
-					<td>이름 : </td>
-					<td><input type="text" id="name" required="required" style="text-align: center;"></td>	
+					<td width="20%" align="center">이름 : </td>
+					<td width="*" align="center"><input type="text" id="name" required="required" style="text-align: center;"></td>	
 				</tr>
 				<tr>
-					<td>주민번호 : </td>
-					<td><input type="text" id="jumin1" required="required" maxlength="6" size="7px" style="text-align: center;">-<input type="password" id="jumin2" required="required" maxlength="7" size="7px" style="text-align: center;"></td>
+					<td width="20%">주민번호 : </td>
+					<td width="*" align="center"><input type="text" id="jumin1" required="required" maxlength="6" size="7" style="text-align: center;">-<input type="password" id="jumin2" required="required" maxlength="7" size="7" style="text-align: center;"></td>
 				</tr>
 				<tr>
 					<td align="center" colspan="2"><span id="msg_joinCheck" style="color: red;"></span></td>
@@ -74,8 +78,8 @@
 	</center>
 	<p align="center">
 		<input type="button" value="이전" id="back">
-		<input type="button" value="회원정보 찾기" id="findMemberBtn">
-		<input type="button" value="다음" id="joinChkBtn">
+		<input type="button" value="로그인" id="loginBtn_findMember">
+		<input type="button" value="아이디 /비밀번호 찾기" id="findId" class="findInfo">
 	</p>
 	</form>
  	</div>
