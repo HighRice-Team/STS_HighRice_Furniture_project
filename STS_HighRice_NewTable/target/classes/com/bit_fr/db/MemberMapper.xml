@@ -18,7 +18,10 @@
 	
 	<!-- 회원정보 찾기. name과 jumin을 매개변수로 받아 일치하는 member의 member_id값을 반환 -->
 	<select id="getId_member" resultType="java.lang.String">
-		select member_id from member where name=#{name} and jumin=#{jumin}
+		select member_id from member where jumin=#{jumin}
+		<if test="name != null">
+			and name=#{name}
+		</if>
 	</select>
 	
 	<!-- 모든 회원의 수를 반환. -->

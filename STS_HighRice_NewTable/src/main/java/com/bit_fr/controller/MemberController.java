@@ -66,6 +66,18 @@ public class MemberController {
 		
 		return mav;
 	}
+	
+	@RequestMapping(value = "/joinCheck.do", method = RequestMethod.POST)
+	public ModelAndView goToInsertMember(MemberVo v) {
+		ModelAndView mav = new ModelAndView("main");
+		
+		mav.addObject("viewPage","join/insert_member.jsp");
+		mav.addObject("v",v);
+		String jumin = v.getJumin().substring(0, 6);
+		mav.addObject("jumin",jumin);
+		
+		return mav;
+	}
 
 	//Select
 	@RequestMapping(value="logout.do",produces="text/plain;charset=utf-8")
@@ -173,28 +185,12 @@ public class MemberController {
 
 	//Insert
 	
-	@RequestMapping(value = "/insert_member.do", method = RequestMethod.GET)
-	public ModelAndView goToInsertMember(MemberVo v) {
-		ModelAndView mav = new ModelAndView("main");
-		
-		mav.addObject("viewPage","join/insert_member.jsp");
-		mav.addObject("v",v);
-//		String jumin = v.getJumin().substring(0, 6);
-//		mav.addObject("jumin",jumin);
-		
-		return mav;
-	}
-	
 	@RequestMapping(value = "/insert_member.do", method = RequestMethod.POST)
 	public ModelAndView insert_member(MemberVo v) {
-		ModelAndView mav = new ModelAndView(); // 성공 시 요청 할 내용 입력해야 함 . ex) main 화면
+		ModelAndView mav = new ModelAndView("main");
 		int re = member_dao.insert_member(v);
 
-		if (re != 1) // insert가 실패 했을 경우.
-		{
-			mav.addObject("msg", "insert_member 등록 실패.");
-			mav.setViewName("fail");
-		}
+		mav.addObject("viewPage","join/insertMemberJoinOk.jsp");
 
 		return mav;
 	}
@@ -288,16 +284,22 @@ public class MemberController {
 	
 	@RequestMapping(value="sendMail.do",produces="text/plain;charset=utf-8")
 	@ResponseBody
-	public String mail(String member_id) {
+	public String mail(String member_id,String confirmText) {
 		String str = "";
-		System.out.println(member_id);
-		SimpleMailMessage mailMessage = new SimpleMailMessage();
-		mailMessage.setSubject("[BIT FR]비밀번호 안내.");
-		mailMessage.setFrom("bitfr@naver.com");
-		
 		MemberVo v = member_dao.getOne_member(member_id);
 		
-		mailMessage.setText("귀하의 비밀번호는 < "+v.getPwd()+" > 입니다.");
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+		mailMessage.setFrom("bitfr@naver.com");
+		
+		
+		if(v!=null) {
+			mailMessage.setSubject("[BIT FR]비밀번호 안내.");
+			mailMessage.setText("귀하의 비밀번호는 < "+v.getPwd()+" > 입니다.");
+		}else {
+			mailMessage.setSubject("[BIT FR]인증번호 메일 발송.");
+			mailMessage.setText("[BIT FR]인증번호 ["+confirmText+"]를 입력해 주세요.");
+		}
 		mailMessage.setTo(member_id);
 		
 		try {

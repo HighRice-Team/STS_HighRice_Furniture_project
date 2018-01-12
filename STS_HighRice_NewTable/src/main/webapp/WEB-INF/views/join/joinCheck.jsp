@@ -14,13 +14,12 @@
 		})
 		
 		$("#joinChkBtn").click(function(){
-			if($("#name").val()!=""&&$("#jumin").val()!=""){
-				var name = $("#name").val()
+			if($("#jumin1").val()!=""&&$("#jumin2").val()!=""){
 				var jumin = $("#jumin1").val()+"-"+$("#jumin2").val()
 				//올바른 주민등록번호 인지 검사.
 				var chkJumin = Number(jumin.substr(13,1)) == 11-((2*Number(jumin.substr(0,1))+3*Number(jumin.substr(1,1))+4*Number(jumin.substr(2,1))+5*Number(jumin.substr(3,1))+6*Number(jumin.substr(4,1))+7*Number(jumin.substr(5,1))+8*Number(jumin.substr(7,1))+9*Number(jumin.substr(8,1))+2*Number(jumin.substr(9,1))+3*Number(jumin.substr(10,1))+4*Number(jumin.substr(11,1))+5*Number(jumin.substr(12,1)))%11)
 				if(chkJumin){
-					data = {"name":name,"jumin":jumin}
+					data = {"jumin":jumin}
 					$.ajax({
 						url:"getId_member.do",
 						type:"POST",
@@ -30,7 +29,8 @@
 							{
 								alert("이미 가입된 회원입니다.")
 							}else{
-								location.href="insert_member.do";
+								$("#jumin").val(jumin)
+								$("#F").submit();
 							}
 						}
 					})
@@ -38,7 +38,7 @@
 					$("#msg_joinCheck").html("* 올바르지 않는 주민등록번호 입니다.")
 				}
 			}else{
-				alert("입력정보를 모두 작성해주시길 바랍니다.")
+				alert("주민등록 번호를 작성해주시길 바랍니다.")
 			}
 		})
 		
@@ -50,28 +50,19 @@
 </head>
 <body>
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
-	<h2>JOIN</h2>
-	<center>
-		<div style="border: 1px solid; width: 40%;">
-			<table align="center" width="400" height="200">
-				<tr>
-					<td align="center" colspan="2" style="font-size: 15px;"><b>주민번호 인증이 필요합니다.</b></td><br><br>
-				</tr>
-				<tr>
-					<td>이름 : </td>
-					<td><input type="text" id="name" required="required" style="text-align: center;"></td>	
-				</tr>
-				<tr>
-					<td>주민번호 : </td>
-					<td><input type="text" id="jumin1" required="required" maxlength="6" size="7px" style="text-align: center;">-<input type="password" id="jumin2" required="required" maxlength="7" size="7px" style="text-align: center;"></td>
-				</tr>
-				<tr>
-					<td align="center" colspan="2"><span id="msg_joinCheck" style="color: red;"></span></td>
-					
-				</tr>
-			</table>
-		</div>
-	</center>
+	<h2>Check JOIN</h2>
+	<form id="F" action="joinCheck.do" method="post">
+		
+		<center>
+			<div style="border: 1px solid; width: 40%; height: 100px; text-align: center;">
+				<br><br>주민번호 : <input type="text" id="jumin1" required="required" maxlength="6" size="7px" style="text-align: center;">-<input type="password" id="jumin2" required="required" maxlength="7" size="7px" style="text-align: center;">
+				<br><span id="msg_joinCheck" style="color: red;"></span>
+			</div>
+		</center>
+		
+		<!--JavaScript에서 주민등록번호 유효성 검사를 하고, 결과가 참으로 나올때 jumin 값을 참조하기위해. -->
+		<input type="hidden" name="jumin" id="jumin" value="">
+	</form>
 	<p align="center">
 		<input type="button" value="이전" id="back">
 		<input type="button" value="회원정보 찾기" id="findMemberBtn">
