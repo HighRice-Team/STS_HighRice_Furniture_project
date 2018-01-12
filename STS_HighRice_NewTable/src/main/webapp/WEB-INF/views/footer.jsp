@@ -54,7 +54,12 @@
 					});
 				},
 				"회원가입" : function() {
-					location.replace("joinAccess.do");
+					$.ajax({
+						url : "logout.do",
+						success : function () {
+							location.replace("joinAccess.do");
+						}
+					});
 				}
 			}
 		});

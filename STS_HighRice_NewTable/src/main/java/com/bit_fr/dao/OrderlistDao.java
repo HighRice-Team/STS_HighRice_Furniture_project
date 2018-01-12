@@ -34,6 +34,10 @@ public class OrderlistDao {
 		return OrderlistManager.getAllMyOrder_orderlist(member_id);
 	}
 
+	public List<OrderlistVo> getMyCartList_orderlist(String sql) {
+		return OrderlistManager.getMyCartList_orderlist(sql);
+	}
+
 	// Controller 에서 order_id 가 dao.getNUM_NextOrderID 으로 받아와짐.
 	public int insert_orderlist(OrderlistVo v) {
 		return OrderlistManager.insert_orderlist(v);
@@ -51,6 +55,5 @@ public class OrderlistDao {
 	public int delete_orderlist(String member_id, int product_id) {
 		return OrderlistManager.delete_orderlist(member_id, product_id);
 	}
-	
 
 }
