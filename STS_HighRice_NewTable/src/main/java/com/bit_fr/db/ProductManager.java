@@ -35,10 +35,9 @@ public class ProductManager {
 		return list;
 	}
 
-	public static List<ProductVo> getAll_product(String sort, String category) {
-		HashMap map = new HashMap();
-		map.put("sort", sort);
-		map.put("category", category);
+	public static List<ProductVo> getAll_product(String sql) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
 		SqlSession session = factory.openSession();
 		List<ProductVo> list = session.selectList("product.getAll_product", map);
 		session.close();

@@ -9,8 +9,8 @@ import com.bit_fr.vo.ProductVo;
 
 @Repository
 public class ProductDao {
-	public List<ProductVo> getAll_product(String sort, String category) {
-		return ProductManager.getAll_product(sort, category);
+	public List<ProductVo> getAll_product(String sql) {
+		return ProductManager.getAll_product(sql);
 	}
 
 	public ProductVo getOne_product(int product_id) {

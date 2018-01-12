@@ -9,9 +9,7 @@
 	</select> -->
 	
 	<select id="getAll_product" resultType="productVo">
-		select * from product 
-		<if test="category!=null">where category=#{category}</if> 
-		order by <if test="sort!=null">${sort}, </if>product_id desc
+		${sql}
 	</select>
 
 	<select id="getOne_product" resultType="productVo">

@@ -143,13 +143,7 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("main");
 		mav.addObject("viewPage", "admin/adminPage.jsp");
-		
-		
-//		mav.addObject("listProduct", productDao.getAll_product(null, null));
-//		mav.addObject("listOrder", orderlistDao.getAll_orderlist());
-//		mav.addObject("listMember", memberDao.getAll_member());
-		
-		
+			
 		return mav;
 	}
 	
@@ -158,11 +152,11 @@ public class HomeController {
 	public String admin_product(){
 		String str = "";
 		
-		List<ProductVo> list = productDao.getAll_product(null, null);
+//		List<ProductVo> list = productDao.getAll_product(null, null);
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
-			str = mapper.writeValueAsString(list);
+//			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e);
