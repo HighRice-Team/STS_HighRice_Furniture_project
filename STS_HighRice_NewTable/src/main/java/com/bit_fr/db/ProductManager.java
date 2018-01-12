@@ -180,7 +180,7 @@ public class ProductManager {
 		return re;
 	}
 
-	public static int delete_product(int id) {
+	public static int delete_product(int product_id) {
 
 		SqlSession session = factory.openSession();
 		int re = session.delete("product.delete_product", product_id);
