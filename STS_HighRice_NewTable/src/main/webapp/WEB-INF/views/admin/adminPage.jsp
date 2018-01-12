@@ -26,10 +26,7 @@ $(function(){
 // 				}
 		}
 		
-		 $('.table').DataTable();
-		 
-		
-		
+		 $("#product_grid").jqxGrid({})
 })
 
 </script>
