@@ -101,13 +101,20 @@ public class ProductController {
 
 
 	@RequestMapping("/product.do")
-	public ModelAndView getAll_product(@RequestParam(defaultValue = "") String sort, String category,@RequestParam(defaultValue = "1")int pageNum) {
+
+	public ModelAndView getAll_product(@RequestParam(defaultValue = "") String sort, String category, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "0") int min, @RequestParam(defaultValue = "0") int max) {
 		ModelAndView view = new ModelAndView();
 		int productMax = 16;
 		int endNum = pageNum * productMax;
 		int startNum = endNum - (productMax - 1);
 
 		view.setViewName("main");
+
+		String sql = "select * from (select rownum rnum, product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from (select product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from product where condition='물품게시'";
+		
+		if(category != null && category.equals("")) {
+			category = null;
+		}
 		if (sort != null && sort.equals("")) {
 			sort = null;
 		}
@@ -117,12 +124,39 @@ public class ProductController {
 		if (sort != null && sort.equals("price_max")) {
 			sort = "price desc";
 		}
+
+		if (category != null) {
+			sql += " and category='" + category + "'";
+		}
 		
-		List<ProductVo> list = dao.getAll_product(sort, category, pageNum);
+		sql += " order by ";
+		
+		if (sort != null) {
+			sql += sort+", ";
+		}
+		
+		sql += "product_id desc))";
+		
+		System.out.println("dao이전: "+sql);
+		List<ProductVo> list = dao.getAll_product(sql);
+		System.out.println("dao이후: "+sql);
+		view.addObject("len", list.size());
+		
+		int pageMax = list.size() / productMax;
+		
+		if(list.size() % productMax != 0)
+			pageMax++;
+		
+		sql += "where rnum>=" + startNum + " and rnum<=" + endNum;
+
+		list = dao.getAll_product(sql);
+		System.out.println("최종: "+sql);
+		
 		view.addObject("list", list);
 		view.addObject("viewPage", "product/product.jsp");
 		view.addObject("category", category);
 		view.addObject("sort", sort);
+		view.addObject("pageMax", pageMax);
 		return view;
 	}
 

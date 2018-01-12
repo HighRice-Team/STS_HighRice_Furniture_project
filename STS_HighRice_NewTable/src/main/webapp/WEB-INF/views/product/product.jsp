@@ -7,9 +7,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
+
 .sort {
+<<<<<<< HEAD
  	text-align: right;
 	font-size: 10px;
+=======
+	text-align: right;
+	padding-right: 20px;
+}
+
+.sort a {
+	font-size: 15px;
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 }
 
 p{
@@ -81,12 +91,14 @@ p{
 		<a href="product.do?category=${category }">${category}</a>
 		
 		<hr id="hr">
-		
-		<a href="product.do?sort=quality&category=${category}">품질등급순</a>&nbsp;&nbsp;
-		<a href="product.do?sort=price_min&category=${category }">낮은가격순</a>&nbsp;&nbsp;
-		<a href="product.do?sort=price_max&category=${category }">높은가격순</a>
-		
-		<div style="width: 100%; float:left;" id="product_box">
+		<br>
+		<div class="sort">
+			<a href="product.do?sort=quality&category=${category}">품질등급순</a>&nbsp;&nbsp;
+			<a href="product.do?sort=price_min&category=${category }">낮은가격순</a>&nbsp;&nbsp;
+			<a href="product.do?sort=price_max&category=${category }">높은가격순</a>
+		</div>
+		<br>
+		<div style="width: 100%; float: left;" id="product_box">
 			<c:forEach items="${list }" var="list">
 				<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
 					<a href="productDetail.do?product_id=${list.product_id }">
