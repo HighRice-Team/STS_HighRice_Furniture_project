@@ -11,6 +11,10 @@
 	<select id="getAll_product" resultType="productVo">
 		${sql}
 	</select>
+	
+	<select id="getAll_productAdmin" resultType="productVo">
+		select * from product order by product_id
+	</select>
 
 	<select id="getOne_product" resultType="productVo">
 		select * from product where product_id=#{product_id}

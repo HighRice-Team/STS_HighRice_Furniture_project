@@ -43,6 +43,15 @@ public class ProductManager {
 		session.close();
 		return list;
 	}
+	
+	public static List<ProductVo> getAll_productAdmin(){
+		SqlSession session = factory.openSession();
+		List<ProductVo> list = session.selectList("getAll_productAdmin");
+		
+		session.close();
+		
+		return list;
+	}
 
 	public static ProductVo getOne_product(int product_id) {
 		SqlSession session = factory.openSession();
