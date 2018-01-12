@@ -93,7 +93,8 @@
 		</div>
 		<div style="height: 100px;"></div>
 		<div style="height: 30px;"><h2>SELL LIST</h2></div>
-
+			
+			<c:if test="${not empty list }">
 			<div class="slider" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
 				<c:forEach items="${list }" var="list">
  					<div id="slider_img" class="hover1">
@@ -105,6 +106,7 @@
  					
 - 				</c:forEach>
 			</div>
+			</c:if>
 	</div>
 	
 	<div id="changePwd">
@@ -156,11 +158,11 @@
 				<td id="title">계좌번호</td>
 				<td>	
 					<select id="bank" name="bank">
-						<option value="kb">한국은행</option>
-						<option value="sh">신한은행</option>
-						<option value="nh">농협</option>
-						<option value="bs">부산은행</option>
-						<option value="wr">우리은행</option>
+						<option value="국민">국민</option>
+						<option value="신한">신한</option>
+						<option value="농협">농협</option>
+						<option value="기업">기업</option>
+						<option value="우리">우리</option>
 					</select> 
 						<input type="text" id="account_no" name="account_no" size="40" value="" required="required">
 				</td>
@@ -197,15 +199,11 @@
 				<td id="title">비밀번호 힌트</td>
 <%-- 				<input type="hidden" value="${v.getPwd_q()}" id="getPwd_q" > --%>
 				<td colspan="4"><select id="pwd_q" name="pwd_q">
-						<option value="a">a</option>
-						<option value="b">b</option>
-						<option value="c">c</option>
-						<option value="d">d</option>
-						<option value="e">e</option>
-						<option value="f">f</option>
-						<option value="g">g</option>
-						<option value="h">h</option>
-						<option value="i">i</option>
+						<option value="자신의 보물 제 1호는?">자신의 보물 제 1호는?</option>
+						<option value="자신의 출신 초등학교는?">자신의 출신 초등학교는?</option>
+						<option value="인상깊게 읽은 책 이름은?">인상깊게 읽은 책 이름은?</option>
+						<option value="가장 기억에 남는 선물은?">가장 기억에 남는 선물은?</option>
+						
 				</select></td>
 			</tr>
 			<tr>

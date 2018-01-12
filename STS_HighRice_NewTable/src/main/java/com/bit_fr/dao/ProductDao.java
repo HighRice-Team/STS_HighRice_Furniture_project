@@ -13,8 +13,8 @@ public class ProductDao {
 		return ProductManager.getAll_product(sort, category);
 	}
 
-	public List<ProductVo> getOne_product(int id) {
-		return ProductManager.getOne_product(id);
+	public ProductVo getOne_product(int product_id) {
+		return ProductManager.getOne_product(product_id);
 	}
 
 	public int getNextId_product() {

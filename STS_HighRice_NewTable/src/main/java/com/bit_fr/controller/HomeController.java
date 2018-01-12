@@ -153,7 +153,7 @@ public class HomeController {
 			totalPage_product++;
 		}
 		
-		mav.addObject("listProduct", productDao.getAll_product());
+		mav.addObject("listProduct", productDao.getAll_product(null, null));
 		mav.addObject("totalPage_product", totalPage_product);
 		
 		mav.addObject("listOrder", orderlistDao.getAll_orderlist());
