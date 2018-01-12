@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style type="text/css">
 .sort {
-	text-align: right;
+ 	text-align: right;
 	font-size: 10px;
 }
 
@@ -35,7 +35,6 @@ p{
 	color: white;
 }
 </style>
-<!--  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -66,11 +65,11 @@ p{
 			$(this).removeClass("over");
 		})
 
-		$(".category_img").css("width", $("#hr").width() * 0.225)
-		$(".category_img").css("height", $("#hr").width() * 0.225)
+		$(".category_img").css("width", $("#product_box").width() * 0.225)
+		$(".category_img").css("height", $("#product_box").width() * 0.225)
 		$(window).resize(function() {
-			$(".category_img").css("width", $("#hr").width() * 0.225)
-			$(".category_img").css("height", $("#hr").width() * 0.225)
+			$(".category_img").css("width", $("#product_box").width() * 0.225)
+			$(".category_img").css("height", $("#product_box").width() * 0.225)
 		})
 	})
 </script>
@@ -78,18 +77,16 @@ p{
 <body>
 
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0; position: relative;">
-		<div>
-			<a href="product.do?category=${category }">${category}</a>
-		</div>
+		
+		<a href="product.do?category=${category }">${category}</a>
+		
 		<hr id="hr">
-		<div>
-			<br>
-			<a href="product.do?sort=quality&category=${category}">품질등급순</a>&nbsp;&nbsp;
-			<a href="product.do?sort=price_min&category=${category }">낮은가격순</a>&nbsp;&nbsp;
-			<a href="product.do?sort=price_max&category=${category }">높은가격순</a>
-		</div>
-		<br>
-		<div style="width: 100%; float: left;" id="product_box">
+		
+		<a href="product.do?sort=quality&category=${category}">품질등급순</a>&nbsp;&nbsp;
+		<a href="product.do?sort=price_min&category=${category }">낮은가격순</a>&nbsp;&nbsp;
+		<a href="product.do?sort=price_max&category=${category }">높은가격순</a>
+		
+		<div style="width: 100%; float:left;" id="product_box">
 			<c:forEach items="${list }" var="list">
 				<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
 					<a href="productDetail.do?product_id=${list.product_id }">
@@ -103,13 +100,12 @@ p{
 				</div>
 			</c:forEach>
 		</div>
-
 		<div>
 			<c:forEach var="pageNum" begin="1" end="${pageMax }">
-				<a
-					href="product.do?pageNum=${pageNum }&category=${category}&order=${order}">${pageNum}</a>
+				<a href="product.do?pageNum=${pageNum }&category=${category}&order=${order}">${pageNum}</a>
 			</c:forEach>
 		</div>
 	</div>
+	
 </body>
 </html>

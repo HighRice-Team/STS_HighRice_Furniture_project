@@ -35,10 +35,11 @@ public class ProductManager {
 		return list;
 	}
 
-	public static List<ProductVo> getAll_product(String sort, String category) {
+	public static List<ProductVo> getAll_product(String sort, String category, int pageNum) {
 		HashMap map = new HashMap();
 		map.put("sort", sort);
 		map.put("category", category);
+		map.put("pageNum", pageNum);
 		SqlSession session = factory.openSession();
 		List<ProductVo> list = session.selectList("product.getAll_product", map);
 		session.close();
