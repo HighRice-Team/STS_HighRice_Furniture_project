@@ -131,5 +131,4 @@ public class ProductController {
 		return view;
 	}
 
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 }
