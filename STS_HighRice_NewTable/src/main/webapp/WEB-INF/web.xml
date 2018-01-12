@@ -56,6 +56,7 @@
 	<filter-mapping>
 		<filter-name>loginMember</filter-name>
 		<url-pattern>/myPage.do</url-pattern>
+		<url-pattern>/cartList.do</url-pattern>
 	</filter-mapping>
 
 </web-app>

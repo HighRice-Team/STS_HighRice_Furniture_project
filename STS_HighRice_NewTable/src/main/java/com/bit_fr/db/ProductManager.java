@@ -155,10 +155,10 @@ public class ProductManager {
 		return re;
 	}
 
-	public static int updateCondition_product(int id, String condition) {
-		SqlSession session = factory.openSession();
+	public static int updateCondition_product(int product_id, String condition) {
+		SqlSession session = factory.openSession(true);
 		HashMap map = new HashMap();
-		map.put("id", id);
+		map.put("product_id", product_id);
 		map.put("condition", condition);
 		int re = session.update("product.updateCondition_product", map);
 		session.close();

@@ -5,19 +5,25 @@
 <mapper namespace="orderlist">
 
 	<select id="getCheckExist_orderlist" resultType="java.lang.Integer">
-		select count(*) from
+		select count(*)
+		from
 		orderlist where member_id = #{member_id} and product_id
-		= #{product_id}
+		=
+		#{product_id}
 	</select>
 
 	<select id="getCountNextOrderId_orderlist" resultType="java.lang.Integer">
-		select nvl(
+		select
+		nvl(
 		max(order_id)+1, 0 ) from orderlist
 	</select>
 
 	<select id="getCountToMyCondition_orderlist" resultType="java.lang.Integer">
-		select count(product_id) from orderlist where member_id = #{member_id} and product_id in
-		(select product_id from product where condition = #{condition})
+		select
+		count(product_id) from orderlist where member_id = #{member_id} and
+		product_id in
+		(select product_id from product where condition =
+		#{condition})
 	</select>
 
 	<select id="getAll_orderlist" resultType="orderlistVo">
@@ -25,13 +31,19 @@
 	</select>
 
 	<select id="getMyOrderlistToCondition_orderlist" resultType="orderlistVo">
-		select * from orderlist	where member_id = #{member_id} and product_id in
+		select * from orderlist where member_id = #{member_id} and product_id
+		in
 		(select product_id from product where condition = #{condition})
 	</select>
 
 	<select id="getAllMyOrder_orderlist" resultType="orderlistVo">
-		select * from orderlist
+		select * from
+		orderlist
 		where member_id = #{member_id}
+	</select>
+
+	<select id="getMyCartList_orderlist" resultType="orderlistVo">
+		${sql}
 	</select>
 
 	<insert id="insert_orderlist">
@@ -42,20 +54,26 @@
 	</insert>
 
 	<update id="updateRentMonth_orderlist">
-		update orderlist set rent_month = #{rent_month} 
-		where member_id = #{member_id} and product_id = #{product_id}
+		update orderlist set rent_month = #{rent_month} , rent_end = ADD_MONTHS(rent_start , #{rent_month})
+		where
+		member_id = #{member_id} and product_id = #{product_id}
 	</update>
 
-	<update id="updateRentEnd_orderlist">
+	<!-- <update id="updateRentEnd_orderlist">
 		update orderlist set rent_end =
-		(select ADD_MONTHS(rent_start, rent_month)
-		from orderlist where order_id = #{order_id})
+		(select
+		ADD_MONTHS(rent_start, rent_month)
+		from orderlist where order_id =
+		#{order_id})
 		where order_id = #{order_id}
-	</update>
+	</update> -->
 
 	<delete id="delete_orderlist">
-		delete orderlist 
-		where member_id = #{member_id} and product_id = #{product_id}
+		delete orderlist
+		where member_id = #{member_id} and
+		product_id = #{product_id}
 	</delete>
+	
+	
 
 </mapper>

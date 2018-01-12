@@ -111,11 +111,15 @@ a {
 				<a href="myPage.do">MYPAGE</a><br>
 				
 				
-				<a href="">CART</a><br>
+				<a href="cartList.do">CART</a><br>
 				
 				<!-- 관리자 -->
 				<c:if test="${sessionScope.grade==0}">
+<<<<<<< HEAD
+					<a href="">ADMIN</a><br>
+=======
 					<a href="admin.do">ADMIN</a><br>
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 				</c:if>
 				
 			</div>

@@ -50,14 +50,13 @@ public class OrderlistManager {
 	}
 
 	public static int getCountToMyCondition_orderlist(String member_id, String condition) {
-		System.out.println("333");
 		int count_MyProduct = -1;
 		SqlSession session = factory.openSession();
 
 		HashMap map = new HashMap();
 		map.put("member_id", member_id);
 		map.put("condition", condition);
-		
+
 		count_MyProduct = session.selectOne("orderlist.getCountToMyCondition_orderlist", map);
 		session.close();
 
@@ -85,12 +84,25 @@ public class OrderlistManager {
 
 		return list;
 	}
-	
 
 	public static List<OrderlistVo> getAllMyOrder_orderlist(String member_id) {
+		HashMap map = new HashMap();
+		map.put("member_id", member_id);
+
 		SqlSession session = factory.openSession();
 
-		List<OrderlistVo> list = session.selectList("orderlist.getAllMyOrder_orderlist", member_id);
+		List<OrderlistVo> list = session.selectList("orderlist.getAllMyOrder_orderlist", map);
+		session.close();
+
+		return list;
+	}
+
+	public static List<OrderlistVo> getMyCartList_orderlist(String sql) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+
+		SqlSession session = factory.openSession();
+		List<OrderlistVo> list = session.selectList("orderlist.getMyCartList_orderlist", map);
 		session.close();
 
 		return list;
@@ -130,9 +142,12 @@ public class OrderlistManager {
 
 	public static int updateRentEnd_orderlist(int order_id) {
 		int re = -1;
+		HashMap map = new HashMap();
+		map.put("order_id", order_id);
+
 		SqlSession session = factory.openSession(true);
 
-		re = session.update("orderlist.updateRentEnd_orderlist", order_id);
+		re = session.update("orderlist.updateRentEnd_orderlist", map);
 		session.close();
 
 		return re;

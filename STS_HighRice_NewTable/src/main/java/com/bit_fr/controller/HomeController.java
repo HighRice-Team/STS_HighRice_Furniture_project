@@ -27,7 +27,6 @@ import com.bit_fr.vo.ProductVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 /**
  * Handles requests for the application home page.
  */
@@ -38,14 +37,13 @@ public class HomeController {
 
 	@Autowired
 	private MemberDao memberDao;
-	
+
 	@Autowired
 	private ProductDao productDao;
-	
+
 	@Autowired
 	private OrderlistDao orderlistDao;
-	
-	
+
 	public void setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
 	}
@@ -76,29 +74,28 @@ public class HomeController {
 	}
 
 	@RequestMapping("myPage.do")
-	public ModelAndView goMyPage(HttpSession session, @RequestParam(value="min", defaultValue="1")int min) {
+	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min) {
 		ModelAndView mav = new ModelAndView();
 		
 		String member_id = (String)session.getAttribute("id");
-//		String member_id = "a1";
 		MemberVo member = memberDao.getOne_member(member_id);
-		
+
 		int max = min + 3;
-		
+
 		int rent1 = orderlistDao.getCountToMyCondition_orderlist(member_id, "입금완료");
 		int rent2 = orderlistDao.getCountToMyCondition_orderlist(member_id, "대여중");
 		int rent3 = orderlistDao.getCountToMyCondition_orderlist(member_id, "배송중");
 		int rent4 = orderlistDao.getCountToMyCondition_orderlist(member_id, "반납");
-		
-//		int rent1 = productDao.getMySellCountWithCondition_product(member_id, "입금완료");
-//		int rent2 = productDao.getMySellCountWithCondition_product(member_id, "대여중");
-//		int rent3 = productDao.getMySellCountWithCondition_product(member_id, "베송중");
-//		int rent4 = productDao.getMySellCountWithCondition_product(member_id, "반납");
-//		
+
+		// int rent1 = productDao.getMySellCountWithCondition_product(member_id,
+		// "입금완료");
+		// int rent2 = productDao.getMySellCountWithCondition_product(member_id, "대여중");
+		// int rent3 = productDao.getMySellCountWithCondition_product(member_id, "베송중");
+		// int rent4 = productDao.getMySellCountWithCondition_product(member_id, "반납");
+		//
 		int total = productDao.getMySellCount_product(member_id);
 		List<ProductVo> list = productDao.getMySellForPaging_product(member_id, min, max);
-		
-		
+
 		mav.addObject("member", member);
 		mav.addObject("rent1", rent1);
 		mav.addObject("rent2", rent2);
@@ -108,33 +105,34 @@ public class HomeController {
 		mav.addObject("list", list);
 		mav.addObject("len", list.size());
 		mav.addObject("min", min);
-		
+
 		mav.addObject("viewPage", "myPage.jsp");
-		
+
 		mav.setViewName("main");
-		
+
 		return mav;
 	}
 	
 	@RequestMapping(value = "/sellWrite.do")
 	public ModelAndView sellWrite() {
-		ModelAndView mav =  new ModelAndView();
-		
+		ModelAndView mav = new ModelAndView();
+
 		mav.addObject("viewPage", "sell/sellWrite.jsp");
 		mav.setViewName("main");
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/orderlistByCondition.do")
 	public ModelAndView orderlistByCondition() {
 		ModelAndView mav = new ModelAndView();
-		
+
 		mav.addObject("viewPage", "orderlist/orderlistByCondition.jsp");
 		mav.setViewName("main");
-		
+
 		return mav;
 	}
+
 	
 	@RequestMapping("admin.do")
 	public ModelAndView admin(){
@@ -163,8 +161,5 @@ public class HomeController {
 		return mav;
 	}
 	
-	
-	
-	
-	
+
 }
