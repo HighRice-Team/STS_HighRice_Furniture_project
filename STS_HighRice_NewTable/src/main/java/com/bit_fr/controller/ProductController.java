@@ -64,7 +64,7 @@ public class ProductController {
 			pageMax++;
 
 		sql += "where rnum>=" + startNum + " and rnum<=" + endNum;
-
+		System.out.println(sql);
 		list = dao.getCust(sql);
 
 		mav.addObject("list", list);
