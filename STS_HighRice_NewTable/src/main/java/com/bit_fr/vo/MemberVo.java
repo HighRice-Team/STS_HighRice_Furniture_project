@@ -13,7 +13,7 @@ public class MemberVo {
 	private int payback;
 	private String account_no;
 	private String bank;
-	private int balance;
+	private long balance;
 	private int grade;
 
 	public String getMember_id() {
@@ -22,6 +22,14 @@ public class MemberVo {
 
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberVo [member_id=" + member_id + ", pwd=" + pwd + ", name=" + name + ", tel=" + tel + ", jumin="
+				+ jumin + ", pwd_q=" + pwd_q + ", pwd_a=" + pwd_a + ", address=" + address + ", address_detail="
+				+ address_detail + ", payback=" + payback + ", account_no=" + account_no + ", bank=" + bank
+				+ ", balance=" + balance + ", grade=" + grade + "]";
 	}
 
 	public String getPwd() {
@@ -112,11 +120,11 @@ public class MemberVo {
 		this.bank = bank;
 	}
 
-	public int getBalance() {
+	public long getBalance() {
 		return balance;
 	}
 
-	public void setBalance(int balance) {
+	public void setBalance(long balance) {
 		this.balance = balance;
 	}
 
@@ -129,7 +137,7 @@ public class MemberVo {
 	}
 
 	public MemberVo(String member_id, String pwd, String name, String tel, String jumin, String pwd_q, String pwd_a,
-			String address, String address_detail, int payback, String account_no, String bank, int balance,
+			String address, String address_detail, int payback, String account_no, String bank, long balance,
 			int grade) {
 		super();
 		this.member_id = member_id;

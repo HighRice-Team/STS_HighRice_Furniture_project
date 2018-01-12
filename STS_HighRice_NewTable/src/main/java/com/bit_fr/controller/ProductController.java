@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit_fr.dao.ProductDao;
 import com.bit_fr.vo.ProductVo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class ProductController {
@@ -76,6 +78,29 @@ public class ProductController {
 		return mav;
 	}
 
+	
+	@RequestMapping(value="delete_product.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String delete_product(int product_id){
+		System.out.println(product_id);
+		String str = "";
+		
+		int re = dao.delete_product(product_id);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
+	
+
+
 	@RequestMapping("/product.do")
 	public ModelAndView getAll_product(@RequestParam(defaultValue = "") String sort, String category) {
 		ModelAndView view = new ModelAndView();
@@ -101,8 +126,10 @@ public class ProductController {
 	@RequestMapping("/productDetail.do")
 	public ModelAndView getOne_product(int product_id) {
 		ModelAndView view = new ModelAndView();
-		List<ProductVo> list = dao.getOne_product(product_id);
-		view.addObject("v", list);
+		view.setViewName("main");
+		ProductVo p = dao.getOne_product(product_id);
+		view.addObject("list", p);
+		view.addObject("viewPage", "product/productDetail.jsp");
 		return view;
 	}
 

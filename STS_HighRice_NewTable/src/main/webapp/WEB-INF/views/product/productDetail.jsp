@@ -1,19 +1,24 @@
 <!-- 아이디 전달값 수정 필요 -->
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="./css/jquery-ui.min.css">
-<link rel="stylesheet" href="./product/fancybox/jquery.fancybox-1.3.4.css">
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src="product/fancybox/jquery.fancybox-1.3.4.js"></script>
-<script type="text/javascript" src="product/fancybox/jquery.easing-1.3.pack.js"></script>
-<script type="text/javascript" src="product/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+<link rel="stylesheet"
+	href="./product/fancybox/jquery.fancybox-1.3.4.css">
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
+<script type="text/javascript"
+	src="product/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript"
+	src="product/fancybox/jquery.easing-1.3.pack.js"></script>
+<script type="text/javascript"
+	src="product/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
 <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript">
@@ -134,64 +139,48 @@
 </script>
 </head>
 <body>
-   <div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
-      <h2>
-         <a href="product.do?item=${v.getItem() }">${v.getItem() }</a>
-      </h2><hr>
-      <div style="width: 100%; height: 300px;">
-         <div style="width: 35%; float: left; margin-left: 5%" >
-            <a id="main_img" rel="fancybox" href="img/product/${v.getMain_img()}">
-               <img src="img/product/${v.getMain_img()}"style="width: 100%; height: 300px;">
-            </a>
-         </div>
-         <div style="width: 55%;float: right; text-align: right; margin: 25px 5% 0 0">
-            <input type="hidden" value="${v.getProduct_id() }" id="product_id">
-            <input type="hidden" value="${member_id }" id="member_id"> 
-            <input type="hidden" value="${v.getPrice() }" id="price">
-            ${v.getItem() }
-            <h2> ${v.getProduct_name() }</h2><br><br> 
-            가격  : ${v.getPrice() }&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;
-               <select id="rentMonth">
-                  <option selected="selected" disabled="disabled">대여기간</option>
-                  <option value=6>6개월</option>
-                  <option value=7>7개월</option>
-                  <option value=8>8개월</option>
-                  <option value=9>9개월</option>
-                  <option value=10>10개월</option>
-                  <option value=11>11개월</option>
-                  <option value=12>1년</option>
-               </select><br><br>
-               <!-- <p>대여 시작일 : <input type="date" id="cal"></p> 대여 시작일은 <span id="day"></span>일 입니다.<br><br>-->
-                <c:if test="${v.getMember_id()!=sessionScope.id}">
-                  &nbsp;&nbsp;&nbsp;<input type="button" value="장바구니"
-                  onclick="cart()">&nbsp;&nbsp;&nbsp;
-                  <input type="button" value="물품 대여" onclick="payment_info()">
-            </c:if>
-         </div>
-      </div><hr>
-      <div style="background-color: grey;">
-         <h1>Sub영역</h1>
-      </div>
-   </div>
-   
-   <div id="loginDialog" title="로그인">
-      <form id="loginForm">
-         <table>
-            <tr>
-               <td>ID:</td>
-               <td><input type="text" id="login_member_id"
-                  name="login_member_id"></td>
-            </tr>
-            <tr>
-               <td>PW:</td>
-               <td><input type="password" id="login_pwd" name="login_pwd"></td>
-            </tr>
-            <tr>
-               <td colspan="2" style="color: red" id="msg"></td>
-            </tr>
-         </table>
-      </form>
-      <br>
-   </div>
+	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
+		<h2>
+			<a href="product.do?category=${category }">${category }</a>
+		</h2>
+		<hr>
+		<div style="width: 100%; height: 300px;">
+			<div style="width: 35%; float: left; margin-left: 5%">
+			<!--            <a id="main_img" rel="fancybox" href="resources/img/product/${list.main_img}">-->
+				<img src="resources/img/product/${list.main_img}" style="width: 100%; height: 300px;">
+			<!--             </a> -->
+			</div>
+			<div style="width: 55%; float: right; text-align: right; margin: 25px 5% 0 0">
+				<input type="hidden" value="${list.product_id }" id="product_id">
+				<input type="hidden" value="${member_id }" id="member_id">
+				<input type="hidden" value="${list.price }" id="price">
+				${list.category }
+				<h2>${list.product_name }</h2>
+				<br>
+				<br> 가격 : ${list.price}&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp; 
+				<select id="rentMonth">
+					<option selected="selected" disabled="disabled">대여기간</option>
+					<option value=6>6개월</option>
+					<option value=7>7개월</option>
+					<option value=8>8개월</option>
+					<option value=9>9개월</option>
+					<option value=10>10개월</option>
+					<option value=11>11개월</option>
+					<option value=12>1년</option>
+				</select><br>
+				<br>
+				<!-- <p>대여 시작일 : <input type="date" id="cal"></p> 대여 시작일은 <span id="day"></span>일 입니다.<br><br>-->
+				<c:if test="${list.member_id!=sessionScope.id}">&nbsp;&nbsp;&nbsp;
+					<input type="button" value="장바구니" onclick="cart()">&nbsp;&nbsp;&nbsp;
+	                <input type="button" value="물품 대여" onclick="payment_info()">
+				</c:if>
+			</div>
+		</div>
+		<hr>
+		<div style="background-color: grey;">
+			<img src="resources/img/product/${list.sub_img}" style="width: 100%;">
+		</div>
+	</div>
+
 </body>
 </html>
