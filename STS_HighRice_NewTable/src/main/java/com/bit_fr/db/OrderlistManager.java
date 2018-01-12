@@ -50,7 +50,6 @@ public class OrderlistManager {
 	}
 
 	public static int getCountToMyCondition_orderlist(String member_id, String condition) {
-		System.out.println("333");
 		int count_MyProduct = -1;
 		SqlSession session = factory.openSession();
 

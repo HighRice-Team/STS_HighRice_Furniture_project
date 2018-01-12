@@ -74,7 +74,7 @@
 	</update>
 	
 	<update id="updateAdmin_product">
-		update product set item = #{item}, product_name =#{product_name}, condition = #{condition}, quality =#{quality}, price = #{price} where product_id =#{product_id}
+		update product set category = #{category}, product_name =#{product_name}, condition = #{condition}, quality =#{quality}, price = #{price} where product_id =#{product_id}
 	</update>
 	
 	<delete id="delete_product">

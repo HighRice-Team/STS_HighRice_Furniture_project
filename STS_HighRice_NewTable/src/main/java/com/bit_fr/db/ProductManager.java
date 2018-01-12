@@ -166,16 +166,11 @@ public class ProductManager {
 		return re;
 	}
 
-	public static int updateAdmin_product(String category, String product_name, String condition, String quality,
-			int price) {
+	public static int updateAdmin_product(ProductVo p) {
 		SqlSession session = factory.openSession();
-		HashMap map = new HashMap();
-		map.put("category", category);
-		map.put("product_name", product_name);
-		map.put("condition", condition);
-		map.put("quality", quality);
-		map.put("price", price);
-		int re = session.update("product.updateAdmin_product", map);
+		
+		int re = session.update("product.updateAdmin_product", p);
+		session.commit();
 		session.close();
 		return re;
 	}

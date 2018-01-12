@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,6 +24,7 @@ import com.bit_fr.dao.MemberDao;
 import com.bit_fr.dao.OrderlistDao;
 import com.bit_fr.dao.ProductDao;
 import com.bit_fr.vo.MemberVo;
+import com.bit_fr.vo.OrderlistVo;
 import com.bit_fr.vo.ProductVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -136,34 +138,121 @@ public class HomeController {
 		return mav;
 	}
 	
-	@RequestMapping("admin.do")
+	@RequestMapping("/admin.do")
 	public ModelAndView admin(){
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("main");
 		mav.addObject("viewPage", "admin/adminPage.jsp");
 		
-		int page = 10;
 		
-		int totalRecord_product = productDao.getCount_product();
-		int totalRecord_orderList = orderlistDao.getCountNextOrderId_orderlist() -1;
-		int totalRecord_member = memberDao.getCount_member();
-		
-		int totalPage_product = totalRecord_product/page;
-		if(totalRecord_product%page != 0 ){
-			totalPage_product++;
-		}
-		
-		mav.addObject("listProduct", productDao.getAll_product(null, null));
-		mav.addObject("totalPage_product", totalPage_product);
-		
-		mav.addObject("listOrder", orderlistDao.getAll_orderlist());
-		mav.addObject("listMember", memberDao.getAll_member());
+//		mav.addObject("listProduct", productDao.getAll_product(null, null));
+//		mav.addObject("listOrder", orderlistDao.getAll_orderlist());
+//		mav.addObject("listMember", memberDao.getAll_member());
 		
 		
 		return mav;
 	}
 	
+	@RequestMapping("/admin_product.do")
+	@ResponseBody
+	public String admin_product(){
+		String str = "";
+		
+		List<ProductVo> list = productDao.getAll_product(null, null);
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			str = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
 	
+	@RequestMapping("/admin_orderlist.do")
+	@ResponseBody
+	public String admin_orderlist(){
+		String str = "";
+		
+		List<OrderlistVo> list = orderlistDao.getAll_orderlist();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			str = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
+	
+	@RequestMapping("/admin_member.do")
+	@ResponseBody
+	public String admin_member(){
+		String str = "";
+		
+		List<MemberVo> list = memberDao.getAll_member();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			str = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
+	@RequestMapping("/adminUpdate_product.do")
+	@ResponseBody
+	public String adminUpdate_product(ProductVo p){
+		String str = "";
+		
+		int re = productDao.updateAdmin_product(p);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
+	@RequestMapping("adminUpdate_orderlist.do")
+	@ResponseBody
+	public String adminUpdate_orderlist(OrderlistVo o){
+		String str = "";
+		
+	
+		
+		return str;
+	}
+	
+	@RequestMapping("adminUpdate_member.do")
+	@ResponseBody
+	public String adminUpdate_member(MemberVo m){
+		String str = "";
+		
+		int re = memberDao.updateInfo_member(m);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
 	
 	
 	
