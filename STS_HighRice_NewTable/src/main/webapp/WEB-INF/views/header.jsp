@@ -111,10 +111,10 @@ a {
 				<a href="myPage.do">MYPAGE</a><br>
 				
 				
-				<a href="">CART</a><br>
+				<a href="cartList.do">CART</a><br>
 				
 				<!-- 관리자 -->
-				<c:if test="${sessionScope.grade==1}">
+				<c:if test="${sessionScope.grade==0}">
 					<a href="">ADMIN</a><br>
 				</c:if>
 				

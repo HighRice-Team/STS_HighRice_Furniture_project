@@ -69,8 +69,8 @@ public class ProductDao {
 		return ProductManager.update_product(product_name, category, quality, main_img, sub_img);
 	}
 
-	public int updateCondition_product(int id, String condition) {
-		return ProductManager.updateCondition_product(id, condition);
+	public int updateCondition_product(int product_id, String condition) {
+		return ProductManager.updateCondition_product(product_id, condition);
 	}
 
 	public int updateAdmin_product(String category, String product_name, String condition, String quality, int price) {
