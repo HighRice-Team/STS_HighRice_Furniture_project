@@ -49,8 +49,6 @@ public class MemberController {
 	@RequestMapping("search.do")
 	public void goSearchAddress() {}
 
-
-	// 단순 뷰페이지 이동
 	@RequestMapping("/joinAccess.do")
 	public ModelAndView gotoJoinAccess() {
 		ModelAndView mav = new ModelAndView("main");
@@ -145,14 +143,6 @@ public class MemberController {
 		}
 		return str;
 	}
-
-//	@RequestMapping("/getOne_member.do")
-//	public ModelAndView getOne_member(String member_id) {
-//		ModelAndView mav = new ModelAndView();
-//		mav.addObject("v", member_dao.getOne_member(member_id));
-//
-//	return str;
-//	}
 
 	@RequestMapping(value = "/getOne_member_ajax.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody

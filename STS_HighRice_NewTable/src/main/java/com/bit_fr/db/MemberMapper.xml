@@ -48,7 +48,7 @@
 		#{account_no},
 		#{bank},
 		#{balance},
-		#{grade})
+		1)
 	</insert>
 
 
