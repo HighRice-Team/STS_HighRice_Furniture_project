@@ -78,8 +78,8 @@ public class HomeController {
 	@RequestMapping("myPage.do")
 	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min) {
 		ModelAndView mav = new ModelAndView();
-		
-		String member_id = (String)session.getAttribute("id");
+
+		String member_id = (String) session.getAttribute("id");
 		MemberVo member = memberDao.getOne_member(member_id);
 
 		int max = min + 3;
@@ -91,9 +91,12 @@ public class HomeController {
 
 		// int rent1 = productDao.getMySellCountWithCondition_product(member_id,
 		// "입금완료");
-		// int rent2 = productDao.getMySellCountWithCondition_product(member_id, "대여중");
-		// int rent3 = productDao.getMySellCountWithCondition_product(member_id, "베송중");
-		// int rent4 = productDao.getMySellCountWithCondition_product(member_id, "반납");
+		// int rent2 = productDao.getMySellCountWithCondition_product(member_id,
+		// "대여중");
+		// int rent3 = productDao.getMySellCountWithCondition_product(member_id,
+		// "베송중");
+		// int rent4 = productDao.getMySellCountWithCondition_product(member_id,
+		// "반납");
 		//
 		int total = productDao.getMySellCount_product(member_id);
 		List<ProductVo> list = productDao.getMySellForPaging_product(member_id, min, max);
@@ -114,7 +117,7 @@ public class HomeController {
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/sellWrite.do")
 	public ModelAndView sellWrite() {
 		ModelAndView mav = new ModelAndView();
@@ -135,121 +138,111 @@ public class HomeController {
 		return mav;
 	}
 
-	
 	@RequestMapping("/admin.do")
-	public ModelAndView admin(){
+	public ModelAndView admin() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("main");
 		mav.addObject("viewPage", "admin/adminPage.jsp");
-			
+
 		return mav;
 	}
-	
-<<<<<<< HEAD
+
 	@RequestMapping("/admin_product.do")
 	@ResponseBody
-	public String admin_product(){
+	public String admin_product() {
 		String str = "";
-		
+
 		List<ProductVo> list = productDao.getAll_productAdmin();
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		try {
 			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e);
 		}
-		
+
 		return str;
 	}
-	
+
 	@RequestMapping("/admin_orderlist.do")
 	@ResponseBody
-	public String admin_orderlist(){
+	public String admin_orderlist() {
 		String str = "";
-		
+
 		List<OrderlistVo> list = orderlistDao.getAll_orderlist();
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		try {
 			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e);
 		}
-		
+
 		return str;
 	}
-	
-	
+
 	@RequestMapping("/admin_member.do")
 	@ResponseBody
-	public String admin_member(){
+	public String admin_member() {
 		String str = "";
-		
+
 		List<MemberVo> list = memberDao.getAll_member();
 		ObjectMapper mapper = new ObjectMapper();
-		
+
 		try {
 			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e);
 		}
-		
+
 		return str;
 	}
-	
+
 	@RequestMapping("/adminUpdate_product.do")
 	@ResponseBody
-	public String adminUpdate_product(ProductVo p){
+	public String adminUpdate_product(ProductVo p) {
 		String str = "";
-		
-		int re = productDao.updateAdmin_product(p);
-		
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			str = mapper.writeValueAsString(re);
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-		
-		return str;
-	}
-	
-	@RequestMapping("adminUpdate_orderlist.do")
-	@ResponseBody
-	public String adminUpdate_orderlist(OrderlistVo o){
-		String str = "";
-		
-	
-		
-		return str;
-	}
-	
-	@RequestMapping("adminUpdate_member.do")
-	@ResponseBody
-	public String adminUpdate_member(MemberVo m){
-		String str = "";
-		
-		int re = memberDao.updateInfo_member(m);
-		
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			str = mapper.writeValueAsString(re);
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
-		}
-		
-		return str;
-	}
-	
-	
-	
-=======
 
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
+		int re = productDao.updateAdmin_product(p);
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+
+		return str;
+	}
+
+	@RequestMapping("/adminUpdate_orderlist.do")
+	@ResponseBody
+	public String adminUpdate_orderlist(OrderlistVo o) {
+		String str = "";
+
+		return str;
+	}
+
+	@RequestMapping("/adminUpdate_member.do")
+	@ResponseBody
+	public String adminUpdate_member(MemberVo m) {
+		String str = "";
+
+		int re = memberDao.updateInfo_member(m);
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+
+		return str;
+	}
+
 }
