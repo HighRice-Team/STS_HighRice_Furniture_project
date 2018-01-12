@@ -64,17 +64,11 @@
 	<!-- 회원계정의 정보변경 -->
 	<update id="updateInfo_member">
 		update member set 
-<<<<<<< HEAD
-		
-=======
-		tel = #{tel},
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 		pwd_q = #{pwd_q},
 		pwd_a = #{pwd_a},
 		address = #{address},
 		address_detail = #{address_detail},
 		account_no = #{account_no},
-<<<<<<< HEAD
 		bank = #{bank},
 		<if test="balance != null">
 		balance = #{balance},
@@ -85,9 +79,6 @@
 		tel = #{tel}
 		 
 		where member_id = #{member_id}
-=======
-		bank = #{bank}	where member_id = #{member_id}
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 	</update>
 
 <!-- Delete -->
