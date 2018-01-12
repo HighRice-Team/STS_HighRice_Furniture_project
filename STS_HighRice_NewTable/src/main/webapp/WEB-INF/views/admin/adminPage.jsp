@@ -26,7 +26,162 @@ $(function(){
 // 				}
 		}
 		
-		 $("#product_grid").jqxGrid({})
+		
+		$("#product_grid").jsGrid({
+	        width: "100%",
+	        height: "auto",
+	        editing:true,
+	        filtering: true,
+	        sorting: true,
+	        paging: true,
+	        autoload: true,
+	        
+	        pageSize : 10,
+	        pageButtonCount:5,
+	        
+	        controller : {
+	        	loadData: function() {
+	        	var def = $.Deferred();
+	        	$.ajax({
+	        			url:'admin_product.do',
+	        	        dataType : "json"
+	        		 }).done(function(response) {
+	        			def.resolve(response);
+	        		});
+	        	return def.promise();
+	            },
+	            
+	            updateItem : function(item){
+	            	
+	            	$.ajax({
+	            		url:'adminUpdate_product.do',
+	            		data:item,
+	            		success:function(data){
+	            			alert("변경 완료")
+	            		}
+	            	})
+	            }
+	        },
+	        
+	        fields: [
+	            { name: "product_id", type: "text", width: 50, readOnly:true },
+	            { name: "category", type: "text", width: 50 },
+	            { name: "product_name", type: "text", width: 200 },
+	            { name: "member_id", type: "text",width:50, readOnly:true },
+	            { name: "quality", type: "text", width:50 },
+	            { name: "price", type: "number", width:100},
+	            { name: "condition", type: "text", width:100},
+	            { type: "control", deleteButton:false }
+	        ]
+		});
+			
+		$("#order_grid").jsGrid({
+	        width: "100%",
+	        height: "400px",
+	        editing:true,
+	        filtering: true,
+	        sorting: true,
+	        paging: true,
+	        autoload: true,
+	        
+	        pageSize : 10,
+	        pageButtonCount:5,
+	        
+	        controller : {
+	        	loadData: function() {
+	        	var def = $.Deferred();
+	        	$.ajax({
+	        			url:'admin_orderlist.do',
+	        	        dataType : "json"
+	        		 }).done(function(response) {
+	        			def.resolve(response);
+	        		});
+	        	return def.promise();
+	            },
+	            
+	            updateItem : function(item){
+	            	$.ajax({
+	            		url:"adminUpdate_orderlist.do",
+	            		data:item,
+	            		success:function(data){
+	            			alert("오더리스트 업데이트 완료");
+	            		}
+	            	})
+	            }
+	        },
+	        
+	        fields: [
+	            { name: "order_id", type: "text", width: 30, readOnly:true },
+	            { name: "member_id", type: "text", width: 30, readOnly:true },
+	            { name: "product_id", type: "text", width: 50, readOnly:true },
+	            { name: "pay_date", type: "text",width:100, readOnly:true },
+	            { name: "rent_start", type: "text", width:100 },
+	            { name: "rent_end", type: "text", width:100, readOnly:true},
+	            { name: "rent_month", type: "number", width:30},
+	            { type: "control", deleteButton:false }
+	        ]
+		})
+		
+		$("#member_grid").jsGrid({
+			width: "100%",
+	        height: "400px",
+	        filtering: true,
+	        editing:true,
+	        sorting: true,
+	        paging: true,
+	        autoload: true,
+	        
+	        editTemplate: function(value, item){
+	        	alert(value)
+	        },
+	        
+	        pageSize : 10,
+	        pageButtonCount:5,
+	        
+	        controller : {
+	        	loadData: function() {
+	        	var def = $.Deferred();
+	        	$.ajax({
+	        			url:'admin_member.do',
+	        	        dataType : "json"
+	        		 }).done(function(response) {
+	        			def.resolve(response);
+	        		});
+	        	return def.promise();
+	            },
+	            
+	            updateItem : function(data){
+	            	$.ajax({
+	            		url:'adminUpdate_member.do',
+	            		data:data,
+	            		success:function(data){
+	            			elart("회원정보 변경 완료")
+	            		}
+	            	})
+	            }
+	        },
+	        
+	        fields: [
+	            { name: "member_id", type: "text", width: 50, readOnly:true },
+	            { name: "name", type: "text", width: 50 },
+	            { name: "tel", type: "text", width: 100 },
+	            { name: "pwd_q", type: "text", width: 170 },
+	            { name: "pwd_a", type: "text", width: 70 },
+	            { name: "address", type: "text",width:100 },
+	            { name: "address_detail", type: "text", width:100 },
+	            { name: "payback", type: "text", width:50, readOnly:true},
+	            { name: "bank", type: "number", width:50},
+	            { name: "account_no", type: "text", width:100},
+	            { name: "grade", type: "number", width:30},
+	            { type: "control", deleteButton:false }
+	        ]
+		})
+		
+// 		$("#pager").on("change", function() {
+// 	        var page = parseInt($(this).val(), 10);
+// 	        $("#product_grid").jsGrid("openPage", page);
+// 	    });
+	
 })
 
 </script>
@@ -45,29 +200,9 @@ $(function(){
 			<hr>
 			<div>
 				<table id="product_grid" border="1" cellpadding="10px" cellspacing="10px" class="table">
-					<tr>
-						<td>물품번호</td>
-						<td>종류</td>
-						<td>이름</td>
-						<td>판매자</td>
-						<td>상태</td>
-						<td>가격</td>
-					</tr>
-				<c:forEach var="p" items="${listProduct }">
-					<tr>
-						<td>${p.product_id }</td>
-						<td>${p.condition }</td>
-						<td>${p.product_name }</td>
-						<td>${p.member_id }</td>
-						<td>${p.quality }</td>
-						<td>${p.price }</td>
-					</tr>
-				</c:forEach>
-					
+
 				</table>
-				<p>
-					
-				</p>
+				<div id="pager"></div>
 			</div>
 		</div>
 
@@ -76,30 +211,9 @@ $(function(){
 			<hr>
 			<div>
 				<table id="order_grid" border="1" cellpadding="10px" cellspacing="10px" class="table">
-					<tr>
-						<td>주문번호</td>
-						<td>구매자</td>
-						<td>상품번호</td>
-						<td>결제일</td>
-						<td>대여시작일</td>
-						<td>대여마감일</td>
-						<td>대여일수</td>
-					</tr>
-					<c:forEach var="o" items="${listOrder }">
-						<tr>
-							<td>${o.order_id }</td>
-							<td>${o.member_id }</td>
-							<td>${o.product_id }</td>
-							<td>${o.pay_date }</td>
-							<td>${o.rent_start }</td>
-							<td>${o.rent_end }</td>
-							<td>${o.rent_month }</td>
-						</tr>
-					</c:forEach>
-				</table>
-				<p>
 					
-				</p>
+				</table>
+				
 			</div>
 		</div>
 
@@ -108,30 +222,7 @@ $(function(){
 			<hr>
 			<div>
 				<table id="member_grid" border="1" cellpadding="10px" cellspacing="10px" class="table">
-				<tr>
-					<td>아이디</td>
-					<td>이름</td>
-					<td>전화번호</td>
-					<td>비밀번호 질문</td>
-					<td>비밀번호 답</td>
-					<td>주소</td>
-					<td>페이백</td>
-					<td>계좌번호</td>
-					<td>고객등급</td>
-				</tr>
-				<c:forEach var="m" items="${listMember }">
-						<tr>
-							<td>${m.member_id }</td>
-							<td>${m.name }</td>
-							<td>${m.tel }</td>
-							<td>${m.pwd_q }</td>
-							<td>${m.pwd_a }</td>
-							<td>${m.address }&nbsp;${o.address_detail }</td>
-							<td>${m.payback}</td>
-							<td>${m.bank}&nbsp;${o.account_no}</td>
-							<td>${m.grade }</td>
-						</tr>
-				</c:forEach>
+			
 				</table>
 			</div>
 		</div>

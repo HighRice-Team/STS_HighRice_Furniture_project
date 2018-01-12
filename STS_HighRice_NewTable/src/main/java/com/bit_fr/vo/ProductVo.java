@@ -37,6 +37,13 @@ public class ProductVo {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductVo [product_id=" + product_id + ", condition=" + condition + ", product_name=" + product_name
+				+ ", category=" + category + ", quality=" + quality + ", price=" + price + ", main_img=" + main_img
+				+ ", sub_img=" + sub_img + ", member_id=" + member_id + ", rnum=" + rnum + "]";
+	}
+
 	public void setMain_img(String main_img) {
 		this.main_img = main_img;
 	}

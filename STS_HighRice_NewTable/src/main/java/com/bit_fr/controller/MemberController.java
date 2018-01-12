@@ -151,7 +151,8 @@ public class MemberController {
 
 	@RequestMapping(value = "/insert_member.do", method = RequestMethod.POST)
 	public ModelAndView insert_member(MemberVo v) {
-		ModelAndView mav = new ModelAndView(); // 성공 시 요청 할 내용 입력해야 함 . ex) main 화면
+		ModelAndView mav = new ModelAndView(); // 성공 시 요청 할 내용 입력해야 함 . ex) main
+												// 화면
 		int re = member_dao.insert_member(v);
 
 		if (re != 1) // insert가 실패 했을 경우.
