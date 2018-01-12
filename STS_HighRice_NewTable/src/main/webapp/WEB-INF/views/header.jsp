@@ -115,7 +115,11 @@ a {
 				
 				<!-- 관리자 -->
 				<c:if test="${sessionScope.grade==0}">
+<<<<<<< HEAD
 					<a href="">ADMIN</a><br>
+=======
+					<a href="admin.do">ADMIN</a><br>
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 				</c:if>
 				
 			</div>
@@ -127,10 +131,10 @@ a {
 			</div>
 			<div style="width: 20%; float: right;">
 				<a href="">CUSTMIZE</a><br>
-				<a href="product.do?category=bed">BED</a><br>
-				<a href="product.do?category=sofa">SOFA</a><br>
-				<a href="product.do?category=closet">CLOSET</a><br>
-				<a href="product.do?category=desk">DESK</a><br>
+				<a href="product.do?category=BED">BED</a><br>
+				<a href="product.do?category=SOFA">SOFA</a><br>
+				<a href="product.do?category=CLOSET">CLOSET</a><br>
+				<a href="product.do?category=DESK">DESK</a><br>
 			</div>
 		</div>
 	</div>

@@ -76,9 +76,15 @@ public class HomeController {
 	@RequestMapping("myPage.do")
 	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min) {
 		ModelAndView mav = new ModelAndView();
+<<<<<<< HEAD
 
 		// String member_id = (String)session.getAttribute("member_id");
 		String member_id = "a1";
+=======
+		
+		String member_id = (String)session.getAttribute("id");
+//		String member_id = "a1";
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 		MemberVo member = memberDao.getOne_member(member_id);
 
 		int max = min + 3;
@@ -113,8 +119,13 @@ public class HomeController {
 
 		return mav;
 	}
+<<<<<<< HEAD
 
 	@RequestMapping(value = "sellWrite.do")
+=======
+	
+	@RequestMapping(value = "/sellWrite.do")
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 	public ModelAndView sellWrite() {
 		ModelAndView mav = new ModelAndView();
 
@@ -123,8 +134,13 @@ public class HomeController {
 
 		return mav;
 	}
+<<<<<<< HEAD
 
 	@RequestMapping(value = "orderlistByCondition.do")
+=======
+	
+	@RequestMapping(value = "/orderlistByCondition.do")
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 	public ModelAndView orderlistByCondition() {
 		ModelAndView mav = new ModelAndView();
 
@@ -133,6 +149,7 @@ public class HomeController {
 
 		return mav;
 	}
+<<<<<<< HEAD
 
 	@RequestMapping("updatePwdAjax.do")
 	@ResponseBody
@@ -173,4 +190,38 @@ public class HomeController {
 		return str;
 	}
 
+=======
+	
+	@RequestMapping("admin.do")
+	public ModelAndView admin(){
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		mav.addObject("viewPage", "admin/adminPage.jsp");
+		
+		int page = 10;
+		
+		int totalRecord_product = productDao.getCount_product();
+		int totalRecord_orderList = orderlistDao.getCountNextOrderId_orderlist() -1;
+		int totalRecord_member = memberDao.getCount_member();
+		
+		int totalPage_product = totalRecord_product/page;
+		if(totalRecord_product%page != 0 ){
+			totalPage_product++;
+		}
+		
+		mav.addObject("listProduct", productDao.getAll_product(null));
+		mav.addObject("totalPage_product", totalPage_product);
+		
+		mav.addObject("listOrder", orderlistDao.getAll_orderlist());
+		mav.addObject("listMember", memberDao.getAll_member());
+		
+		
+		return mav;
+	}
+	
+	
+	
+	
+	
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 }

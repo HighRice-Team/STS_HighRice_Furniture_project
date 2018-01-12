@@ -35,26 +35,25 @@ public class ProductManager {
 		return list;
 	}
 
-	public static List<ProductVo> getAll_product(String sort, String category) {
-		HashMap map = new HashMap();
-		map.put("sort", sort);
-		map.put("category", category);
+	public static List<ProductVo> getAll_product(String sql) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
 		SqlSession session = factory.openSession();
 		List<ProductVo> list = session.selectList("product.getAll_product", map);
 		session.close();
 		return list;
 	}
 
-	public static List<ProductVo> getOne_product(int id) {
+	public static ProductVo getOne_product(int product_id) {
 		SqlSession session = factory.openSession();
-		List<ProductVo> p = session.selectList("product.getOne_product", id);
+		ProductVo p = session.selectOne("product.getOne_product", product_id);
 		session.close();
 		return p;
 	}
 
 	public static int getNextId_product() {
 		SqlSession session = factory.openSession();
-		int n = session.selectOne("product.etNextId_product");
+		int n = session.selectOne("product.NextId_product");
 		session.close();
 		return n;
 	}
@@ -180,9 +179,11 @@ public class ProductManager {
 		return re;
 	}
 
-	public static int delete_product(int id) {
+	public static int delete_product(int product_id) {
+
 		SqlSession session = factory.openSession();
-		int re = session.delete("product.delete_product", id);
+		int re = session.delete("product.delete_product", product_id);
+		session.commit();
 		session.close();
 		return re;
 	}

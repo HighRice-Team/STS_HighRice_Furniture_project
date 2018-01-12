@@ -9,12 +9,12 @@ import com.bit_fr.vo.ProductVo;
 
 @Repository
 public class ProductDao {
-	public List<ProductVo> getAll_product(String sort, String category) {
-		return ProductManager.getAll_product(sort, category);
+	public List<ProductVo> getAll_product(String sql) {
+		return ProductManager.getAll_product(sql);
 	}
 
-	public List<ProductVo> getOne_product(int id) {
-		return ProductManager.getOne_product(id);
+	public ProductVo getOne_product(int product_id) {
+		return ProductManager.getOne_product(product_id);
 	}
 
 	public int getNextId_product() {
@@ -77,8 +77,11 @@ public class ProductDao {
 		return ProductManager.updateAdmin_product(category, product_name, condition, quality, price);
 	}
 
-	public int delete_product(int id) {
-		return ProductManager.delete_product(id);
+	
+	public int delete_product(int product_id) {
+		return ProductManager.delete_product(product_id);
+
+
 	}
 
 }
