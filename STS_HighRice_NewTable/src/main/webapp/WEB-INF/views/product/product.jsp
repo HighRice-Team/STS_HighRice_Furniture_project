@@ -15,6 +15,7 @@
 
 .sort a {
 	font-size: 15px;
+
 }
 
 p{
@@ -40,7 +41,6 @@ p{
 	color: white;
 }
 </style>
-<!--  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
@@ -71,11 +71,11 @@ p{
 			$(this).removeClass("over");
 		})
 
-		$(".category_img").css("width", $("#hr").width() * 0.225)
-		$(".category_img").css("height", $("#hr").width() * 0.225)
+		$(".category_img").css("width", $("#product_box").width() * 0.225)
+		$(".category_img").css("height", $("#product_box").width() * 0.225)
 		$(window).resize(function() {
-			$(".category_img").css("width", $("#hr").width() * 0.225)
-			$(".category_img").css("height", $("#hr").width() * 0.225)
+			$(".category_img").css("width", $("#product_box").width() * 0.225)
+			$(".category_img").css("height", $("#product_box").width() * 0.225)
 		})
 	})
 </script>
@@ -83,9 +83,9 @@ p{
 <body>
 
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0; position: relative;">
-		<div>
-			<a href="product.do?category=${category }">${category}</a>
-		</div>
+		
+		<a href="product.do?category=${category }">${category}</a>
+		
 		<hr id="hr">
 		<br>
 		<div class="sort">
@@ -108,13 +108,12 @@ p{
 				</div>
 			</c:forEach>
 		</div>
-
 		<div>
 			<c:forEach var="pageNum" begin="1" end="${pageMax }">
-				<a
-					href="product.do?pageNum=${pageNum }&category=${category}&order=${order}">${pageNum}</a>
+				<a href="product.do?pageNum=${pageNum }&category=${category}&order=${order}">${pageNum}</a>
 			</c:forEach>
 		</div>
 	</div>
+	
 </body>
 </html>

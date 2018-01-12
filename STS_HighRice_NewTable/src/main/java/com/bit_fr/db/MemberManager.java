@@ -46,7 +46,7 @@ public class MemberManager {
 		return v;
 	}
 
-	public static String getId_member(MemberVo v) { // 회원정보 찾기. name과 jumin을 매개변수로 받아 일치하는 member의 member_id값을 반환
+	public static String getId_member(MemberVo v) { // 회원정보 찾기. jumin을 매개변수로 받아 일치하는 member의 member_id값을 반환
 		SqlSession session = factory.openSession();
 		String member_id = session.selectOne("member.getId_member", v);
 		session.close();

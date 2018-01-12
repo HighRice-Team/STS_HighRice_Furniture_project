@@ -82,7 +82,6 @@ public class ProductController {
 	@RequestMapping(value="delete_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String delete_product(int product_id){
-		System.out.println(product_id);
 		String str = "";
 		
 		int re = dao.delete_product(product_id);
@@ -102,14 +101,15 @@ public class ProductController {
 
 
 	@RequestMapping("/product.do")
+
 	public ModelAndView getAll_product(@RequestParam(defaultValue = "") String sort, String category, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "0") int min, @RequestParam(defaultValue = "0") int max) {
 		ModelAndView view = new ModelAndView();
-		view.setViewName("main");
-		
-		int productMax = 4;
+		int productMax = 16;
 		int endNum = pageNum * productMax;
 		int startNum = endNum - (productMax - 1);
-		
+
+		view.setViewName("main");
+
 		String sql = "select * from (select rownum rnum, product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from (select product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from product where condition='물품게시'";
 		
 		if(category != null && category.equals("")) {
@@ -124,6 +124,7 @@ public class ProductController {
 		if (sort != null && sort.equals("price_max")) {
 			sort = "price desc";
 		}
+
 		if (category != null) {
 			sql += " and category='" + category + "'";
 		}

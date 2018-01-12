@@ -3,6 +3,8 @@ package com.bit_fr.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +19,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MemberController {
+	
+	@Autowired
+	private JavaMailSender mailSender;
+	
+
+	public void setMailSender(JavaMailSender mailSender) {
+		this.mailSender = mailSender;
+	}
+
 
 	@Autowired
 	private MemberDao member_dao;
@@ -25,13 +36,37 @@ public class MemberController {
 		this.member_dao = dao;
 	}
 
-	// 단순 뷰페이지 이동
+	//단순 뷰페이지 이동
+	@RequestMapping("findMember.do")
+	public ModelAndView gotofindMemberPage() {
+		ModelAndView mav = new ModelAndView("main");
+		
+		mav.addObject("viewPage","join/findMember.jsp" );
+		
+		return mav;
+	}
+	
+	@RequestMapping("search.do")
+	public void goSearchAddress() {}
+
 	@RequestMapping("/joinAccess.do")
 	public ModelAndView gotoJoinAccess() {
 		ModelAndView mav = new ModelAndView("main");
 
 		mav.addObject("viewPage", "join/joinAccess.jsp");
 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/joinCheck.do", method = RequestMethod.POST)
+	public ModelAndView goToInsertMember(MemberVo v) {
+		ModelAndView mav = new ModelAndView("main");
+		
+		mav.addObject("viewPage","join/insert_member.jsp");
+		mav.addObject("v",v);
+		String jumin = v.getJumin().substring(0, 6);
+		mav.addObject("jumin",jumin);
+		
 		return mav;
 	}
 
@@ -92,12 +127,21 @@ public class MemberController {
 		return mav;
 	}
 
-	@RequestMapping("/getOne_member.do")
-	public ModelAndView getOne_member(String member_id) {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("v", member_dao.getOne_member(member_id));
-
-		return mav;
+	@RequestMapping(value="/getOne_member.do",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String getOne_member(String member_id) {
+		String str="";
+		MemberVo v =  member_dao.getOne_member(member_id);
+		
+		try {
+			
+			ObjectMapper om = new ObjectMapper();
+			str = om.writeValueAsString(v);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return str;
 	}
 
 	@RequestMapping(value = "/getOne_member_ajax.do", produces = "text/plain;charset=utf-8")
@@ -136,30 +180,16 @@ public class MemberController {
 
 		return mav;
 	}
-
 	// Insert
 
-	@RequestMapping(value = "/insert_member.do", method = RequestMethod.GET)
-	public ModelAndView goToInsertMember(MemberVo v) {
-		ModelAndView mav = new ModelAndView("main");
-
-		mav.addObject("viewPage", "join/insert_member.jsp");
-		mav.addObject("v", v);
-
-		return mav;
-	}
 
 	@RequestMapping(value = "/insert_member.do", method = RequestMethod.POST)
 	public ModelAndView insert_member(MemberVo v) {
-		ModelAndView mav = new ModelAndView(); // 성공 시 요청 할 내용 입력해야 함 . ex) main
-												// 화면
+
+		ModelAndView mav = new ModelAndView("main");
 		int re = member_dao.insert_member(v);
 
-		if (re != 1) // insert가 실패 했을 경우.
-		{
-			mav.addObject("msg", "insert_member 등록 실패.");
-			mav.setViewName("fail");
-		}
+		mav.addObject("viewPage","join/insertMemberJoinOk.jsp");
 
 		return mav;
 	}
@@ -243,6 +273,38 @@ public class MemberController {
 		}
 		return str;
 	}
+	
+	
+	@RequestMapping(value="sendMail.do",produces="text/plain;charset=utf-8")
+	@ResponseBody
+	public String mail(String member_id,String confirmText) {
+		String str = "";
+		MemberVo v = member_dao.getOne_member(member_id);
+		
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+
+		mailMessage.setFrom("bitfr@naver.com");
+		
+		
+		if(v!=null) {
+			mailMessage.setSubject("[BIT FR]비밀번호 안내.");
+			mailMessage.setText("귀하의 비밀번호는 < "+v.getPwd()+" > 입니다.");
+		}else {
+			mailMessage.setSubject("[BIT FR]인증번호 메일 발송.");
+			mailMessage.setText("[BIT FR]인증번호 ["+confirmText+"]를 입력해 주세요.");
+		}
+		mailMessage.setTo(member_id);
+		
+		try {
+			mailSender.send(mailMessage);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
+	
 
 	@RequestMapping(value = "/getMemberInfoAjax.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
