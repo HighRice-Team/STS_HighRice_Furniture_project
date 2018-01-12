@@ -9,6 +9,7 @@ import com.bit_fr.vo.ProductVo;
 
 @Repository
 public class ProductDao {
+
 	public List<ProductVo> getAll_product(String sql) {
 		return ProductManager.getAll_product(sql);
 	}
