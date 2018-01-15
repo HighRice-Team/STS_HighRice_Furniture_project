@@ -147,7 +147,7 @@ public class HomeController {
 		return mav;
 	}
 
-	@RequestMapping("/admin_product.do")
+	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_product() {
 		String str = "";
@@ -165,7 +165,7 @@ public class HomeController {
 		return str;
 	}
 
-	@RequestMapping("/admin_orderlist.do")
+	@RequestMapping(value = "/admin_orderlist.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_orderlist() {
 		String str = "";
@@ -183,7 +183,7 @@ public class HomeController {
 		return str;
 	}
 
-	@RequestMapping("/admin_member.do")
+	@RequestMapping(value = "/admin_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_member() {
 		String str = "";
@@ -201,7 +201,7 @@ public class HomeController {
 		return str;
 	}
 
-	@RequestMapping("/adminUpdate_product.do")
+	@RequestMapping(value = "/adminUpdate_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String adminUpdate_product(ProductVo p) {
 		String str = "";
@@ -227,7 +227,7 @@ public class HomeController {
 		return str;
 	}
 
-	@RequestMapping("/adminUpdate_member.do")
+	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String adminUpdate_member(MemberVo m) {
 		String str = "";
