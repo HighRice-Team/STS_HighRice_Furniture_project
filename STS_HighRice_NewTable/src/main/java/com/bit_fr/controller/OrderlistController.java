@@ -111,28 +111,14 @@ public class OrderlistController {
 
 	@RequestMapping(value = "/updateConditionOderlistAjax.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
-	public String updateOderlistAjax(HttpSession session, int product_id, long paymentOne) {
+	public String updateOderlistAjax(HttpSession session, int product_id) {
 		String member_id = (String) session.getAttribute("id");
 		String str = "";
-		int re = -1;
 
-		// 멤버의 잔고 & 결제하기.
-		MemberVo mv = memberDao.getOne_member(member_id);
-		long balance = mv.getBalance();
-
-		// 결제하기.
-		if ((balance - paymentOne) >= 0) {
-			// 결제하기위한 잔액이 충분할 때.
-			re = orderlistDao.updatePaymentProduct_orderlist(member_id, paymentOne);
-			// 잔액차감 성공.
-			if (re == 1) {
-				String condition = "입금완료";
-				re = productDao.updateCondition_product(product_id, condition);
-			}
-		} else {
-			// 잔액부족.
-			re = -10;
-		}
+		// 멤버의 잔고 / 결제하기.
+		System.out.println("d");
+		String condition = "입금완료";
+		int re = productDao.updateCondition_product(product_id, condition);
 
 		ObjectMapper mapper = new ObjectMapper();
 

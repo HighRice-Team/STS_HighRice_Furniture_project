@@ -167,18 +167,4 @@ public class OrderlistManager {
 		return re;
 	}
 
-	public static int updatePaymentProduct_orderlist(String member_id, long paymentOne) {
-		int re = -1;
-		SqlSession session = factory.openSession(true);
-		
-		HashMap map = new HashMap();
-		map.put("member_id", member_id);
-		map.put("paymentOne", paymentOne);
-		
-		re = session.update("orderlist.updatePaymentProduct_orderlist", map);
-		session.close();
-		
-		return re;
-	}
-
 }

@@ -67,11 +67,6 @@
 		#{order_id})
 		where order_id = #{order_id}
 	</update> -->
-	
-	<update id="updatePaymentProduct_orderlist">
-		update member set balance = ( balance - #{paymentOne} ) 
-		where member_id = #{member_id}
-	</update>
 
 	<delete id="delete_orderlist">
 		delete orderlist
