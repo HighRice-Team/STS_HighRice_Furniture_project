@@ -48,7 +48,6 @@ public class ProductManager {
 	public static List<ProductVo> getAll_productAdmin(){
 		SqlSession session = factory.openSession();
 		List<ProductVo> list = session.selectList("getAll_productAdmin");
-		
 		session.close();
 		
 		return list;

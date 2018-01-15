@@ -181,7 +181,7 @@ p{
 			<input type="submit" value="검색"><br><br>
 			
 			<!--상품목록 -->
-			<div style="width:100%; float: left;" id="product_box">
+			<div style="width:100%; float: left; padding-bottom: 10px;" id="product_box">
 				<c:forEach items="${list }" var="list">
 					<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
 						<a href="productDetail.do?product_id=${list.product_id }">
@@ -201,7 +201,7 @@ p{
 			<div>
 				<center>
 					<c:forEach var="pageNum" begin="1" end="${pageMax }">
-						<a href="index.do?pageNum=${pageNum }&category=${category}&quality=${quality}&max=${max }&min=${min }">${pageNum}</a>
+						<a href="index.do?pageNum=${pageNum }&category=${category}&quality=${quality}&max=${max }&min=${min }" style="font-size: 1.15vw;">${pageNum}</a>
 					</c:forEach>
 				</center>
 			</div>

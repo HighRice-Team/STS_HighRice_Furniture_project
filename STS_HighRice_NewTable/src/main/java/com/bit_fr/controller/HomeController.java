@@ -74,6 +74,14 @@ public class HomeController {
 
 		return "home";
 	}
+	
+	@RequestMapping("aboutUs.do")
+	public ModelAndView aboutUs() {
+		ModelAndView mav = new ModelAndView("main");
+		mav.addObject("viewPage", "aboutUs.jsp");
+		return mav;
+	}
+	
 
 	@RequestMapping("myPage.do")
 	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min) {

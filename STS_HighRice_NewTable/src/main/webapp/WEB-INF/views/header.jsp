@@ -122,12 +122,12 @@ a {
 			</div>
 			<div style="width: 20%; float: right;">
 				<a href="">SELL</a><br><br>
-				<a href="">ABOUT US</a><br>
+				<a href="aboutUs.do">ABOUT US</a><br>
 				<a href="">FAQ</a><br>
 				<a href="">QNA</a><br>
 			</div>
 			<div style="width: 20%; float: right;">
-				<a href="index.do">CUSTMIZE</a><br>
+				<a href="customize.do">CUSTMIZE</a><br>
 				<a href="product.do?category=BED">BED</a><br>
 				<a href="product.do?category=SOFA">SOFA</a><br>
 				<a href="product.do?category=CLOSET">CLOSET</a><br>

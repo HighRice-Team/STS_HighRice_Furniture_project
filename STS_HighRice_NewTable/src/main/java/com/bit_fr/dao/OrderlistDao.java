@@ -56,4 +56,8 @@ public class OrderlistDao {
 		return OrderlistManager.delete_orderlist(member_id, product_id);
 	}
 
+	public int updatePaymentProduct_orderlist(String member_id, long paymentOne) {
+		return OrderlistManager.updatePaymentProduct_orderlist(member_id , paymentOne);
+	}
+
 }
