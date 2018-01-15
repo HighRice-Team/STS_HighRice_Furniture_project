@@ -212,7 +212,7 @@
 		</table>
 		<input type="hidden" id="roadAddrPart2"  value="">
 		<input type="hidden" id="confmKey" name="confmKey" value=""  >
-		<input type="hidden" id="zipNo" name="zipNo" readonly >
+		<input type="hidden" id="zipNo" name="zipNo" >
 		<input type="hidden" name="pwd" id="pwd">
 		<input type="hidden" name="member_id" id="memberIdForDb">
 		
