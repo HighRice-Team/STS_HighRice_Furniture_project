@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
 <style type="text/css">
 html, body {
 	width: 100%;
