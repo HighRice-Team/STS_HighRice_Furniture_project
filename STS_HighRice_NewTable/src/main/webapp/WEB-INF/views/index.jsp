@@ -124,6 +124,51 @@ p{
 
 	});
 </script>
+<script type="text/javascript">
+function cus() {
+    str=""
+    if(document.F.min.value==0)
+    {
+       str+="<option value=null disabled='disabled' selected='selected'>최고금액</option>"
+       str+="<option value=0>선택 안함</option>"
+        str+="<option value=3000>~3,000</option>"
+       str+="<option value=5000>~5,000</option>"
+       str+="<option value=7000>~7,000</option>"
+       str+="<option value=9000>~9,000</option>"
+          
+    }
+    if(document.F.min.value=="1000")
+    {
+       str+="<option value=null disabled='disabled' selected='selected'>최고금액</option>"
+       str+="<option value=0>선택 안함</option>"
+        str+="<option value=3000>~3,000</option>"
+       str+="<option value=5000>~5,000</option>"
+       str+="<option value=7000>~7,000</option>"
+       str+="<option value=9000>~9,000</option>"
+       
+    }else if(document.F.min.value=="3000")
+    {
+       str+="<option value=null disabled='disabled' selected='selected'>최고금액</option>"
+       str+="<option value=0>선택 안함</option>"
+       str+="<option value=5000>~5,000</option>"
+       str+="<option value=7000>~7,000</option>"
+       str+="<option value=9000>~9,000</option>"
+    }else if(document.F.min.value=="5000")
+    {
+       str+="<option value=null disabled='disabled' selected='selected'>최고금액</option>"
+       str+="<option value=0>선택 안함</option>"
+       str+="<option value=7000>~7,000</option>"
+       str+="<option value=9000>~9,000</option>"
+    }else if(document.F.min.value=="7000")
+    {
+       str+="<option value=null disabled='disabled' selected='selected'>최고금액</option>"
+       str+="<option value=0>선택 안함</option>"
+          str+="<option value=9000>~9,000</option>"
+    }
+    document.getElementById("max").innerHTML=str
+    
+ }
+</script>
 </head>
 <body>
 	<!-- 이미지 슬라이드 -->
