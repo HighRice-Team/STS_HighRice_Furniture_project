@@ -6,6 +6,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style type="text/css">
+
+#name{
+	font-size: 1.15vw;
+}
+
+p{
+	font-size: 1vw;
+	line-height: 10px; 
+}
+
 .slide-box {
 	width: 600px;
 	height: 400px;
@@ -68,15 +78,15 @@
 		})
 		
 
-		//창을 띄울 때 상품들의 이미지 크기를 조정.
-		$(".category_img").css("width", $("#product_box").width() * 0.22)
-		$(".category_img").css("height", $("#product_box").width() * 0.13)
-		
-		//창의 크기가 변동 될 때 상품들의 이미지 크기를 조정.
-		$(window).resize(function() {
-			$(".category_img").css("width", $("#product_box").width() * 0.22)
-			$(".category_img").css("height", $("#product_box").width() * 0.13)
-		})
+	//창을 띄울 때 상품들의 이미지 크기를 조정.
+	$(".category_img").css("width", $("#product_box").width() * 0.225)
+	$(".category_img").css("height", $("#product_box").width() * 0.225)
+
+	//창의 크기가 변동 될 때 상품들의 이미지 크기를 조정.
+	$(window).resize(function() {
+		$(".category_img").css("width", $("#product_box").width() * 0.225)
+		$(".category_img").css("height", $("#product_box").width() * 0.225)
+	})
 
 		var auto_slide;
 		var auto_time = 1000; // 슬라이드 시간 1000 = 1초
@@ -173,13 +183,15 @@
 			<!--상품목록 -->
 			<div style="width:100%; float: left;" id="product_box">
 				<c:forEach items="${list }" var="list">
-					<div class="hover" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
+					<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
 						<a href="productDetail.do?product_id=${list.product_id }">
-						<br>${list.product_name }<br><br>
-						<img src="resources/img/product/${list.main_img }" class="category_img">
-						<br>${list.category }
-						<br>${list.quality }
-						<br>${list.price }</a>
+							<img src="resources/img/product/${list.main_img }"class="category_img"> <br>
+							<p id="name">${list.product_name }</p>
+							
+							<p>Category: ${list.category }</p>
+							<p>Condition: ${list.quality }</p>
+							<p>Price: ${list.price }WON/Month</p>
+						</a>
 					</div>
 				</c:forEach>
 			</div>
