@@ -54,7 +54,8 @@
           $("#countProduct").text($('input[type=checkbox]:checked').length);
           $("#tot_price").text($("#pay").val());
           $("#mem_name").text($("#memName").val())
-          $("#mem_addr").text($("#address1").val()+"\t"+$("#address2").val()+"\t"+$("#address3").val())
+          //나의 풀 주소 
+          $("#mem_addr").text($("#roadAddrPart1").val()+"\t"+$("#addrDetail").val())
           $("#mem_tel").text($("#memTel").val())
           $("#paymentInfo").dialog("open")
        }else{
@@ -99,6 +100,7 @@
                var pwd2 = $("#pPwd2").val()
                var data={"pwd":pwd,"pwd2":pwd2};
                var paymentOk_msg = "결제에 실패하였습니다.";
+           
                $.ajax({
                   url:"pwdChk.do",
                   data:data,
@@ -108,7 +110,9 @@
                 	  		
                      	$('input[type=checkbox]:checked').each(function(index,item){
 	                     	var product_id = $(this).val()
-	                        	var data = {"product_id":product_id}
+	                     	var paymentOne = $("#tot_price").text()
+	                        	var data = {"product_id":product_id , "paymentOne":paymentOne}
+	                     	
 	                    		$.ajax({	                        	 
 	                        		url : "updateConditionOderlistAjax.do",
 	                       		data : data,
@@ -116,7 +120,10 @@
 		                            		if( data == 1){
 	                            				paymentOk_msg = "결제가 성공적으로 완료되었습니다.";
 	                            				alert(paymentOk_msg);
-	                            			}else{
+		                            		}else if( re = -10){
+		                            			paymentOk_msg = "잔액이 부족합니다.";
+		                            			alert(paymentOk_msg);
+		                            		}else{
 	                            				paymentOk_msg = "결제에 실패하였습니다.";
 	                            				alert(paymentOk_msg);
 	                            			}
@@ -124,8 +131,6 @@
 	                            			
 	                         });
                         })
-                        // 잔액차감 추가하기.
-                     	
                         $("#pwdDialog2").dialog("close");
                         $("#paymentInfo").dialog("close");
                         location.href="";
@@ -191,13 +196,12 @@
       });
     
     $("#update").click(function(){
-	//주소부분 수정이필요
 		
     		$.getJSON("getMemberInfoAjax.do",function(data){
     			$("#name").html(data.name);
-            $("#address1").val(data.address1);
-            $("#address2").val(data.address2);
-            $("#address3").val(data.address3);
+    			// 멤버의 주소.
+            $("#roadAddrPart1").val(data.address);
+            $("#addrDetail").val(data.address_detail);
             $("#tel").val(data.tel);
             $("#member_id").html(data.member_id);
             $("#jumin").html(data.jumin);
@@ -265,6 +269,28 @@
  })
 
    
+</script>
+<script type="text/javascript">
+
+	function goPopup() {
+		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+		var pop = window.open("search.do", "pop",
+				"width=570,height=420, scrollbars=yes, resizable=yes");
+
+		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+		//var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+	}
+	/** API 서비스 제공항목 확대 (2017.02) **/
+	function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail,
+			roadAddrPart2, engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn,
+			detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn,
+			buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo) {
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+		document.myForm.roadAddrPart1.value = roadAddrPart1;
+		document.myForm.roadAddrPart2.value = roadAddrPart2;
+		document.myForm.addrDetail.value = addrDetail;
+		document.myForm.zipNo.value = zipNo;
+	}
 </script>
 </head>
 <body>
@@ -343,7 +369,7 @@
    </div>
    <div id="dialog">
       <center><h1>회원정보 수정</h1></center><br><br>
-      <form id="myForm">
+      <form id="myForm" name="myForm">
          <table border="1" cellpadding="5" cellspacing="0" width="100%">
          <tr>
             <td>이름</td>
@@ -351,34 +377,28 @@
          </tr>
          <tr>
             <td>주소</td>
-            <td><select id="address1"  name="address1">
-                  <option value="서울시">서울시</option>
-                  <option value="경기도">경기도</option>
-                  <option value="충남">충남</option>
-                  <option value="세종시">세종시</option>
-               </select> 
-               <select id="address2" name="address2">
-                  <option value="마포구">마포구</option>
-                  <option value="고양시">고양시</option>
-                  <option value="천안시">천안시</option>
-                  <option value="다정동">다정동</option>
-                  <option value="중랑구">중랑구</option>
-               </select>
-               <input type="text" id="address3" name="address3" size="50" value="" required="required">
+            <td>
+            		<input type="text" id="roadAddrPart1" size="55%" name="address" readonly="readonly"> <input type="button"  value="주소검색" onclick="goPopup();"><br>
+				<input type="text" id="addrDetail" readonly="readonly" name="address_detail" size="55%">
             </td>
          </tr>
          <tr>
             <td id="title">핸드폰번호</td>
             <td><input type="text" id="tel" name="tel" size="50" value="" required="required"></td>
-         </tr>         
-         <input type="hidden" id="bank" name="bank">         
-         <input type="hidden" id="account_no" name="account_no">         
-         <input type="hidden" id="pwd_q" name="pwd_q">         
-         <input type="hidden" id="pwd_a" name="pwd_a">         
-         <input type="hidden" id="member_id" name="id">               
-         <input type="hidden" id="j_pwd" name="j_pwd">               
-         <input type="hidden" id="pwd_chk" name="pwd_chk">               
+         </tr>                     
       </table>
+      	<!-- api 주소. -->
+      	<input type="hidden" id="roadAddrPart2"  value="">
+		<input type="hidden" id="confmKey" name="confmKey" value=""  >
+		<input type="hidden" id="zipNo" name="zipNo" readonly >
+      
+        <input type="hidden" id="bank" name="bank">         
+        <input type="hidden" id="account_no" name="account_no">         
+        <input type="hidden" id="pwd_q" name="pwd_q">         
+        <input type="hidden" id="pwd_a" name="pwd_a">         
+        <input type="hidden" id="member_id" name="id">               
+        <input type="hidden" id="j_pwd" name="j_pwd">               
+        <input type="hidden" id="pwd_chk" name="pwd_chk">   
       </form>
       <form id="myForm2">
          <div id="pwdDialog">
