@@ -95,10 +95,17 @@
 		<div style="height: 30px;"><h2>SELL LIST</h2></div>
 			
 			<c:if test="${not empty list }">
-			<div class="slider" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
+			<div class="slider" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white; padding-top: 3px;">
 				<c:forEach items="${list }" var="list">
  					<div id="slider_img" class="hover1">
- 						<a href="productDetail.do?product_id=${list.product_id }"><p>${list.product_name }</p><p><img src="resources/img/product/${list.main_img}" class="img_myPage"></p>${list.condition }<br>${list.quality }<br>${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a>
+ 						<a href="productDetail.do?product_id=${list.product_id }">
+						<img src="resources/img/product/${list.main_img }"class="category_img"> <br>
+						<p style="font-size: large;">${list.product_name }</p>
+						
+						<p>Category: ${list.category }</p>
+						<p>Condition: ${list.quality }</p>
+						<p>Price: ${list.price }WON/Month</p>
+ 						${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a>
  						<c:if test="${list.condition=='등록' }">
  							<br><input type="button" value="삭제">
  						</c:if>
@@ -137,12 +144,6 @@
 				</td>
 			</tr>
 
-<!-- 			<tr> -->
-<!-- 				<td id="title">비밀번호</td> -->
-<!-- 				<td width="20%"><input type="password" name="pwd" maxlength="50" required="required"></td> -->
-<!-- 				<td id="title">비밀번호 확인</td> -->
-<!-- 				<td><input type="password" id="pwdcheck" maxlength="50"required="required" name="pwd_chk"></td> -->
-<!-- 			</tr> -->
 
 			<tr>
 				<td id="title">이름</td>
@@ -170,15 +171,6 @@
 
 			<tr>
 				<td id="title">주소</td>
-<%-- 				<input type="hidden" value="${address_v.getAddress1()}" id="getAddress1"> --%>
-<%-- 				<input type="hidden" value="${address_v.getAddress2()}" id="getAddress2" > --%>
-<%-- 				<td colspan="4"><input type="hidden" name="n2" value="${n2 }"> --%>
-<!-- 					<select id="address1"  name="address1"> -->
-<!-- 						<option value="서울시">서울시</option> -->
-<!-- 						<option value="경기도">경기도</option> -->
-<!-- 						<option value="충남">충남</option> -->
-<!-- 						<option value="세종시">세종시</option> -->
-<!-- 					</select>  -->
 				<td>	
 					<select id="address2" name="address">
 						<option value="마포구">마포구</option>
@@ -186,7 +178,7 @@
 						<option value="천안시">천안시</option>
 						<option value="다정동">다정동</option>
 						<option value="중랑구">중랑구</option>
-					</select> 
+					</select>
 					<input type="text" id="address_detail" name="address_detail" size="50" value="" required="required">
 				</td>
 			</tr>
