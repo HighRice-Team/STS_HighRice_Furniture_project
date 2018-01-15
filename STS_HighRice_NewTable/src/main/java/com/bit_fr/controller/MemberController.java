@@ -329,22 +329,22 @@ public class MemberController {
 
 	@RequestMapping(value = "/updateMemberOkAjax.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
-	public String updateMemberOkAjax(HttpSession session, String j_pwd, String pwd_chk, MemberVo v, String address1,
-			String address2, String address3) {
+	public String updateMemberOkAjax(HttpSession session, String j_pwd, String pwd_chk, MemberVo v) {
 		String str = "";
-		// 주소에대한 Vo 삽입이변경되어야함..
-
+		
 		String pwd = (String) session.getAttribute("pwd");
+		int grade = (Integer) session.getAttribute("grade");
 		String input_pwd = j_pwd;
 		String input_pwd2 = pwd_chk;
 
 		if (input_pwd.equals(input_pwd2)) {
-			v.setAddress(address1 + " " + address2);
-			v.setAddress_detail(address3);
 
 			String member_id = (String) session.getAttribute("id");
 			v.setMember_id(member_id);
-
+			v.setGrade(grade);
+			v.setBalance( (member_dao.getOne_member(member_id)).getBalance() );
+			v.setPayback( (member_dao.getOne_member(member_id)).getPayback() );
+			
 			if (input_pwd.equals(pwd)) {
 
 				member_dao.updateInfo_member(v);
