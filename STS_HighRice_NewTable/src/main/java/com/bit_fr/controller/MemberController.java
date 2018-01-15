@@ -285,7 +285,6 @@ public class MemberController {
 
 		mailMessage.setFrom("bitfr@naver.com");
 		
-		
 		if(v!=null) {
 			mailMessage.setSubject("[BIT FR]비밀번호 안내.");
 			mailMessage.setText("귀하의 비밀번호는 < "+v.getPwd()+" > 입니다.");

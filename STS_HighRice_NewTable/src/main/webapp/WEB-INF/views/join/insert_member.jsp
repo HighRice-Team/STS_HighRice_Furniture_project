@@ -82,6 +82,7 @@
 			var input_confirmText = $("#input_confirmText").val()
 			if(input_confirmText==ranNum){
 				$("#chkResult_id").html("인증완료")
+				$("#memberIdForDb").val($("#member_id").val())
 				clearInterval(intervalObject)
 			}else{
 				$("#msg_join").html("인증번호 오류")
@@ -151,7 +152,7 @@
 		<table width="60%" border="1" cellpadding="10px" cellspacing="5" class="JoinInfo">
 			<tr>
 				<td width="20%" class="title">아이디</td>
-				<td><input type="text" id="member_id" name="member_id" required="required"> <input type="button" value="중복확인" id="chk_idBtn"><span id="chkResult_id" style="color: red;"/> *이메일 주소형식<span id="confirmText_join"></span></td>
+				<td><input type="text" id="member_id" required="required"> <input type="button" value="중복확인" id="chk_idBtn"><span id="chkResult_id" style="color: red;"/> *이메일 주소형식<span id="confirmText_join"></span></td>
 			</tr>
 			<tr>
 				<td class="title">비밀번호</td>
@@ -211,8 +212,9 @@
 		</table>
 		<input type="hidden" id="roadAddrPart2"  value="">
 		<input type="hidden" id="confmKey" name="confmKey" value=""  >
-		<input type="hidden" id="zipNo" name="zipNo" readonly >
+		<input type="hidden" id="zipNo" name="zipNo" >
 		<input type="hidden" name="pwd" id="pwd">
+		<input type="hidden" name="member_id" id="memberIdForDb">
 		
 		<br>
 		<input type="submit" value="가입" id="insert_memberBtn">
