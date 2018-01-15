@@ -6,7 +6,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
 <style type="text/css">
 html, body {
 	width: 100%;
@@ -28,7 +27,7 @@ html, body {
 		</div>
 
 		<!-- 바디영역 -->
-		<div style="min_height: 100%; padding-bottom: 120px; position:static;">
+		<div style="min_height: 100%; position:static;">
 			<jsp:include page="${viewPage }" />
 		</div>
 

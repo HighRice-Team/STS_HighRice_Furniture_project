@@ -6,7 +6,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<<<<<<< HEAD
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+=======
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 <script type="text/javascript">
    $(function(){
       //$("#main_img").fancybox();
