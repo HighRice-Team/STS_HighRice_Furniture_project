@@ -159,7 +159,6 @@
                   $("#pwd_chk").val($("#pwd_chk2").val());
                   $("#j_pwd").val($("#j_pwd2").val());
  
-                  // 주소 api 적용하기..
                   var data = $("#myForm").serializeArray();
                   $.ajax({url:"updateMemberOkAjax.do",data:data,success:function(str){
                    	
