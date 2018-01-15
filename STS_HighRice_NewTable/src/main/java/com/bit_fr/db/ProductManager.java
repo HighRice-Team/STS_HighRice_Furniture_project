@@ -3,6 +3,7 @@ package com.bit_fr.db;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -45,9 +46,9 @@ public class ProductManager {
 		return list;
 	}
 	
-	public static List<ProductVo> getAll_productAdmin(){
+	public static List<ProductVo> getAll_productAdmin(Map map){
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("getAll_productAdmin");
+		List<ProductVo> list = session.selectList("getAll_productAdmin", map);
 		
 		session.close();
 		

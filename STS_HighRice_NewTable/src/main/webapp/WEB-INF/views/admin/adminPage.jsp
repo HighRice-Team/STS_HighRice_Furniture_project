@@ -40,11 +40,12 @@ $(function(){
 	        pageButtonCount:5,
 	        
 	        controller : {
-	        	loadData: function(item) {
+	        	loadData: function(filter) {
 	        	var def = $.Deferred();
 	        	$.ajax({
 	        			url:'admin_product.do',
-	        	        dataType : "json"
+	        	        dataType : "json",
+	        	        data : filter
 	        		 }).done(function(response) {
 	        			def.resolve(response);
 	        		});
@@ -88,11 +89,12 @@ $(function(){
 	        pageButtonCount:5,
 	        
 	        controller : {
-	        	loadData: function() {
+	        	loadData: function(filter) {
 	        	var def = $.Deferred();
 	        	$.ajax({
 	        			url:'admin_orderlist.do',
-	        	        dataType : "json"
+	        	        dataType : "json",
+	        	        data:filter
 	        		 }).done(function(response) {
 	        			def.resolve(response);
 	        		});
@@ -185,7 +187,7 @@ $(function(){
 	            { name: "address", type: "text",width:100 },
 	            { name: "address_detail", type: "text", width:100 },
 	            { name: "payback", type: "text", width:50, readOnly:true},
-	            { name: "bank", type: "number", width:50},
+	            { name: "bank", type: "text", width:50},
 	            { name: "account_no", type: "text", width:100},
 	            { name: "grade", type: "number", width:30},
 	            { type: "control", deleteButton:false, editButton:false }

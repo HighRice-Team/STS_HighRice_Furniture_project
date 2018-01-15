@@ -13,7 +13,38 @@
 	</select>
 	
 	<select id="getAll_productAdmin" resultType="productVo">
-		select * from product order by product_id
+		select * from product where
+		<if test="product_id != null">
+			product_id = #{product_id}
+		</if>
+		<if test="product_id == null">
+			product_id is not null
+		</if>
+		<if test = "condition != null">
+			and condition = #{condition}
+		</if>
+		<if test="product_name != null">
+			and product_name = #{product_name}
+		</if>
+		<if test="category!=null">
+			and category = #{category}
+		</if>
+		<if test="quality != null">
+			and quality = #{quality}
+		</if>
+		<if test="price != null">
+			and price = #{price}
+		</if>
+		<if test="main_img != null">
+			and main_img = #{main_img}
+		</if>
+		<if test="sub_img != null">
+			and sub_img = #{sub_img}
+		</if>
+		<if test = "member_id != null">
+			and member_id = #{member_id}
+		</if>
+		order by product_id
 	</select>
 
 	<select id="getOne_product" resultType="productVo">

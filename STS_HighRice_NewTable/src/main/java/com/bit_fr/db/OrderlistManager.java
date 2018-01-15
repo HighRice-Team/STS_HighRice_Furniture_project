@@ -63,10 +63,10 @@ public class OrderlistManager {
 		return count_MyProduct;
 	}
 
-	public static List<OrderlistVo> getAll_orderlist() {
+	public static List<OrderlistVo> getAll_orderlist(HashMap map) {
 		SqlSession session = factory.openSession();
 
-		List<OrderlistVo> list = session.selectList("orderlist.getAll_orderlist");
+		List<OrderlistVo> list = session.selectList("orderlist.getAll_orderlist", map);
 		session.close();
 
 		return list;

@@ -1,5 +1,6 @@
 package com.bit_fr.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -22,8 +23,8 @@ public class OrderlistDao {
 		return OrderlistManager.getCountToMyCondition_orderlist(member_id, condition);
 	}
 
-	public List<OrderlistVo> getAll_orderlist() {
-		return OrderlistManager.getAll_orderlist();
+	public List<OrderlistVo> getAll_orderlist(HashMap map) {
+		return OrderlistManager.getAll_orderlist(map);
 	}
 
 	public List<OrderlistVo> getMyOrderlistToCondition_orderlist(String member_id, String condition) {

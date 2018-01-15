@@ -2,6 +2,7 @@ package com.bit_fr.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -92,15 +93,6 @@ public class HomeController {
 		int rent3 = orderlistDao.getCountToMyCondition_orderlist(member_id, "배송중");
 		int rent4 = orderlistDao.getCountToMyCondition_orderlist(member_id, "반납");
 
-		// int rent1 = productDao.getMySellCountWithCondition_product(member_id,
-		// "입금완료");
-		// int rent2 = productDao.getMySellCountWithCondition_product(member_id,
-		// "대여중");
-		// int rent3 = productDao.getMySellCountWithCondition_product(member_id,
-		// "베송중");
-		// int rent4 = productDao.getMySellCountWithCondition_product(member_id,
-		// "반납");
-		//
 		int total = productDao.getMySellCount_product(member_id);
 		List<ProductVo> list = productDao.getMySellForPaging_product(member_id, min, max);
 
@@ -152,10 +144,37 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_product() {
+	public String admin_product(HttpServletRequest request) {
+		
+		HashMap map = new HashMap();
+	
+		
+		if(request.getParameter("product_id") !=null && !request.getParameter("product_id").equals("")) {
+			map.put("product_id", request.getParameter("product_id"));
+		}
+		if(request.getParameter("category") !=null && !request.getParameter("category").equals("")) {
+			map.put("category", request.getParameter("category"));
+		}
+		if(request.getParameter("product_name") !=null && !request.getParameter("product_name").equals("")) {
+			map.put("product_name", request.getParameter("product_name"));
+		}
+		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
+			map.put("member_id", request.getParameter("product_id"));
+		}
+		if(request.getParameter("quality") !=null && !request.getParameter("quality").equals("")) {
+			map.put("quality", request.getParameter("quality"));
+		}
+		if(request.getParameter("price") !=null && !request.getParameter("price").equals("")) {
+			map.put("price", request.getParameter("price"));
+		}
+		if(request.getParameter("condition") !=null && !request.getParameter("condition").equals("")) {
+			map.put("condition", request.getParameter("condition"));
+		}
+		
+		
 		String str = "";
 
-		List<ProductVo> list = productDao.getAll_productAdmin();
+		List<ProductVo> list = productDao.getAll_productAdmin(map);
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
@@ -170,10 +189,34 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_orderlist.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_orderlist() {
+	public String admin_orderlist(HttpServletRequest request) {
 		String str = "";
 
-		List<OrderlistVo> list = orderlistDao.getAll_orderlist();
+		HashMap map = new HashMap();
+		
+		if(request.getParameter("order_id") !=null && !request.getParameter("order_id").equals("")) {
+			map.put("order_id", request.getParameter("order_id"));
+		}
+		if(request.getParameter("product_id") !=null && !request.getParameter("product_id").equals("")) {
+			map.put("product_id", request.getParameter("product_id"));
+		}
+		if(request.getParameter("pay_date") !=null && !request.getParameter("pay_date").equals("")) {
+			map.put("pay_date", request.getParameter("pay_date"));
+		}
+		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
+			map.put("member_id", request.getParameter("product_id"));
+		}
+		if(request.getParameter("rent_start") !=null && !request.getParameter("rent_start").equals("")) {
+			map.put("rent_start", request.getParameter("rent_start"));
+		}
+		if(request.getParameter("rent_end") !=null && !request.getParameter("rent_end").equals("")) {
+			map.put("rent_end", request.getParameter("rent_end"));
+		}
+		if(request.getParameter("rent_month") !=null && !request.getParameter("rent_month").equals("")) {
+			map.put("rent_month", request.getParameter("rent_month"));
+		}
+		
+		List<OrderlistVo> list = orderlistDao.getAll_orderlist(map);
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
@@ -252,7 +295,6 @@ public class HomeController {
 	public String updateResetPwd_member(String member_id) {
 		String str = "";
 		ObjectMapper om = new ObjectMapper();
-		System.out.println("넘어왔다");
 		int re = memberDao.updateResetPwd_member(member_id);
 
 		try {

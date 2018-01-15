@@ -27,7 +27,31 @@
 	</select>
 
 	<select id="getAll_orderlist" resultType="orderlistVo">
-		select * from orderlist
+		select * from orderlist where
+		<if test = "order_id != null">
+			order_id = #{order_id}
+		</if>
+		<if test = "order_id == null">
+			order_id is not null
+		</if>
+		<if test = "member_id != null">
+			and member_id = #{member_id}
+		</if>
+		<if test = "product_id != null">
+			and product_id = #{product_id}
+		</if>
+		<if test = "pay_date != null">
+			and pay_date = #{pay_date}
+		</if>
+		<if test = "rent_start != null">
+			and rent_start = #{rent_start}
+		</if>
+		<if test = "rent_end != null">
+			and rent_end = #{rent_end}
+		</if>
+		<if test = "rent_month != null">
+			and rent_month = #{rent_month}
+		</if>
 	</select>
 
 	<select id="getMyOrderlistToCondition_orderlist" resultType="orderlistVo">
