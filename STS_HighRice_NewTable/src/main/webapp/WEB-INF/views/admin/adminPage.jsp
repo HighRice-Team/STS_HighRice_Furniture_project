@@ -40,7 +40,7 @@ $(function(){
 	        pageButtonCount:5,
 	        
 	        controller : {
-	        	loadData: function() {
+	        	loadData: function(item) {
 	        	var def = $.Deferred();
 	        	$.ajax({
 	        			url:'admin_product.do',
@@ -126,24 +126,39 @@ $(function(){
 			width: "100%",
 	        height: "400px",
 	        filtering: true,
-	        editing:true,
+	        editing:false,
 	        sorting: true,
 	        paging: true,
 	        autoload: true,
 	        
-	        editTemplate: function(value, item){
-	        	alert(value)
+	        rowDoubleClick: function(args) {
+	        	var reset =  confirm("비밀번호를 초기화 하시겠습니까?")
+	        	var item = args.item
+	        	
+	        	if(reset == true){
+	        		$.ajax({
+	        			url:"updateResetPwd_member.do",
+	        			dataType:"json",
+	        			data:item,
+	        			success:function(data){
+	        				alert("비밀번호를 초기화 하였습니다.")
+	        			}
+	        			
+	        		})
+	        		
+	        	}
 	        },
 	        
 	        pageSize : 10,
 	        pageButtonCount:5,
 	        
 	        controller : {
-	        	loadData: function() {
+	        	loadData: function(filter) {
 	        	var def = $.Deferred();
 	        	$.ajax({
 	        			url:'admin_member.do',
-	        	        dataType : "json"
+	        	        dataType : "json",
+	        	        data:filter
 	        		 }).done(function(response) {
 	        			def.resolve(response);
 	        		});
@@ -173,7 +188,7 @@ $(function(){
 	            { name: "bank", type: "number", width:50},
 	            { name: "account_no", type: "text", width:100},
 	            { name: "grade", type: "number", width:30},
-	            { type: "control", deleteButton:false }
+	            { type: "control", deleteButton:false, editButton:false }
 	        ]
 		})
 		

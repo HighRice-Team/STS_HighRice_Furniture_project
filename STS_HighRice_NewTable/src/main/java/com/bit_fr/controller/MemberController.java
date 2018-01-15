@@ -196,20 +196,7 @@ public class MemberController {
 
 	// Update은 Ajax을 이용.
 
-	@RequestMapping(value = "/updateResetPwd_member.do", produces = "text/plain;charset=utf-8")
-	@ResponseBody
-	public String updateResetPwd_member(String member_id) {
-		String str = "";
-		// ObjectMapper om = new ObjectMapper();
-		int re = member_dao.updateResetPwd_member(member_id);
-
-		try {
-			// str = om.writeValueAsString(re);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return str;
-	}
+	
 
 	@RequestMapping(value = "/changePwdChk.do", produces = "text/plain; charset=utf-8")
 	@ResponseBody

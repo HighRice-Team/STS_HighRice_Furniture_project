@@ -2,8 +2,10 @@ package com.bit_fr.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -185,9 +188,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_member() {
+	public String admin_member(HttpServletRequest request) {
 		String str = "";
-
 		List<MemberVo> list = memberDao.getAll_member();
 		ObjectMapper mapper = new ObjectMapper();
 
@@ -227,22 +229,39 @@ public class HomeController {
 		return str;
 	}
 
-	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
+//	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
+//	@ResponseBody
+//	public String adminUpdate_member(MemberVo m) {
+//		String str = "";
+//
+//		int re = memberDao.updateInfo_member(m);
+//
+//		ObjectMapper mapper = new ObjectMapper();
+//		try {
+//			str = mapper.writeValueAsString(re);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println(e);
+//		}
+//
+//		return str;
+//	}
+	
+	@RequestMapping(value = "/updateResetPwd_member.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
-	public String adminUpdate_member(MemberVo m) {
+	public String updateResetPwd_member(String member_id) {
 		String str = "";
+		ObjectMapper om = new ObjectMapper();
+		System.out.println("넘어왔다");
+		int re = memberDao.updateResetPwd_member(member_id);
 
-		int re = memberDao.updateInfo_member(m);
-
-		ObjectMapper mapper = new ObjectMapper();
 		try {
-			str = mapper.writeValueAsString(re);
+			 str = om.writeValueAsString(re);
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.println(e);
 		}
-
 		return str;
 	}
+	
 
 }
