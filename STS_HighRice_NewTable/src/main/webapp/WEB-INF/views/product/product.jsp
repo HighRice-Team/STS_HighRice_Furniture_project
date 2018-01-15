@@ -9,17 +9,13 @@
 <style type="text/css">
 
 .sort {
-<<<<<<< HEAD
- 	text-align: right;
-	font-size: 10px;
-=======
 	text-align: right;
 	padding-right: 20px;
 }
 
 .sort a {
 	font-size: 15px;
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
+
 }
 
 p{
