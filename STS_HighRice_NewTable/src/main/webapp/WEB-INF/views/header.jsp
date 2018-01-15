@@ -8,7 +8,8 @@
 <style type="text/css">
 a {
 	font-family: 고딕;
-	font-size: 15pt;
+/* 	font-size: 15pt; */
+	font-size: 1.3vw;
 	font-weight: bold;
 	text-decoration: none;
 	color: #444444;
@@ -126,6 +127,7 @@ a {
 				<a href="">QNA</a><br>
 			</div>
 			<div style="width: 20%; float: right;">
+
 				<a href="customize.do">CUSTMIZE</a><br>
 				<a href="product.do?category=BED">BED</a><br>
 				<a href="product.do?category=SOFA">SOFA</a><br>
