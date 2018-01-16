@@ -109,7 +109,7 @@ a {
 				</c:if>
 
 
-				<a href="myPage.do">MYPAGE</a><br>
+				<a href="myPage.do?selectedMyPage=mP">MYPAGE</a><br>
 				
 				
 				<a href="cartList.do">CART</a><br>

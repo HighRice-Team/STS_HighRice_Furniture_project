@@ -165,30 +165,6 @@
 	      }
 	})
 	
-// 	마이페이지에서 회원정보 변경을 위한 다일로그 오픈
-	$("input[value=회원정보수정]").click(function(){
-		
-		var data = {'member_id':$("#id_mypage").val()}
-		
-		$.ajax({url:"getOne_member_ajax.do", data:data ,success:function(data){
-			
-			data = eval('('+data+')')
-			
-			$("#member_id").html(data.member_id);
-			$("#name").html(data.name);
-			$("#jumin").html(data.jumin);
-			$("#account_no").val(data.account_no);
-			$("#address3").val(data.address3);
-			$("#tel").val(data.tel);
-			$("#pwd_a").val(data.pwd_a);
-			$("#pwd_q").val(data.pwd_q);
-			$("#bank").val(data.bank);
-			$("#roadAddrPart1").val(data.address);
-			$("#addrDetail").val(data.address_detail);
-		}})
-		$("#dialog").dialog("open");
-	})
-	
 // 	마이페이지 상품삭제 버튼
 	$("input[value=삭제]").click(function(){
 //			location.href="productDelete.do?product_id="+$(this).parent().find("#product_id").val();
