@@ -206,7 +206,7 @@
 				<td>
 					<select name="pwd_q">
 						<option>가장 기억에 남는 선물은?</option>
-						<option>자신의 보물 제 1호는?</option>
+						<option>자신의 보물 제1호는?</option>
 						<option>인상 깊게 읽은 책 이름은?</option>
 						<option>자신의 출신 초등학교는?</option>
 					</select>
