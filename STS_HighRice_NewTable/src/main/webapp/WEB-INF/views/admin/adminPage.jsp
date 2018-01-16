@@ -88,7 +88,7 @@ $(function(){
 	            	items:[{id:"", Name:""},{id:"물품게시", Name:"물품게시"}, {id:"배송중", Name:"배송중"}, 
 	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},
 	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
-	            		{id:"반납신청", Name:"반납신청"}],
+	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
 	            { type: "control", deleteButton:false },
 	            { name:"UpdateCondition", width:100, itemTemplate:function(_,item){
@@ -113,14 +113,22 @@ $(function(){
 	            						alert("페이백 적용 실패")
 	            					}
 	            					else{
-	            						str = updateCondition("배송", item.product_id, "배송중")
+// 	            						str = updateCondition("배송", item.product_id, "배송중")
+										var data ={"product_id":item.product_id, condition:"배송중"}
+										$.ajax({
+											url:"UpdateCondition_product.do",
+											data:data,
+											success:function(data){
+												alert("변경 완료")
+												location.href=""
+											}
+										})
 	            					}
 	            					
 	            				}
 	            			})
 	            		})
 	            	}
-	            	
 	            	return str;
 	            }},
 	           {name:"deleteCondtion", width:50, itemTemplate:function(_,item){
