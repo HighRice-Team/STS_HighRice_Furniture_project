@@ -253,23 +253,23 @@ public class HomeController {
 		return str;
 	}
 
-//	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
-//	@ResponseBody
-//	public String adminUpdate_member(MemberVo m) {
-//		String str = "";
-//
-//		int re = memberDao.updateInfo_member(m);
-//
-//		ObjectMapper mapper = new ObjectMapper();
-//		try {
-//			str = mapper.writeValueAsString(re);
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			System.out.println(e);
-//		}
-//
-//		return str;
-//	}
+	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String adminUpdate_member(MemberVo m) {
+		String str = "";
+
+		int re = memberDao.updateInfo_member(m);
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+
+		return str;
+	}
 	
 	@RequestMapping(value = "/updateResetPwd_member.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
