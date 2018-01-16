@@ -23,8 +23,8 @@ public class OrderlistDao {
 		return OrderlistManager.getCountToMyCondition_orderlist(member_id, condition);
 	}
 
-	public List<OrderlistVo> getAll_orderlist(HashMap map) {
-		return OrderlistManager.getAll_orderlist(map);
+	public List<OrderlistVo> getAll_orderlist(OrderlistVo o) {
+		return OrderlistManager.getAll_orderlist(o);
 	}
 
 	public List<OrderlistVo> getMyOrderlistToCondition_orderlist(String member_id, String condition) {
@@ -37,6 +37,10 @@ public class OrderlistDao {
 
 	public List<OrderlistVo> getMyCartList_orderlist(String sql) {
 		return OrderlistManager.getMyCartList_orderlist(sql);
+	}
+	
+	public int getRentMonth_orderlist(String member_id, int product_id) {
+		return OrderlistManager.getRentMonth_orderlist(member_id, product_id);
 	}
 
 	// Controller 에서 order_id 가 dao.getNUM_NextOrderID 으로 받아와짐.

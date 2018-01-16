@@ -119,13 +119,7 @@ public class MemberController {
 		return str;
 	}
 
-	@RequestMapping("/getAll_member.do")
-	public ModelAndView getAll_member() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", member_dao.getAll_member());
 
-		return mav;
-	}
 
 	@RequestMapping(value="/getOne_member.do",produces="text/plain;charset=utf-8")
 	@ResponseBody

@@ -144,10 +144,9 @@ public class HomeController {
 	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_product(ProductVo v) {
-		System.out.println(v);
-
 		String str = "";
-
+		System.out.println(v);
+		
 		List<ProductVo> list = productDao.getAll_productAdmin(v);
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -164,34 +163,10 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_orderlist.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_orderlist(HttpServletRequest request) {
+	public String admin_orderlist(OrderlistVo v) {
 		String str = "";
-
-		HashMap map = new HashMap();
 		
-		if(request.getParameter("order_id") !=null && !request.getParameter("order_id").equals("")) {
-			map.put("order_id", request.getParameter("order_id"));
-		}
-		if(request.getParameter("product_id") !=null && !request.getParameter("product_id").equals("")) {
-			map.put("product_id", request.getParameter("product_id"));
-		}
-		if(request.getParameter("pay_date") !=null && !request.getParameter("pay_date").equals("")) {
-			map.put("pay_date", request.getParameter("pay_date"));
-		}
-		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
-			map.put("member_id", request.getParameter("product_id"));
-		}
-		if(request.getParameter("rent_start") !=null && !request.getParameter("rent_start").equals("")) {
-			map.put("rent_start", request.getParameter("rent_start"));
-		}
-		if(request.getParameter("rent_end") !=null && !request.getParameter("rent_end").equals("")) {
-			map.put("rent_end", request.getParameter("rent_end"));
-		}
-		if(request.getParameter("rent_month") !=null && !request.getParameter("rent_month").equals("")) {
-			map.put("rent_month", request.getParameter("rent_month"));
-		}
-		
-		List<OrderlistVo> list = orderlistDao.getAll_orderlist(map);
+		List<OrderlistVo> list = orderlistDao.getAll_orderlist(v);
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
@@ -206,10 +181,10 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_member() {
-
+	public String admin_member(MemberVo m) {
+				
 		String str = "";
-		List<MemberVo> list = memberDao.getAll_member();
+		List<MemberVo> list = memberDao.getAll_member(m);
 		ObjectMapper mapper = new ObjectMapper();
 			
 		try {
@@ -278,6 +253,46 @@ public class HomeController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		return str;
+	}
+	
+	@RequestMapping(value = "sellCompliate_product.do", produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String sellCompliate_product(ProductVo p) {
+		String str = "";	
+		int rent_month = orderlistDao.getRentMonth_orderlist(p.getMember_id(), p.getProduct_id());
+		
+		if(rent_month == -1) {
+			str = rent_month+"";
+			return str;
+		}
+		int payback = (p.getPrice()*rent_month)/10;
+		
+		int re = memberDao.updatePayback_member(p.getMember_id(), payback);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	@RequestMapping(value = "getPwd_q.do", produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String getPwd_q() {
+		String str = "";
+		List<String> list = memberDao.getPwd_q();
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
 		return str;
 	}
 	
