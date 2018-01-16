@@ -222,5 +222,23 @@ public class ProductController {
 		view.addObject("viewPage", "product/productDetail.jsp");
 		return view;
 	}
+	
+	@RequestMapping(value ="/UpdateCondition_product", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String UpdateConditionToSell_product(int product_id, String condition) {
+		String str = "";
+		
+		int re = dao.updateCondition_product(product_id, condition);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
 
 }

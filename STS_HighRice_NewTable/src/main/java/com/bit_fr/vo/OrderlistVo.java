@@ -11,6 +11,15 @@ public class OrderlistVo {
 	private String rent_end;
 	private int rent_month;
 
+	
+	//toString for yours
+	@Override
+	public String toString() {
+		return "OrderlistVo [order_id=" + order_id + ", member_id=" + member_id + ", product_id=" + product_id
+				+ ", pay_date=" + pay_date + ", rent_start=" + rent_start + ", rent_end=" + rent_end + ", rent_month="
+				+ rent_month + ", rnum=" + rnum + ", product_name=" + product_name + ", main_img=" + main_img
+				+ ", price=" + price + ", pr=" + pr + ", con=" + con + "]";
+	}
 	// page Vo
 	private int rnum;
 
