@@ -74,24 +74,24 @@ $(function(){
 	        },
 	        
 	        fields: [
-	            { name: "product_id", type: "number", width: 50},
-	            { name: "category", type: "select", 
+	            { name: "product_id", title:"제품번호", type: "number", width: 50},
+	            { name: "category", title:"종류",type: "select", 
 	            	items:[{id:"", Name:""},{id:"DESK", Name:"DESK"}, {id:"CLOSET", Name:"CLOSET"}, {id:"SOFA", Name:"SOFA"}, {id:"BED", Name:"BED"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 50 },
-	            { name: "product_name", type: "text", width: 200 },
-	            { name: "member_id", type: "text",width:50},
-	            { name: "quality", type: "select",
+	            { name: "product_name",title:"품명", type: "text", width: 200 },
+	            { name: "member_id", title:"판매자", type: "text",width:50},
+	            { name: "quality", title:"품질", type: "select",
 	            	items:[{id:"", Name:""},{id:"A", Name:"A"}, {id:"B", Name:"B"}, {id:"C", Name:"C"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 50 },
-	            { name: "price", type: "number", width:100},
-	            { name: "condition", type: "select",
+	            { name: "price", title:"가격", type: "number", width:100},
+	            { name: "condition", title:"물품상태", type: "select",
 	            	items:[{id:"", Name:""},{id:"물품게시", Name:"물품게시"}, {id:"배송중", Name:"배송중"}, 
 	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},
 	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
 	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
 	            { type: "control", deleteButton:false },
-	            { name:"UpdateCondition", width:100, itemTemplate:function(_,item){
+	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
 	            	var str;
 	            	if(item.condition=="등록"){
 	            		str = updateCondition("접수",item.product_id,"검수")
@@ -131,7 +131,7 @@ $(function(){
 	            	}
 	            	return str;
 	            }},
-	           {name:"deleteCondtion", width:50, itemTemplate:function(_,item){
+	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
 	        	   var str;
 	        	   if(item.condition=="등록" || item.condition=="검수"){
 	        		   str = $("<button class='chkCondition'>").text("삭제").on("click",function(){
@@ -189,13 +189,13 @@ $(function(){
 	        },
 	        
 	        fields: [
-	            { name: "order_id", type: "number", width: 30},
-	            { name: "member_id", type: "text", width: 30},
-	            { name: "product_id", type: "number", width: 50},
-	            { name: "pay_date", type: "text",width:100},
-	            { name: "rent_start", type: "text", width:100 },
-	            { name: "rent_end", type: "text", width:100 },
-	            { name: "rent_month", type: "number", width:30},
+	            { name: "order_id", title:"주문번호",type: "number", width: 30},
+	            { name: "member_id", title:"구매자",type: "text", width: 30},
+	            { name: "product_id",title:"제품번호", type: "number", width: 30},
+	            { name: "pay_date",title:"구매일", type: "text",width:100},
+	            { name: "rent_start",title:"대여시작", type: "text", width:100 },
+	            { name: "rent_end", title:"대여마강", type: "text", width:100 },
+	            { name: "rent_month",title:"대여기한(개월)", type: "number", width:30},
 	            { type: "control", deleteButton:false, editButton:false }
 	        ]
 		})
@@ -240,23 +240,23 @@ $(function(){
 	        },
 	        
 	        fields: [
-	            { name: "member_id", type: "text", width: 100, readOnly:true },
-	            { name: "name", type: "text", width: 50 },
-	            { name: "pwd", type: "text", width: 50 },
-	            { name: "tel", type: "text", width: 100 },
-	            { name: "pwd_q", type: "select", 
+	            { name: "member_id", title:"아이디",type: "text", width: 150, readOnly:true },
+	            { name: "name",title:"이름", type: "text", width: 50 },
+// 	            { name: "pwd", title:"비밀번호", type: "text", width: 70 },
+	            { name: "tel", title:"전화번호",type: "text", width: 100 },
+	            { name: "pwd_q",title:"비밀번호 질문", type: "select", 
 	            	items:[{id:"", Name:""},{id:"자신의 보물 제1호는?", Name:"자신의 보물 제1호는?"}, {id:"자신의 출신 초등학교는?", Name:"자신의 출신 초등학교는?"}, {id:"인상 깊게 읽은 책 이름은?", Name:"인상 깊게 읽은 책 이름은?"}, {id:"가장 기억에 남는 선물은?", Name:"가장 기억에 남는 선물은?"}],
 	            	valueField: "id", textField: "Name", valueType:"String",
 	            	width: 170 },
-	            { name: "pwd_a", type: "text", width: 70 },
-	            { name: "address", type: "text",width:100 },
-	            { name: "address_detail", type: "text", width:100 },
+	            { name: "pwd_a", title:"답변",type: "text", width: 70 },
+	            { name: "address", title:"시/군/구",type: "text",width:100 },
+	            { name: "address_detail",title:"주소", type: "text", width:100 },
 	            { name: "payback", type: "number", width:50, readOnly:true},
-	            { name: "bank", type: "select", 
+	            { name: "bank", title:"은행명",type: "select", 
 	            	items:[{id:"",Name:""}, {id:"농협",Name:"농협"},{id:"국민",Name:"국민"},{id:"기업",Name:"기업"},{id:"신한",Name:"신한"},{id:"우리",Name:"우리"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width:50},
-	            { name: "account_no", type: "text", width:100},
-	            { name: "grade", type: "number", width:40},
+	            { name: "account_no", title:"계좌번호",type: "text", width:100},
+	            { name: "grade", title:"등급",type: "number", width:40},
 	            { type: "control", deleteButton:false },
 	            { name:"비밀번호 초기화", width:100, itemTemplate:function(_,item){
 	            	var str = $("<button></button>").addClass("reset").text("초기화").on("click",function(){
