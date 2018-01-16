@@ -80,11 +80,19 @@ public class HomeController {
 	}
 
 	@RequestMapping("myPage.do")
-	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min) {
+	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min,String selectedMyPage) {
 		ModelAndView mav = new ModelAndView();
 
 		String member_id = (String) session.getAttribute("id");
 		MemberVo member = memberDao.getOne_member(member_id);
+		
+		List<OrderlistVo>recentList = orderlistDao.getMyRecentlyOrder_orderlist(member_id);
+		if(recentList.size()!=0) {
+			mav.addObject("recentList", recentList);
+			mav.addObject("chkRecentList", "ok");
+		}else {
+			mav.addObject("chkRecentList", null);
+		}
 
 		int max = min + 3;
 
@@ -103,6 +111,8 @@ public class HomeController {
 		mav.addObject("rent4", rent4);
 		mav.addObject("total", total);
 		mav.addObject("list", list);
+		
+		mav.addObject("selectedMyPage", selectedMyPage);
 		mav.addObject("len", list.size());
 
 		mav.addObject("viewPage", "myPage.jsp");
@@ -243,23 +253,23 @@ public class HomeController {
 		return str;
 	}
 
-//	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
-//	@ResponseBody
-//	public String adminUpdate_member(MemberVo m) {
-//		String str = "";
-//
-//		int re = memberDao.updateInfo_member(m);
-//
-//		ObjectMapper mapper = new ObjectMapper();
-//		try {
-//			str = mapper.writeValueAsString(re);
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			System.out.println(e);
-//		}
-//
-//		return str;
-//	}
+	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String adminUpdate_member(MemberVo m) {
+		String str = "";
+
+		int re = memberDao.updateInfo_member(m);
+
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(re);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+
+		return str;
+	}
 	
 	@RequestMapping(value = "/updateResetPwd_member.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
