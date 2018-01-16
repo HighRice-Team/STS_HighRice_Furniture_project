@@ -36,7 +36,7 @@ $(function(){
 		
 
 		$("#product_grid").jsGrid({
-	        width: "100%",
+	        width: "95%",
 	        height: "auto",
 	        editing:true,
 	        filtering: true,
@@ -157,7 +157,7 @@ $(function(){
 		});
 			
 		$("#order_grid").jsGrid({
-	        width: "100%",
+	        width: "95%",
 	        height: "400px",
 	        filtering: true,
 	        sorting: true,
@@ -201,7 +201,7 @@ $(function(){
 		})
 		
 		$("#member_grid").jsGrid({
-			width: "100%",
+			width: "95%",
 	        height: "400px",
 	        filtering: true,
 	        editing:true,
