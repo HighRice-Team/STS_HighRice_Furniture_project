@@ -117,6 +117,26 @@ public class HomeController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value = "/aboutus.do")
+	public ModelAndView goAboutus() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("viewPage","aboutUs.jsp" );
+		mav.setViewName("main");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/faq.do")
+	public ModelAndView goFAQ() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("viewPage","faq.jsp" );
+		mav.setViewName("main");
+		
+		return mav;
+	}
 
 	@RequestMapping(value = "/sellWrite.do")
 	public ModelAndView sellWrite() {
