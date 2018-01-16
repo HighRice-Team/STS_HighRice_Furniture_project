@@ -11,7 +11,6 @@ public class OrderlistVo {
 	private String rent_end;
 	private int rent_month;
 
-	
 	//toString for yours
 	@Override
 	public String toString() {
