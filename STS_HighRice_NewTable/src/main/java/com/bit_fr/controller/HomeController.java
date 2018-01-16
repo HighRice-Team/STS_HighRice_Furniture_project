@@ -148,12 +148,12 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_product() {
+	public String admin_product(ProductVo v) {
+		System.out.println(v);
 		String str = "";
-
-		List<ProductVo> list = productDao.getAll_productAdmin();
+		List<ProductVo> list = productDao.getAll_productAdmin(v);
 		ObjectMapper mapper = new ObjectMapper();
-
+		
 		try {
 			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
@@ -186,7 +186,6 @@ public class HomeController {
 	@ResponseBody
 	public String admin_member() {
 		String str = "";
-
 		List<MemberVo> list = memberDao.getAll_member();
 		ObjectMapper mapper = new ObjectMapper();
 
