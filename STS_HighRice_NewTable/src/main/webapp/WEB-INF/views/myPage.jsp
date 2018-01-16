@@ -495,7 +495,7 @@ p{
 			<tr>
 				<td id="title">비밀번호 힌트</td>
 				<td colspan="4"><select id="pwd_q" name="pwd_q">
-						<option value="자신의 보물 제 1호는?">자신의 보물 제 1호는?</option>
+						<option value="자신의 보물 제1호는?">자신의 보물 제1호는?</option>
 						<option value="자신의 출신 초등학교는?">자신의 출신 초등학교는?</option>
 						<option value="인상깊게 읽은 책 이름은?">인상깊게 읽은 책 이름은?</option>
 						<option value="가장 기억에 남는 선물은?">가장 기억에 남는 선물은?</option>

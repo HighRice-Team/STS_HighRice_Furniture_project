@@ -11,6 +11,7 @@ public class OrderlistVo {
 	private String rent_end;
 	private int rent_month;
 
+	//toString for yours
 	@Override
 	public String toString() {
 		return "OrderlistVo [order_id=" + order_id + ", member_id=" + member_id + ", product_id=" + product_id

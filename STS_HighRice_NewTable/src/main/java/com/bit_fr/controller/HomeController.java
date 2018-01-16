@@ -2,8 +2,11 @@ package com.bit_fr.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.annotation.Resources;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,15 +101,6 @@ public class HomeController {
 		int rent3 = orderlistDao.getCountToMyCondition_orderlist(member_id, "배송중");
 		int rent4 = orderlistDao.getCountToMyCondition_orderlist(member_id, "반납");
 
-		// int rent1 = productDao.getMySellCountWithCondition_product(member_id,
-		// "입금완료");
-		// int rent2 = productDao.getMySellCountWithCondition_product(member_id,
-		// "대여중");
-		// int rent3 = productDao.getMySellCountWithCondition_product(member_id,
-		// "베송중");
-		// int rent4 = productDao.getMySellCountWithCondition_product(member_id,
-		// "반납");
-		//
 		int total = productDao.getMySellCount_product(member_id);
 		List<ProductVo> list = productDao.getMySellForPaging_product(member_id);
 
@@ -124,6 +119,26 @@ public class HomeController {
 
 		mav.setViewName("main");
 
+		return mav;
+	}
+	
+	@RequestMapping(value = "/aboutus.do")
+	public ModelAndView goAboutus() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("viewPage","aboutUs.jsp" );
+		mav.setViewName("main");
+		
+		return mav;
+	}
+	
+	@RequestMapping(value = "/faq.do")
+	public ModelAndView goFAQ() {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("viewPage","faq.jsp" );
+		mav.setViewName("main");
+		
 		return mav;
 	}
 
@@ -159,9 +174,11 @@ public class HomeController {
 	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_product(ProductVo v) {
-		System.out.println(v);
 		String str = "";
+		System.out.println(v);
+		
 		List<ProductVo> list = productDao.getAll_productAdmin(v);
+
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
@@ -176,10 +193,10 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_orderlist.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_orderlist() {
+	public String admin_orderlist(OrderlistVo v) {
 		String str = "";
-
-		List<OrderlistVo> list = orderlistDao.getAll_orderlist();
+		
+		List<OrderlistVo> list = orderlistDao.getAll_orderlist(v);
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
@@ -194,11 +211,12 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_member() {
+	public String admin_member(MemberVo m) {
+				
 		String str = "";
-		List<MemberVo> list = memberDao.getAll_member();
+		List<MemberVo> list = memberDao.getAll_member(m);
 		ObjectMapper mapper = new ObjectMapper();
-
+			
 		try {
 			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
@@ -235,13 +253,53 @@ public class HomeController {
 		return str;
 	}
 
-	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
+//	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
+//	@ResponseBody
+//	public String adminUpdate_member(MemberVo m) {
+//		String str = "";
+//
+//		int re = memberDao.updateInfo_member(m);
+//
+//		ObjectMapper mapper = new ObjectMapper();
+//		try {
+//			str = mapper.writeValueAsString(re);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println(e);
+//		}
+//
+//		return str;
+//	}
+	
+	@RequestMapping(value = "/updateResetPwd_member.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
-	public String adminUpdate_member(MemberVo m) {
+	public String updateResetPwd_member(String member_id) {
 		String str = "";
+		ObjectMapper om = new ObjectMapper();
+		int re = memberDao.updateResetPwd_member(member_id);
 
-		int re = memberDao.updateInfo_member(m);
-
+		try {
+			 str = om.writeValueAsString(re);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return str;
+	}
+	
+	@RequestMapping(value = "sellCompliate_product.do", produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String sellCompliate_product(ProductVo p) {
+		String str = "";	
+		int rent_month = orderlistDao.getRentMonth_orderlist(p.getMember_id(), p.getProduct_id());
+		
+		if(rent_month == -1) {
+			str = rent_month+"";
+			return str;
+		}
+		int payback = (p.getPrice()*rent_month)/10;
+		
+		int re = memberDao.updatePayback_member(p.getMember_id(), payback);
+		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			str = mapper.writeValueAsString(re);
@@ -249,8 +307,24 @@ public class HomeController {
 			// TODO: handle exception
 			System.out.println(e);
 		}
-
+		
 		return str;
 	}
+	@RequestMapping(value = "getPwd_q.do", produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String getPwd_q() {
+		String str = "";
+		List<String> list = memberDao.getPwd_q();
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
 
 }
