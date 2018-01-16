@@ -45,9 +45,35 @@ public class ProductManager {
 		return list;
 	}
 	
-	public static List<ProductVo> getAll_productAdmin(){
+	public static List<ProductVo> getAll_productAdmin(ProductVo v){
+		HashMap<String, String>map = new HashMap<String, String>();
+		
+		if(v.getProduct_id()!=0) {
+
+			map.put("product_id", v.getProduct_id()+"");
+		}
+		
+		if(!v.getCategory().equals("")) {
+			map.put("category",v.getCategory().toUpperCase());
+		}
+		if(!v.getProduct_name().equals("")) {
+			map.put("product_name","%"+v.getProduct_name()+"%");
+		}
+		if(!v.getMember_id().equals("")) {
+			map.put("member_id",v.getMember_id());
+		}
+		if(!v.getQuality().equals("")) {
+			map.put("quality",v.getQuality().toUpperCase());
+		}
+		if(v.getPrice()!=0) {
+			map.put("price",v.getPrice()+"");
+		}
+		if(!v.getCondition().equals("")) {
+			map.put("condition",v.getCondition());
+		}
+		
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("getAll_productAdmin");
+		List<ProductVo> list = session.selectList("getAll_productAdmin",map);
 		
 		session.close();
 		
@@ -108,12 +134,10 @@ public class ProductManager {
 		return n;
 	}
 
-	public static List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
+	public static List<ProductVo> getMySellForPaging_product(String member_id) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
 		map.put("member_id", member_id);
-		map.put("start", start);
-		map.put("end", end);
 		List<ProductVo> list = session.selectList("product.getMySellForPaging_product", map);
 		session.close();
 		return list;
@@ -145,7 +169,7 @@ public class ProductManager {
 	}
 
 	public static int insert_product(ProductVo p) {
-		SqlSession session = factory.openSession();
+		SqlSession session = factory.openSession(true);
 		int re = session.insert("product.insert_product", p);
 		session.close();
 		return re;
@@ -153,7 +177,7 @@ public class ProductManager {
 
 	public static int update_product(String product_name, String category, String quality, String main_img,
 			String sub_img) {
-		SqlSession session = factory.openSession();
+		SqlSession session = factory.openSession(true);
 		HashMap map = new HashMap();
 		map.put("product_name", product_name);
 		map.put("category", category);

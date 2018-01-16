@@ -14,8 +14,8 @@ public class ProductDao {
 		return ProductManager.getAll_product(sql);
 	}
 	
-	public List<ProductVo> getAll_productAdmin(){
-		return ProductManager.getAll_productAdmin();
+	public List<ProductVo> getAll_productAdmin(ProductVo v){
+		return ProductManager.getAll_productAdmin(v);
 	}
 
 	public ProductVo getOne_product(int product_id) {
@@ -54,8 +54,8 @@ public class ProductDao {
 		return ProductManager.getAllPublishingCount_product(category, condition);
 	}
 
-	public List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
-		return ProductManager.getMySellForPaging_product(member_id, start, end);
+	public List<ProductVo> getMySellForPaging_product(String member_id) {
+		return ProductManager.getMySellForPaging_product(member_id);
 	}
 
 	public int getItemPublishingCount_product(String condition) {
