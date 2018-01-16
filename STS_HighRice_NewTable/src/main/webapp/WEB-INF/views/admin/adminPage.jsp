@@ -251,7 +251,7 @@ $(function(){
 	            { name: "pwd_a", title:"답변",type: "text", width: 70 },
 	            { name: "address", title:"시/군/구",type: "text",width:100 },
 	            { name: "address_detail",title:"주소", type: "text", width:100 },
-	            { name: "payback", type: "number", width:50, readOnly:true},
+	            { name: "payback", title:"payback", type: "number", width:50, readOnly:true},
 	            { name: "bank", title:"은행명",type: "select", 
 	            	items:[{id:"",Name:""}, {id:"농협",Name:"농협"},{id:"국민",Name:"국민"},{id:"기업",Name:"기업"},{id:"신한",Name:"신한"},{id:"우리",Name:"우리"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width:50},
