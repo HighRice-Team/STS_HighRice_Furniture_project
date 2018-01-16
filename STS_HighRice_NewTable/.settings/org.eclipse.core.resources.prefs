@@ -1,3 +1,11 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding/<project>=UTF-8
 separateDerivedEncodings=true
+=======
+encoding//src/main/java/com/bit_fr/controller/HomeController.java=UTF-8
+encoding//src/main/java/com/bit_fr/controller/MemberController.java=UTF-8
+encoding//src/main/java/com/bit_fr/controller/OrderlistController.java=UTF-8
+encoding//src/main/java/com/bit_fr/controller/ProductController.java=UTF-8
+encoding//src/main/java/com/bit_fr/db/MemberManager.java=UTF-8
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git

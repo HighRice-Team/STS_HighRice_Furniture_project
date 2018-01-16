@@ -16,6 +16,7 @@ import com.bit_fr.dao.OrderlistDao;
 import com.bit_fr.dao.ProductDao;
 import com.bit_fr.vo.MemberVo;
 import com.bit_fr.vo.OrderlistVo;
+import com.bit_fr.vo.ProductVo;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,6 +42,46 @@ public class OrderlistController {
 
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
+	}
+
+	@RequestMapping(value = "/goPayment.do", produces = "text/plain;charset=utf-8")
+	public ModelAndView goPayment(HttpSession session , int rentMonth , int product_id) {
+		ModelAndView mav = new ModelAndView("main");
+		
+		String member_id = (String) session.getAttribute("id");
+
+		ProductVo pv = productDao.getOne_product(product_id);
+		int price = pv.getPrice();
+		
+		MemberVo mv = memberDao.getOne_member(member_id);
+		String pwd = mv.getPwd();
+		
+		long paymentOne = rentMonth * price;
+		
+		mav.addObject("pwd", pwd);
+		mav.addObject("product_id", product_id);
+		mav.addObject("paymentOne", paymentOne);
+		mav.addObject("rentMonth", rentMonth);
+		mav.addObject("viewPage", "pay/payment.jsp");
+		
+		return mav;
+	}
+
+	@RequestMapping(value = "/goPaymentInfo.do", produces = "text/plain;charset=utf-8")
+	public ModelAndView goPaymentInfo(HttpSession session, int product_id, int rentMonth) {
+		ModelAndView mav = new ModelAndView("main");
+
+		String member_id = (String) session.getAttribute("id");
+
+		ProductVo productVo = productDao.getOne_product(product_id);
+		MemberVo memberVo = memberDao.getOne_member(member_id);
+
+		mav.addObject("productVo", productVo);
+		mav.addObject("memberVo", memberVo);
+		mav.addObject("rentMonth", rentMonth);
+		mav.addObject("viewPage", "pay/paymentInfo.jsp");
+
+		return mav;
 	}
 
 	@RequestMapping(value = "/cartList.do", produces = "text/plain;charset=utf-8")
@@ -86,6 +127,100 @@ public class OrderlistController {
 
 		return mav;
 	}
+	
+	@RequestMapping(value="paymentOkAjax.do", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String paymentOkAjax(HttpSession session, int rentMonth, int product_id, long paymentOne ) {
+		String str = "";
+		String member_id = (String) session.getAttribute("id");
+		
+		int re = -1;
+
+		// 멤버의 잔고 & 결제하기.
+		MemberVo mv = memberDao.getOne_member(member_id);
+		long balance = mv.getBalance();
+		
+		// 결제하기.
+		if ((balance - paymentOne) >= 0) {
+			// 결제하기위한 잔액이 충분할 때.
+			re = orderlistDao.updatePaymentProduct_orderlist(member_id, paymentOne);
+
+			//관리자 통장에 입금되기.
+			re = orderlistDao.updateDepositToMaster_orderlist(paymentOne);
+			
+			// 잔액차감 성공.
+			if (re == 1) {
+				String condition = "입금완료";
+				re = productDao.updateCondition_product(product_id, condition);
+				
+				// Orderlist 생성하기.
+				int nextOreder_id = orderlistDao.getCountNextOrderId_orderlist();
+
+				OrderlistVo v = new OrderlistVo();
+				v.setOrder_id(nextOreder_id);
+				v.setMember_id(member_id);
+				v.setProduct_id(product_id);
+				v.setRent_month(rentMonth);
+				// 결제한 Orderlist 생성.
+				re = orderlistDao.insertPayment_orderlist(v);
+			}
+		} else {
+			// 잔액부족.
+			re = -10;
+		}
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+
+			str = mapper.writeValueAsString(re);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+
+	@RequestMapping(value = "/insertOrderListAjax.do", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String insertOrderListAjax(HttpSession session, int rent_month, int product_id) {
+		String str = "";
+		String member_id = (String) session.getAttribute("id");
+
+		int re = -1;
+		int chk_exist = orderlistDao.getCheckExist_orderlist(member_id, product_id);
+
+		if (chk_exist < 1) {
+			OrderlistVo v = new OrderlistVo();
+
+			int nextOreder_id = orderlistDao.getCountNextOrderId_orderlist();
+
+			v.setOrder_id(nextOreder_id);
+			v.setMember_id(member_id);
+			v.setProduct_id(product_id);
+			v.setRent_month(rent_month);
+
+			orderlistDao.insertCartlist_orderlist(v);
+
+		}
+
+		re = chk_exist;
+
+		ObjectMapper mapper = new ObjectMapper();
+
+		try {
+
+			str = mapper.writeValueAsString(re);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+
+		return str;
+	}
 
 	@RequestMapping(value = "/deleteOrderListAjax.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
@@ -109,6 +244,7 @@ public class OrderlistController {
 		return str;
 	}
 
+	// CartList.jsp 에서의 결제.
 	@RequestMapping(value = "/updateConditionOderlistAjax.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
 	public String updateOderlistAjax(HttpSession session, int product_id, long paymentOne) {
@@ -119,15 +255,23 @@ public class OrderlistController {
 		// 멤버의 잔고 & 결제하기.
 		MemberVo mv = memberDao.getOne_member(member_id);
 		long balance = mv.getBalance();
-
+		
 		// 결제하기.
 		if ((balance - paymentOne) >= 0) {
 			// 결제하기위한 잔액이 충분할 때.
 			re = orderlistDao.updatePaymentProduct_orderlist(member_id, paymentOne);
+
+			//관리자 통장에 입금되기.
+			re = orderlistDao.updateDepositToMaster_orderlist(paymentOne);
+			
 			// 잔액차감 성공.
 			if (re == 1) {
 				String condition = "입금완료";
 				re = productDao.updateCondition_product(product_id, condition);
+				
+				// 대여날짜 수정하기.
+				int rent_month = orderlistDao.getMyRentMonth_orderlist(member_id , product_id);
+				re = orderlistDao.updateRentalDateFromCartlistPayment_orderlist(member_id , product_id , rent_month);
 			}
 		} else {
 			// 잔액부족.
