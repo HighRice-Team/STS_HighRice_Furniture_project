@@ -14,8 +14,8 @@ public class ProductDao {
 		return ProductManager.getAll_product(sql);
 	}
 	
-	public List<ProductVo> getAll_productAdmin(){
-		return ProductManager.getAll_productAdmin();
+	public List<ProductVo> getAll_productAdmin(ProductVo v){
+		return ProductManager.getAll_productAdmin(v);
 	}
 
 	public ProductVo getOne_product(int product_id) {

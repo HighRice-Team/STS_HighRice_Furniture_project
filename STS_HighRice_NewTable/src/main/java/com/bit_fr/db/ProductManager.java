@@ -45,9 +45,35 @@ public class ProductManager {
 		return list;
 	}
 	
-	public static List<ProductVo> getAll_productAdmin(){
+	public static List<ProductVo> getAll_productAdmin(ProductVo v){
+		HashMap<String, String>map = new HashMap<String, String>();
+		
+		if(v.getProduct_id()!=0) {
+
+			map.put("product_id", v.getProduct_id()+"");
+		}
+		
+		if(!v.getCategory().equals("")) {
+			map.put("category",v.getCategory().toUpperCase());
+		}
+		if(!v.getProduct_name().equals("")) {
+			map.put("product_name","%"+v.getProduct_name()+"%");
+		}
+		if(!v.getMember_id().equals("")) {
+			map.put("member_id",v.getMember_id());
+		}
+		if(!v.getQuality().equals("")) {
+			map.put("quality",v.getQuality().toUpperCase());
+		}
+		if(v.getPrice()!=0) {
+			map.put("price",v.getPrice()+"");
+		}
+		if(!v.getCondition().equals("")) {
+			map.put("condition",v.getCondition());
+		}
+		
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("getAll_productAdmin");
+		List<ProductVo> list = session.selectList("getAll_productAdmin",map);
 		
 		session.close();
 		
