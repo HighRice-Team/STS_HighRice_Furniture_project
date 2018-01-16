@@ -13,6 +13,7 @@
 	</select>
 	
 	<select id="getAll_productAdmin" resultType="productVo">
+
 		select * from product 
 			<trim prefix="WHERE" prefixOverrides="AND">
 				<if test="product_id!=null">AND product_id=${product_id}</if>

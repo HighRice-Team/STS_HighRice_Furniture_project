@@ -63,10 +63,34 @@ public class OrderlistManager {
 		return count_MyProduct;
 	}
 
-	public static List<OrderlistVo> getAll_orderlist() {
+	public static List<OrderlistVo> getAll_orderlist(OrderlistVo o) {
 		SqlSession session = factory.openSession();
+		
+		HashMap<String , String> map = new HashMap<String, String>();
+		
+		if(o.getOrder_id() != 0) {
+			map.put("order_id", o.getOrder_id()+"");
+		}
+		if(o.getMember_id() != null && !o.getMember_id().equals("")) {
+			map.put("member_id", "%"+o.getMember_id()+"%");
+		}
+		if(o.getProduct_id()!=0) {
+			map.put("product_id",o.getProduct_id()+"");
+		}
+		if(!o.getPay_date().equals("")) {
+			map.put("pay_date","%"+o.getPay_date()+"%");
+		}
+		if(!o.getRent_start().equals("")) {
+			map.put("rent_start","%"+o.getRent_start()+"%");
+		}
+		if(o.getRent_month()!=0) {
+			map.put("rent_month",o.getRent_month()+"");
+		}
+		if(!o.getRent_end().equals("")) {
+			map.put("rent_end","%"+o.getRent_end()+"%");
+		}
 
-		List<OrderlistVo> list = session.selectList("orderlist.getAll_orderlist");
+		List<OrderlistVo> list = session.selectList("orderlist.getAll_orderlist", map);
 		session.close();
 
 		return list;
@@ -106,6 +130,25 @@ public class OrderlistManager {
 		session.close();
 
 		return list;
+	}
+	
+	//for rent_month of payback
+	public static int getRentMonth_orderlist(String member_id, int product_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", member_id);
+		map.put("product_id", product_id+"");
+		
+		SqlSession session = factory.openSession();
+		
+		int rent_month = -1;
+		
+		if(session.selectOne("orderlist.getRentMonth_orderlist", map)!= null) {
+			rent_month = session.selectOne("orderlist.getRentMonth_orderlist", map);
+		}
+		
+		session.close();
+		
+		return rent_month;
 	}
 
 	public static int getMyRentMonth_orderlist(String member_id, int product_id) {

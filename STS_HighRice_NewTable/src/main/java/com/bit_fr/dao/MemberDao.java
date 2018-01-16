@@ -9,8 +9,8 @@ import com.bit_fr.vo.MemberVo;
 
 @Repository
 public class MemberDao {
-	public List<MemberVo> getAll_member() {
-		return MemberManager.getAll_member();
+	public List<MemberVo> getAll_member(MemberVo m) {
+		return MemberManager.getAll_member(m);
 	}
 
 	public MemberVo getOne_member(String member_id) {
@@ -23,6 +23,10 @@ public class MemberDao {
 
 	public int getCount_member() {
 		return MemberManager.getCount_member();
+	}
+	
+	public List<String> getPwd_q(){
+		return MemberManager.getPwd_q();
 	}
 
 	public int insert_member(MemberVo v) {
@@ -40,4 +44,10 @@ public class MemberDao {
 	public int updateInfo_member(MemberVo v) {
 		return MemberManager.updateInfo_member(v);
 	}
+	
+	public int updatePayback_member(String member_id, int payback) {
+		return MemberManager.updatePayback_member(member_id, payback);
+	}
+	
+	
 }

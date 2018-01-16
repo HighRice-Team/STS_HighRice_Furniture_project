@@ -24,6 +24,16 @@
 
 	<select id="getAll_orderlist" resultType="orderlistVo">
 		select * from orderlist
+		<trim prefix="WHERE" prefixOverrides="AND">
+				<if test="order_id!=null">AND order_id = #{order_id}</if>
+				<if test="member_id != null">AND member_id like '${member_id}'</if>
+				<if test="product_id!=null">AND and product_id = #{product_id}</if>
+				<if test = "pay_date != null">AND pay_date = '${pay_date}'</if>
+				<if test = "rent_start != null">AND rent_start='${rent_start}'</if>
+				<if test = "rent_end != null">AND rent_end='${rent_end}'</if>
+				<if test = "rent_month != null">AND rent_date=#{rent_date}</if>
+			</trim>
+		order by order_id
 	</select>
 
 	<select id="getMyOrderlistToCondition_orderlist" resultType="orderlistVo">
@@ -40,6 +50,10 @@
 
 	<select id="getMyCartList_orderlist" resultType="orderlistVo">
 		${sql}
+	</select>
+	
+	<select id="getRentMonth_orderlist" resultType="java.lang.Integer">
+		select rent_month from orderlist where member_id = #{member_id} and product_id = #{product_id}
 	</select>
 
 	<select id="getMyRentMonth_orderlist" resultType="java.lang.Integer">
