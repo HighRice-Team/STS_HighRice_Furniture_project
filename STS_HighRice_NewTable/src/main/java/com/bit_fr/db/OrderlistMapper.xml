@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orderlist">
 
+	<select id="getMyRecentlyOrder_orderlist" resultType="orderlistVo">
+		select order_id, pay_date,main_img,product_name,price,rent_month,condition con from orderlist o,product p where o.product_id = p.product_id and o.member_id = '${member_id}' and o.pay_date >= '${today}'
+	</select>
+
 	<select id="getCheckExist_orderlist" resultType="java.lang.Integer">
 		select count(*)
 		from
@@ -37,9 +41,10 @@
 	</select>
 
 	<select id="getAllMyOrder_orderlist" resultType="orderlistVo">
-		select * from
-		orderlist
-		where member_id = #{member_id}
+		select pay_date,order_id,main_img,rent_month,product_name,price,condition con from product p,orderlist o where p.product_id=o.product_id and o.member_id = #{member_id}
+			<if test="product_name != null">AND product_name= '${product_name}'</if>
+			<if test="price != null">AND price = ${price}</if>
+			<if test="condition != null">AND condition = '${condition}'</if>
 	</select>
 
 	<select id="getMyCartList_orderlist" resultType="orderlistVo">

@@ -13,6 +13,10 @@ public class OrderlistDao {
 	public int getCheckExist_orderlist(String member_id, int product_id) {
 		return OrderlistManager.getCheckExist_orderlist(member_id, product_id);
 	}
+	
+	public List<OrderlistVo>getMyRecentlyOrder_orderlist(String member_id){
+		return OrderlistManager.getMyRecentlyOrder_orderlist(member_id);
+	}
 
 	public int getCountNextOrderId_orderlist() {
 		return OrderlistManager.getCountNextOrderId_orderlist();
@@ -30,8 +34,8 @@ public class OrderlistDao {
 		return OrderlistManager.getMyOrderlistToCondition_orderlist(member_id, condition);
 	}
 
-	public List<OrderlistVo> getAllMyOrder_orderlist(String member_id) {
-		return OrderlistManager.getAllMyOrder_orderlist(member_id);
+	public List<OrderlistVo> getAllMyOrder_orderlist(String member_id,OrderlistVo v) {
+		return OrderlistManager.getAllMyOrder_orderlist(member_id,v);
 	}
 
 	public List<OrderlistVo> getMyCartList_orderlist(String sql) {

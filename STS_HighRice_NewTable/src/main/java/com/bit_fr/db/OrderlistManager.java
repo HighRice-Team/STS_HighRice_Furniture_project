@@ -1,8 +1,12 @@
 package com.bit_fr.db;
 
 import java.io.Reader;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -23,6 +27,21 @@ public class OrderlistManager {
 			// TODO: handle exception
 			System.out.println(e);
 		}
+	}
+	
+	public static List<OrderlistVo> getMyRecentlyOrder_orderlist(String member_id){
+		SqlSession session = factory.openSession();
+		HashMap<String, String> map = new HashMap<String, String>();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"));
+		cal.add(Calendar.DATE, -14);
+		SimpleDateFormat df = new SimpleDateFormat();
+		df.applyPattern("yyyy/MM/dd");
+		map.put("today", df.format(cal.getTime()));
+		map.put("member_id", member_id);
+		List<OrderlistVo> list = session.selectList("orderlist.getMyRecentlyOrder_orderlist",map);
+		session.close();
+		
+		return list;	
 	}
 
 	public static int getCheckExist_orderlist(String member_id, int product_id) {
@@ -85,9 +104,17 @@ public class OrderlistManager {
 		return list;
 	}
 
-	public static List<OrderlistVo> getAllMyOrder_orderlist(String member_id) {
+	public static List<OrderlistVo> getAllMyOrder_orderlist(String member_id,OrderlistVo v) {
 		HashMap map = new HashMap();
 		map.put("member_id", member_id);
+		
+		if(!v.getProduct_name().equals("")) {
+			map.put("product_name","%"+v.getProduct_name()+"%");
+		}if(!v.getPrice().equals("")) {
+			map.put("price", v.getPrice());
+		}if(!v.getCon().equals("")) {
+			map.put("condition",v.getCon());
+		}
 
 		SqlSession session = factory.openSession();
 

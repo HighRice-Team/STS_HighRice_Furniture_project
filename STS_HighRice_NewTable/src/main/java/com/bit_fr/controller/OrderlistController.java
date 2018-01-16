@@ -42,7 +42,25 @@ public class OrderlistController {
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
+	
+	@RequestMapping(value = "/getMyOrderlist.do", produces = "text/plain;charset=utf-8")
+	@ResponseBody
+	public String getMyOrderlist(HttpSession session,OrderlistVo v) {
+		System.out.println(v.toString());
+		String str="";
+		String member_id = (String) session.getAttribute("id");
+		List<OrderlistVo>list = orderlistDao.getAllMyOrder_orderlist(member_id,v);
+		
+		try {
+			ObjectMapper om = new ObjectMapper();
+			str = om.writeValueAsString(list);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return str;
 
+	}
 	@RequestMapping(value = "/cartList.do", produces = "text/plain;charset=utf-8")
 	public ModelAndView goCartList(HttpSession session, @RequestParam(defaultValue = "1") int pageNUM) {
 		ModelAndView mav = new ModelAndView("main");
