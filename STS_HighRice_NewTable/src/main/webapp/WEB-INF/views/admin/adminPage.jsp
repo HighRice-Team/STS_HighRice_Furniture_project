@@ -90,47 +90,7 @@ $(function(){
 	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
 	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
-	            { type: "control", deleteButton:false },
-	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
-	            	var str;
-	            	if(item.condition=="등록"){
-	            		str = updateCondition("접수",item.product_id,"검수")
-	            	}
-	            	if(item.condition=="반납신청"){
-	            		str = updateCondition("반납", item.product_id, "반납")
-	            	}
-	            	if(item.condition=="반납"){
-	            		str = updateCondition("물품게시", item.product_id, "물품게시")
-	            	}
-	            	if(item.condition=="입금완료"){
-	            		str = $("<button class='chkCondition'>").text("배송").on("click",function(){
-	            			var data = {"product_id":item.product_id ,"member_id":item.member_id, "price":item.price}
-	            			$.ajax({
-	            				url:"sellCompliate_product.do",
-	            				data:data,
-	            				success:function(d){
-	            					if(d == -1){
-	            						alert("페이백 적용 실패")
-	            					}
-	            					else{
-// 	            						str = updateCondition("배송", item.product_id, "배송중")
-										var data ={"product_id":item.product_id, condition:"배송중"}
-										$.ajax({
-											url:"UpdateCondition_product.do",
-											data:data,
-											success:function(data){
-												alert("변경 완료")
-												location.href=""
-											}
-										})
-	            					}
-	            					
-	            				}
-	            			})
-	            		})
-	            	}
-	            	return str;
-	            }},
+	           { type: "control", deleteButton:false },
 	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
 	        	   var str;
 	        	   if(item.condition=="등록" || item.condition=="검수"){
@@ -196,7 +156,62 @@ $(function(){
 	            { name: "rent_start",title:"대여시작", type: "text", width:100 },
 	            { name: "rent_end", title:"대여마강", type: "text", width:100 },
 	            { name: "rent_month",title:"대여기한(개월)", type: "number", width:30},
-	            { type: "control", deleteButton:false, editButton:false }
+	            { type: "control", deleteButton:false, editButton:false },
+	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
+	            	var str;
+	            	
+	            	str = $.ajax({
+	            		url:"getCondition_product.do",
+	            		data:{"product_id":item.product_id},
+	            		success:function(data){
+	            			if(data.condition=="등록"){
+	    	            		str = updateCondition("접수",item.product_id,"검수")
+	    	            		return str;
+	    	            	}
+	    	            	if(data.condition=="반납신청"){
+	    	            		str = updateCondition("반납", item.product_id, "반납")
+	    	            		return str;
+	    	            	}
+	    	            	if(data.condtion=="반납"){
+	    	            		str = updateCondition("물품게시", item.product_id, "물품게시")
+	    	            		return str;
+	    	            	}
+	    	            	if(data.condition=='입금완료'){
+	    	            		str = $("<button class='chkCondition'>").text("배송").on("click",function(){
+	    	            			var con = {"order_id":item.order_id , "price":data.price, "member_id":item.member_id}
+	    	            			$.ajax({
+	    	            				url:"sellCompliate_product.do",
+	    	            				data:con,
+	    	            				success:function(d){
+	    	            					if(d == -1){
+	    	            						alert("페이백 적용 실패")
+	    	            					}
+	    	            					else{
+	    	            						//str = updateCondition("배송", item.product_id, "배송중")
+	    										var data ={"product_id":item.product_id, condition:"배송중"}
+	    										$.ajax({
+	    											url:"UpdateCondition_product.do",
+	    											data:data,
+	    											success:function(data){
+	    												alert("변경 완료")
+	    												location.href=""
+	    											}
+	    										})
+	    	            					}
+	    	            					
+	    	            				}
+	    	            			})
+	    	            		})
+	    	            		return str;
+	    	            	}
+	    	            	
+	    	             return str;
+	            		}
+	            	})
+
+	       
+
+	            }},
 	        ]
 		})
 		

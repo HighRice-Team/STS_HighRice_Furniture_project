@@ -223,6 +223,23 @@ public class ProductController {
 		return view;
 	}
 	
+	@RequestMapping(value ="/getCondition_product.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String getCondition_product(int product_id) {
+		String str = "";
+		
+		ProductVo p = dao.getOne_product(product_id);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(p);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
 	@RequestMapping(value ="/UpdateCondition_product", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String UpdateConditionToSell_product(int product_id, String condition) {
