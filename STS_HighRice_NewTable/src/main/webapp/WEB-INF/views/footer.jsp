@@ -133,7 +133,7 @@
 		buttons:{
 			"수정":function(){
 				var str="";
-				var data = $("#myForm").serializeArray();
+				var data = $("#form").serializeArray();
 				
 				$.ajax({url:"updateInfo_member.do",data:data,success:function(data){
 					
@@ -183,8 +183,8 @@
 			$("#pwd_a").val(data.pwd_a);
 			$("#pwd_q").val(data.pwd_q);
 			$("#bank").val(data.bank);
-			$("#address1").val(data.address1);
-			$("#address2").val(data.address2);
+			$("#roadAddrPart1").val(data.address);
+			$("#addrDetail").val(data.address_detail);
 		}})
 		$("#dialog").dialog("open");
 	})

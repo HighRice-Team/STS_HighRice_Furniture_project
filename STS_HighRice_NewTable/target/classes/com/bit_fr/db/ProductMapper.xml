@@ -13,6 +13,7 @@
 	</select>
 	
 	<select id="getAll_productAdmin" resultType="productVo">
+<<<<<<< HEAD
 		select * from product where
 		<if test="product_id != null">
 			product_id = #{product_id}
@@ -45,6 +46,19 @@
 			and member_id = #{member_id}
 		</if>
 		order by product_id
+=======
+		select * from product 
+			<trim prefix="WHERE" prefixOverrides="AND">
+				<if test="product_id!=null">AND product_id=${product_id}</if>
+				<if test="category!=null">AND category='${category}'</if>
+				<if test="product_name!=null">AND product_name like '${product_name}'</if>
+				<if test="member_id!=null">AND member_id='${member_id}'</if>
+				<if test="quality!=null">AND quality='${quality}'</if>
+				<if test="price!=null">AND price=${price}</if>
+				<if test="condition!=null">AND condition='${condition}'</if>
+			</trim>
+			order by product_id
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 	</select>
 
 	<select id="getOne_product" resultType="productVo">
@@ -78,8 +92,7 @@
 	<select id="getMySellForPaging_product" resultType="productVo">	
 		<![CDATA[
 		select * from(select rownum a, product_id, condition, product_name, category, quality,member_id,price,main_img,sub_img
-		from(select * from product where member_id=#{member_id} order by product_id))
-		where a>=#{start} and a<=#{end}]]>
+		from(select * from product where member_id=#{member_id} order by product_id))]]>
 	</select>
 
 	<select id="getAllPublishingCount_product" resultType="java.lang.Integer">

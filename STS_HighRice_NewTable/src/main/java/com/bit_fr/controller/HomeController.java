@@ -94,7 +94,7 @@ public class HomeController {
 		int rent4 = orderlistDao.getCountToMyCondition_orderlist(member_id, "반납");
 
 		int total = productDao.getMySellCount_product(member_id);
-		List<ProductVo> list = productDao.getMySellForPaging_product(member_id, min, max);
+		List<ProductVo> list = productDao.getMySellForPaging_product(member_id);
 
 		mav.addObject("member", member);
 		mav.addObject("rent1", rent1);
@@ -104,7 +104,6 @@ public class HomeController {
 		mav.addObject("total", total);
 		mav.addObject("list", list);
 		mav.addObject("len", list.size());
-		mav.addObject("min", min);
 
 		mav.addObject("viewPage", "myPage.jsp");
 
@@ -144,39 +143,15 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_product(HttpServletRequest request) {
-		
-		HashMap map = new HashMap();
-	
-		
-		if(request.getParameter("product_id") !=null && !request.getParameter("product_id").equals("")) {
-			map.put("product_id", request.getParameter("product_id"));
-		}
-		if(request.getParameter("category") !=null && !request.getParameter("category").equals("")) {
-			map.put("category", request.getParameter("category"));
-		}
-		if(request.getParameter("product_name") !=null && !request.getParameter("product_name").equals("")) {
-			map.put("product_name", request.getParameter("product_name"));
-		}
-		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
-			map.put("member_id", request.getParameter("product_id"));
-		}
-		if(request.getParameter("quality") !=null && !request.getParameter("quality").equals("")) {
-			map.put("quality", request.getParameter("quality"));
-		}
-		if(request.getParameter("price") !=null && !request.getParameter("price").equals("")) {
-			map.put("price", request.getParameter("price"));
-		}
-		if(request.getParameter("condition") !=null && !request.getParameter("condition").equals("")) {
-			map.put("condition", request.getParameter("condition"));
-		}
-		
-		
+	public String admin_product(ProductVo v) {
+		System.out.println(v);
+
 		String str = "";
 
-		List<ProductVo> list = productDao.getAll_productAdmin(map);
-		ObjectMapper mapper = new ObjectMapper();
+		List<ProductVo> list = productDao.getAll_productAdmin(v);
 
+		ObjectMapper mapper = new ObjectMapper();
+		
 		try {
 			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
@@ -231,34 +206,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/admin_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
-	public String admin_member(HttpServletRequest request) {
-		
+	public String admin_member() {
 
-		HashMap map = new HashMap();
-		
-		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
-			map.put("order_id", request.getParameter("member_id"));
-		}
-		if(request.getParameter("pwd") !=null && !request.getParameter("product_id").equals("")) {
-			map.put("product_id", request.getParameter("product_id"));
-		}
-		if(request.getParameter("pay_date") !=null && !request.getParameter("pay_date").equals("")) {
-			map.put("pay_date", request.getParameter("pay_date"));
-		}
-		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
-			map.put("member_id", request.getParameter("product_id"));
-		}
-		if(request.getParameter("rent_start") !=null && !request.getParameter("rent_start").equals("")) {
-			map.put("rent_start", request.getParameter("rent_start"));
-		}
-		if(request.getParameter("rent_end") !=null && !request.getParameter("rent_end").equals("")) {
-			map.put("rent_end", request.getParameter("rent_end"));
-		}
-		if(request.getParameter("rent_month") !=null && !request.getParameter("rent_month").equals("")) {
-			map.put("rent_month", request.getParameter("rent_month"));
-		}
-		
-		
 		String str = "";
 		List<MemberVo> list = memberDao.getAll_member();
 		ObjectMapper mapper = new ObjectMapper();

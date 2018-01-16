@@ -8,19 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
-<link rel="stylesheet"
-	href="./product/fancybox/jquery.fancybox-1.3.4.css">
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript"
-	src="product/fancybox/jquery.fancybox-1.3.4.js"></script>
-<script type="text/javascript"
-	src="product/fancybox/jquery.easing-1.3.pack.js"></script>
-<script type="text/javascript"
-	src="product/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
    $(function(){
       $("#main_img").fancybox();

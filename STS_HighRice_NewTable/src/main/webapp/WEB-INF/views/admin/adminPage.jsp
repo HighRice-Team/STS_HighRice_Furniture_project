@@ -17,16 +17,8 @@ table{
 <script type="text/javascript">
 $(function(){
 		$("#tabs").tabs();
-		var customDialog = {
-// 				onclickSubmit:function(params){
-// 					var selectedRow = $('#product_grid').getGridParam('selrow');
-// 					rowData = $('#product_grid').getRowData(selectedRow);
-// 					location.href="";
-// 					return {product_id : rowData.product_id};
-// 				}
-		}
 		
-		
+
 		$("#product_grid").jsGrid({
 	        width: "100%",
 	        height: "auto",
@@ -35,44 +27,42 @@ $(function(){
 	        sorting: true,
 	        paging: true,
 	        autoload: true,
-	        
+	        autosearch:true,
+	        searchModeButtonTooltip :"Switch to searching",
 	        pageSize : 10,
 	        pageButtonCount:5,
 	        
 	        controller : {
-	        	loadData: function(filter) {
-	        	var def = $.Deferred();
-	        	$.ajax({
-	        			url:'admin_product.do',
-	        	        dataType : "json",
-	        	        data : filter
-	        		 }).done(function(response) {
-	        			def.resolve(response);
-	        		});
-	        	return def.promise();
-	            },
-	            
-	            updateItem : function(item){
-	            	
-	            	$.ajax({
-	            		url:'adminUpdate_product.do',
-	            		data:item,
-	            		success:function(data){
-	            			alert("변경 완료")
-	            		}
-	            	})
-	            }
+	        	
+	        	loadData:function(filter){
+	        		return $.ajax({
+	        			type:"POST",
+	        			url:"admin_product.do",
+	        			data:filter,
+	        			dataType:"JSON"
+	        		})
+	        	}
 	        },
 	        
 	        fields: [
-	            { name: "product_id", type: "text", width: 50, readOnly:true },
+	            { name: "product_id", type: "number", width: 50},
 	            { name: "category", type: "text", width: 50 },
 	            { name: "product_name", type: "text", width: 200 },
-	            { name: "member_id", type: "text",width:50, readOnly:true },
+	            { name: "member_id", type: "text",width:50},
 	            { name: "quality", type: "text", width:50 },
 	            { name: "price", type: "number", width:100},
 	            { name: "condition", type: "text", width:100},
-	            { type: "control", deleteButton:false }
+	            { type: "control", deleteButton:false },
+	            { name:"UpdateCondition",itemTemplate:function(_,item){
+	            	var str;
+	            	if(item.condition=="등록"){
+	            		str = $("<button class='chkCondition'>").text("접수").on("click",function(){
+		            		alert(item.product_id) 
+		            		// 이 값에 해당되는 상품의 컨디션을 검수로 변경.
+		            	})
+	            	}
+	            	return str;
+	            }}
 	        ]
 		});
 			
@@ -90,15 +80,12 @@ $(function(){
 	        
 	        controller : {
 	        	loadData: function(filter) {
-	        	var def = $.Deferred();
 	        	$.ajax({
 	        			url:'admin_orderlist.do',
+	        			type:"POST",
 	        	        dataType : "json",
 	        	        data:filter
-	        		 }).done(function(response) {
-	        			def.resolve(response);
-	        		});
-	        	return def.promise();
+	        		 })
 	            },
 	            
 	            updateItem : function(item){
@@ -150,7 +137,6 @@ $(function(){
 	        		
 	        	}
 	        },
-	        
 	        pageSize : 10,
 	        pageButtonCount:5,
 	        
@@ -160,9 +146,15 @@ $(function(){
 	        	$.ajax({
 	        			url:'admin_member.do',
 	        	        dataType : "json",
+<<<<<<< HEAD
 	        	        data:filter
 	        		 }).done(function(response) {
 	        			def.resolve(response);
+=======
+	        	        data:filter,
+	        		 }).done(function(result) {
+						def.resolve(result)
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 	        		});
 	        	return def.promise();
 	            },
@@ -193,12 +185,7 @@ $(function(){
 	            { type: "control", deleteButton:false, editButton:false }
 	        ]
 		})
-		
-// 		$("#pager").on("change", function() {
-// 	        var page = parseInt($(this).val(), 10);
-// 	        $("#product_grid").jsGrid("openPage", page);
-// 	    });
-	
+
 })
 
 </script>
