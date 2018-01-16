@@ -232,10 +232,37 @@ public class HomeController {
 	@RequestMapping(value = "/admin_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_member(HttpServletRequest request) {
+		
+
+		HashMap map = new HashMap();
+		
+		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
+			map.put("order_id", request.getParameter("member_id"));
+		}
+		if(request.getParameter("pwd") !=null && !request.getParameter("product_id").equals("")) {
+			map.put("product_id", request.getParameter("product_id"));
+		}
+		if(request.getParameter("pay_date") !=null && !request.getParameter("pay_date").equals("")) {
+			map.put("pay_date", request.getParameter("pay_date"));
+		}
+		if(request.getParameter("member_id") !=null && !request.getParameter("member_id").equals("")) {
+			map.put("member_id", request.getParameter("product_id"));
+		}
+		if(request.getParameter("rent_start") !=null && !request.getParameter("rent_start").equals("")) {
+			map.put("rent_start", request.getParameter("rent_start"));
+		}
+		if(request.getParameter("rent_end") !=null && !request.getParameter("rent_end").equals("")) {
+			map.put("rent_end", request.getParameter("rent_end"));
+		}
+		if(request.getParameter("rent_month") !=null && !request.getParameter("rent_month").equals("")) {
+			map.put("rent_month", request.getParameter("rent_month"));
+		}
+		
+		
 		String str = "";
 		List<MemberVo> list = memberDao.getAll_member();
 		ObjectMapper mapper = new ObjectMapper();
-
+			
 		try {
 			str = mapper.writeValueAsString(list);
 		} catch (Exception e) {
