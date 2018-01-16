@@ -6,11 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<<<<<<< HEAD
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-=======
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 <script type="text/javascript">
    $(function(){
       //$("#main_img").fancybox();
@@ -26,31 +22,42 @@
       $("#day").html(d.getFullYear()+"년 "+(eval(d.getMonth())+1)+"월 "+(eval(d.getDate())+2))
       rent_start = d.getFullYear()+""+(eval(d.getMonth())+1)+""+(eval(d.getDate())+2)
       */
+     	$("#addToCartlist").click(function () {
+    	  		cart();
+    		});
+
    })
    
 </script>
 <script type="text/javascript">
-
+	//장바구니 담기.
 	function cart(){
-  		month = $("#rentMonth").val()
-   		if(month=="대여기간"){
-	      	alert("대여기간을 선택하시오.");
+		month = $("#rentMonth").val();
+		if(month == "대여기간"){
+	    		alert("대여기간을 선택하시오.");
 	      	return
-   		}
-	  		
-	   	var id = '<%=session.getAttribute("id")%>'
-	   	
-	   	if(id != "null"){
+		}
+		
+		<%
+		String loginChk_01 = "";
+		
+		if( session.getAttribute("id") != null){
+			loginChk_01 = (String)session.getAttribute("id");
+		}
+		%>
+			
+		var id = null;
+		id = '<%=loginChk_01%>';
+	   	if(id != ''){
 	      month = $("#rentMonth").val();
 	      product_id = $("#product_id").val()
 	      var data = {"rent_month":month,"product_id":product_id};
 	      
 	      $.ajax({
-	          url:"orderlist/insertOrderListAjax.jsp",
+	          url:"insertOrderListAjax.do",
 	          data:data,
 	          success:function(data){
-	             data = eval("("+data+")");
-	             if(data.re==1){
+	             if(data.re >= 1){
 	                if(confirm("이미 등록한 상품입니다. 장바구니로 이동하시겠습니까?")){
 	                   location.href="cartList.do";
 	                }                   
@@ -70,16 +77,25 @@
 	  	}
 	   
 	}
-
 	
+	// 물품대여.
 	function payment_info(){
 		product_id=$("#product_id").val();
 		month = $("#rentMonth").val();
 		//price = $("#price").val();
 	   
-		var id = '<%=session.getAttribute("id")%>'
-	  
-		if(id=="null"){
+		<%
+		String loginChk_02 = "";
+		
+		if( session.getAttribute("id") != null){
+			loginChk_02 = (String)session.getAttribute("id");
+		}
+		%>
+			
+		var id = null;
+		id = '<%=loginChk_02%>';
+		
+		if(id == ''){
 	    		if(confirm("로그인이 필요한 서비스 입니다.\n 로그인 하시겠습니까?","a")){
 	    			onDialog();
 	      	}
@@ -92,7 +108,7 @@
 	   		}
 	   		
 	   		if(confirm("구매 화면으로 이동하시겠습니까?")){
-	   			location.href="paymentInfo.do?product_id="+product_id+"&rentMonth="+month+"&rent_start="+rent_start;
+	   			location.href="goPaymentInfo.do?product_id="+product_id+"&rentMonth="+month;
 	        }
 	   }
 	  
@@ -102,7 +118,7 @@
 <body>
 	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
 		<h2>
-			<a href="product.do?category=${category }">${category }</a>
+			<a href="product.do?category=${list.category}">${list.category }</a>
 		</h2>
 		<hr>
 		<div style="width: 100%; height: 300px;">
@@ -121,7 +137,7 @@
 				<br>
 				<br> 가격 : ${list.price}&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp; 
 				<select id="rentMonth">
-					<option selected="selected" disabled="disabled">대여기간</option>
+					<option selected="selected">대여기간</option>
 					<option value=6>6개월</option>
 					<option value=7>7개월</option>
 					<option value=8>8개월</option>
@@ -134,14 +150,13 @@
 				
 				<!-- <p>대여 시작일 : <input type="date" id="cal"></p> 대여 시작일은 <span id="day"></span>일 입니다.<br><br>-->
 				<c:if test="${list.member_id != sessionScope.id}">&nbsp;&nbsp;&nbsp;
-					<input type="button" value="장바구니" id///// onclick="cart()">&nbsp;&nbsp;&nbsp;
-	                <input type="button" value="물품 대여" onclick="payment_info()">
+					<input type="button" value="장바구니" id="addToCartlist">&nbsp;&nbsp;&nbsp;
+	                <input type="button" value="물품 대여" id="buy" onclick="payment_info()">
 				</c:if>
 				<c:if test="${list.member_id == sessionScope.id}">&nbsp;&nbsp;&nbsp;
 					&nbsp;&nbsp;&nbsp;
 					나의 물건 입니다.&nbsp;&nbsp;&nbsp;
-	                
-				</c:if>
+	      		</c:if>
 				
 			</div>
 		</div>

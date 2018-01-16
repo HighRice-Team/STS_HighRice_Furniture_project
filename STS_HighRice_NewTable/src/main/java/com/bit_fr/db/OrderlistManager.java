@@ -108,18 +108,47 @@ public class OrderlistManager {
 		return list;
 	}
 
-	public static int insert_orderlist(OrderlistVo v) {
+	public static int getMyRentMonth_orderlist(String member_id, int product_id) {
+		int rent_month = -1;
+		SqlSession session = factory.openSession(true);
+
+		HashMap map = new HashMap();
+		map.put("member_id", member_id);
+		map.put("product_id", product_id);
+
+		rent_month = session.selectOne("orderlist.getMyRentMonth_orderlist", map);
+		session.close();
+
+		return rent_month;
+	}
+
+	public static int insertCartlist_orderlist(OrderlistVo v) {
 		int re = -1;
 		SqlSession session = factory.openSession(true);
 
 		HashMap map = new HashMap();
-		map.put("next_NUM", v.getOrder_id());
+		map.put("order_id", v.getOrder_id());
 		map.put("member_id", v.getMember_id());
 		map.put("product_id", v.getProduct_id());
-		map.put("rent_start", v.getRent_start());
 		map.put("rent_month", v.getRent_month());
 
-		re = session.insert("orderlist.insert_orderlist", map);
+		re = session.insert("orderlist.insertCartlist_orderlist", map);
+		session.close();
+
+		return re;
+	}
+
+	public static int insertPayment_orderlist(OrderlistVo v) {
+		int re = -1;
+		SqlSession session = factory.openSession(true);
+
+		HashMap map = new HashMap();
+		map.put("order_id", v.getOrder_id());
+		map.put("member_id", v.getMember_id());
+		map.put("product_id", v.getProduct_id());
+		map.put("rent_month", v.getRent_month());
+
+		re = session.insert("orderlist.insertPayment_orderlist", map);
 		session.close();
 
 		return re;
@@ -153,6 +182,48 @@ public class OrderlistManager {
 		return re;
 	}
 
+	public static int updatePaymentProduct_orderlist(String member_id, long paymentOne) {
+		int re = -1;
+		SqlSession session = factory.openSession(true);
+
+		HashMap map = new HashMap();
+		map.put("member_id", member_id);
+		map.put("paymentOne", paymentOne);
+
+		re = session.update("orderlist.updatePaymentProduct_orderlist", map);
+		session.close();
+
+		return re;
+	}
+
+	public static int updateRentalDateFromCartlistPayment_orderlist(String member_id, int product_id, int rent_month) {
+		int re = -1;
+		SqlSession session = factory.openSession(true);
+
+		HashMap map = new HashMap();
+		map.put("member_id", member_id);
+		map.put("product_id", product_id);
+		map.put("rent_month", rent_month);
+
+		re = session.update("orderlist.updateRentalDateFromCartlistPayment_orderlist", map);
+		session.close();
+
+		return re;
+	}
+
+	public static int updateDepositToMaster_orderlist(long paymentOne) {
+		int re = -1;
+		SqlSession session = factory.openSession(true);
+
+		HashMap map = new HashMap();
+		map.put("paymentOne", paymentOne);
+
+		re = session.update("orderlist.updateDepositToMaster_orderlist", map);
+		session.close();
+
+		return re;
+	}
+
 	public static int delete_orderlist(String member_id, int product_id) {
 		int re = -1;
 		SqlSession session = factory.openSession(true);
@@ -164,20 +235,6 @@ public class OrderlistManager {
 		re = session.delete("orderlist.delete_orderlist", map);
 		session.close();
 
-		return re;
-	}
-
-	public static int updatePaymentProduct_orderlist(String member_id, long paymentOne) {
-		int re = -1;
-		SqlSession session = factory.openSession(true);
-		
-		HashMap map = new HashMap();
-		map.put("member_id", member_id);
-		map.put("paymentOne", paymentOne);
-		
-		re = session.update("orderlist.updatePaymentProduct_orderlist", map);
-		session.close();
-		
 		return re;
 	}
 
