@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>​
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,8 +33,15 @@ p{
 	font-size: 1vw;
 	line-height: 10px; 
 }
-
-
+.menu_myPage{
+	background-color: #EEEEEE;
+}
+.over_myPage{
+	background-color: white;
+}
+.selectedMenu{
+	background-color:white;
+}
 	
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -41,6 +49,19 @@ p{
 
 <script type="text/javascript">
 	$(function () {
+		var selectedMenu = $("#selectedMyPage").val()
+		if(selectedMenu=="mP"){		$("#mP").addClass("selectedMenu")		}
+		if(selectedMenu=="oL"){		$("#oL").addClass("selectedMenu")		}
+		if(selectedMenu=="sL"){		$("#sL").addClass("selectedMenu")		}
+		if(selectedMenu=="s"){		$("#s").addClass("selectedMenu")		}
+		
+		$(document).on("mouseover",".menu_myPage", function() {
+			$(this).addClass("over_myPage");
+		})
+		$(document).on("mouseout",".menu_myPage", function() {
+			$(this).removeClass("over_myPage");
+		})
+		
 		// 각 상품에 대하여 하이라이트 효과를 적용.
 		$(document).on("mouseover",".hover", function() {
 			$(this).addClass("over");
@@ -71,9 +92,68 @@ p{
 			infiniteLoop:true
 		});
 		
-		
+		$("#myOrderlist_grid").jsGrid({
+	        width: "100%",
+	        height: "auto",
+	        filtering: true,
+	        sorting: true,
+	        paging: true,
+	        autoload: true,
+	        autosearch:true,
+	        pageSize : 10,
+	        pageButtonCount:5,
+	        
+	        controller : {
+	        	loadData:function(filter){
+	        		return $.ajax({
+	        			type:"POST",
+	        			url:"getMyOrderlist.do",
+	        			data:filter,
+	        			dataType:"JSON"
+	        		})
+	        	}
+	        },
+	        
+	        fields: [
+	            { name: "pay_date", title:"주문일자[주문번호]",  type: "number", width: 50},
+	            { name: "main_img", title:"이미지",  itemTemplate:function(_,item){  return $("<img>").attr("src","resources/img/product/"+item.main_img).attr("width","100%") }, width: 50},
+	            { name: "product_name", title:"상품정보", type: "text", width: 200 },
+	            { name: "price", title:"상품 구매금액",  itemTemplate:function(_,item){  return item.price*item.rent_month}, type: "text", width: 50 },
+	            { name: "con", title:"주문처리상태", type: "text",width:50},
+	            { name: "버튼", width:50 }
+	        ]
+		});
 		
 	})
+</script>
+
+<script type="text/javascript">
+
+//	마이페이지에서 회원정보 변경을 위한 다일로그 오픈
+
+	function showMemberInfo(){
+		$("#dialog").dialog("open")
+		var data = {'member_id':$("#id_mypage").val()}
+		
+		$.ajax({url:"getOne_member_ajax.do", data:data ,success:function(data){
+			
+			data = eval('('+data+')')
+			
+			$("#member_id").html(data.member_id);
+			$("#name").html(data.name);
+			$("#jumin").html(data.jumin);
+			$("#account_no").val(data.account_no);
+			$("#address3").val(data.address3);
+			$("#tel").val(data.tel);
+			$("#pwd_a").val(data.pwd_a);
+			$("#pwd_q").val(data.pwd_q);
+			$("#bank").val(data.bank);
+			$("#roadAddrPart1").val(data.address);
+			$("#addrDetail").val(data.address_detail);
+		}})
+		$("#dialog").dialog("open");
+	}
+
 </script>
 
 <script type="text/javascript">
@@ -97,56 +177,256 @@ p{
 </script>
 </head>
 <body>
-	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
-		<h2>MY PAGE</h2><hr>
-		<div style="border: 1px solid; height: 100px;">
-			<div style="width: 100px; float: left; margin-left:  0px ">
-				<img src="resources/img/myPage.JPG"  style="position:absolute; height: 100px; width:100px; background: grey;">
+	<c:if test="${selectedMyPage=='mP' }">
+		<center>
+		<div style="width: 93%; height: 130px; position: relative; padding-top: 20px;">
+			<div style="float: left; width:7%; height: 90%;"><img src="resources/img/myPageGradeImg.PNG" width="100%" height="100%"></div>
+			<div style="float:left; width:92%; height: 90%; background-color: #EEEEEE;">
+				<div style="padding-bottom: 2px;">
+					<p style="font-size: 0.9vw;">저희 BIT FR 가구점을 이용해 주셔서 감사합니다. ${member.name } 님은 <c:if test="${grade==1 }">[일반]</c:if><c:if test="${grade==0 }">[관리자]</c:if> 회원이십니다.<br><br>무통장입금으로 50,000원 이상 구매시 1%을 추가적립 받으실 수 있습니다.</p>
+				</div><center>
+				<div style="padding-left:13%; float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">입금완료<br>${rent1 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">배송중<br>${rent2 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">대여중<br>${rent3 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%; "><a style="font-size: 1vw;">반납<br>${rent4 }건</a></div>
+				<div style="float: left; width: 15%; height:40%; "><a style="font-size: 1vw;">나의 물건<br>${rent4 }건</a></div></center>
 			</div>
-			<div style="width: 80%; float: right;">
-				<p>${member.name }회원님 저희 비트가구 대여 사이트를 이용해 주셔서 감사합니다.
-		 	</div>
 		</div>
-		<div style="height: 40px; text-align: right;">
-			<input type="button" value="회원정보수정" >
-			<input type="button" value="비밀번호변경" id="change_pwd">
-			<input type="button" value="로그아웃" >
-		</div>
-		<div>
-			<table border="0" width="100%">
-				<tr><td><h2>SELL</h2></td><td><h2>MY RENT</h2></td></tr>
-				<tr><td rowspan="4" width="30%" style="border: 1px solid;"><a href="sellWrite.do"><img src="resources/img/SELL.JPG" style="width:100%; background: grey;"></a></td><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>입금완료 : ${rent1 }</b></a></td></tr>		
-				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>배송중 : ${rent2 }</b></a></td></tr>		
-				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>대여중 : ${rent3 }</b></a></td></tr>		
-				<tr><td style="border: 1px solid;"><a href="orderlistByCondition.do"><b>반납 : ${rent4 }</b></a></td></tr>		
-			</table>	
-		</div>
-		<div style="height: 100px;"></div>
-		<div style="height: 30px; padding-bottom: 30px;"><h2>SELL LIST</h2></div>
-			<c:if test="${not empty list }">
-			<div class="slider" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
-				<c:forEach items="${list }" var="list">
- 					<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
-						<a href="productDetail.do?product_id=${list.product_id }">
-							<img src="resources/img/product/${list.main_img}"> <br>
-							<p id="name">${list.product_name }</p>
-							
-							<p>Category: ${list.category }</p>
-							<p>Condition: ${list.quality }</p>
-							<p>Price: ${list.price }WON/Month</p>
-						</a>
-							<c:if test="${list.condition=='등록' }">
- 								<input type="button" value="삭제"><br>&nbsp;
- 							</c:if>
- 							<c:if test="${list.condition!='등록' }">
- 								<br>&nbsp;
- 							</c:if>
+		<div style=" width:93%; height:1000px; position: relative;">
+			<div style="float: left; width: 10%;">
+				<div style="height: 30px;"></div>
+				<a href="myPage.do?selectedMyPage=mP"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="mP">마이페이지</div></a>
+				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
+				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
+				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
+				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+			</div>
+			<div style="float: left; width: 88%; padding-left: 1%;">
+	<!-- 			<div><img src="resources/img/slide1.jpg" width="100%" height="150px"></div> -->
+				<div>
+					<div style="float:left; width:15%; text-align: left; padding-left: 40px; padding-top: 10px; padding-bottom:10px; font-size: 1.3vw; font-weight: bold;">최근 주문내역</div>
+					<div style="float:left; width:70%; text-align: right; padding-left: 40px; padding-top: 28px; padding-bottom:2px; font-weight: bold;"><a style="font-size: 0.8vw;">더보기</a></div>
+					<div style="text-align: left;">
+						<table width="100%" style="text-align: center;">
+							<thead style="background-color: #EEEEEE;  font-size: 1vw;">
+								<th style="border-bottom: 1px solid grey;">주문일자<br>[주문번호]</th>
+								<th style="border-bottom: 1px solid grey;">이미지${chkRecentList }</th>
+								<th style="border-bottom: 1px solid grey;">상품정보</th>
+								<th style="border-bottom: 1px solid grey;">상품 구매금액</th>
+								<th style="border-bottom: 1px solid grey;">주문처리상태</th>
+								<th style="border-bottom: 1px solid grey;">취소/교환/반품</th>
+							</thead>
+	<!-- 						최근 2주 이내에 구매한 물품 보이기 -->
+							<c:if test="${chkRecentList==null }">
+								<tr>
+									<td colspan="6">주문 내역이 없습니다.</td>
+								</tr>
+							</c:if>
+							<c:if test="${chkRecentList!=null }">
+								<c:forEach items="${recentList }" var="recentList">
+									<tr>
+										<td>${recentList.pay_date } <b>[${recentList.order_id }]</b></td>
+										<td>${recentList.main_img }</td>
+										<td>${recentList.product_name }</td>
+										<td>${recentList.rent_month * recentList.price}</td>
+										<td>${recentList.con}</td>
+										<td>
+											<c:if test="${recentList.con=='입금완료'}">
+												<input type="button" value="취소"> 
+											</c:if>
+											<input type="button" value="교환">
+											<input type="button" value="반품">
+										</td>
+									</tr>
+								</c:forEach>
+							</c:if>
+							<tr>
+								<td colspan="6" style="background-color: #EEEEEE"></td>	
+							</tr>
+						</table>
 					</div>
- 				</c:forEach>
+					
+					<div style="float:left; width:15%; text-align: left; padding-left: 40px; padding-top: 50px; padding-bottom:10px; font-size: 1.3vw; font-weight: bold;">최근 게시물</div>
+					<div style="float:left; width:70%; text-align: right; padding-left: 40px; padding-top: 68px; padding-bottom:2px; font-weight: bold;"><a style="font-size: 0.8vw;">더보기</a></div>
+					<div style="text-align: left;">
+						<table width="100%" style="text-align: center;">
+							<thead style="background-color: #EEEEEE;  font-size: 1vw;">
+								<th style="border-bottom: 1px solid grey;">번호</th>
+								<th style="border-bottom: 1px solid grey;">분류</th>
+								<th style="border-bottom: 1px solid grey;">제목</th>
+								<th style="border-bottom: 1px solid grey;">작성자</th>
+								<th style="border-bottom: 1px solid grey;">작성일</th>
+							</thead>
+	<!-- 						최근 1달 이내에 작성한 게시글 보이기 -->
+							<c:if test="${resentBoard==null }">
+								<tr>
+									<td colspan="5">게시물이 없습니다.</td>
+								</tr>
+							</c:if>
+							<tr>
+								<td colspan="6" style="background-color: #EEEEEE"></td>	
+							</tr>
+						</table>
+					</div>
+				<div>
+					<div style="text-align: left; padding-left: 40px; padding-top: 50px; padding-bottom:30px; font-size: 1.3vw; font-weight: bold;">내가 등록한 판매물품</div>
+						<c:if test="${not empty list }"> 
+			 			<div class="slider" style="width:23%; background-color:#DDDDDD; height:200px; float:left; border: 5px solid; border-color: white;">
+			 				<c:forEach items="${list }" var="list">
+			 					<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
+			 						<a href="productDetail.do?product_id=${list.product_id }">
+			 							<img src="resources/img/product/${list.main_img}"> <br>
+			 							<p id="name_product">${list.product_name }</p>
+										
+			 							<p>Category: ${list.category }</p>
+			 							<p>Condition: ${list.quality }</p>
+			 							<p>Price: ${list.price }WON/Month</p>
+			 						</a>
+			 							<c:if test="${list.condition=='등록' }">
+			  								<input type="button" value="삭제"><br>&nbsp; 
+			  							</c:if>
+			  							<c:if test="${list.condition!='등록' }"> 
+			  								<br>&nbsp;
+			  							</c:if>
+			 					</div>
+			  				</c:forEach>
+			 			</div>
+			 		
+	 					</c:if>
+				</div>
 			</div>
-			</c:if>
-	</div>
-	
+		</div>
+		<center>
+	</c:if>
+	<c:if test="${selectedMyPage=='oL' }">
+		<center>
+		<div style="width: 93%; height: 130px; position: relative; padding-top: 20px;">
+			<div style="float: left; width:7%; height: 90%;"><img src="resources/img/myPageGradeImg.PNG" width="100%" height="100%"></div>
+			<div style="float:left; width:92%; height: 90%; background-color: #EEEEEE;">
+				<div style="padding-bottom: 2px;">
+					<p style="font-size: 0.9vw;">저희 BIT FR 가구점을 이용해 주셔서 감사합니다. ${member.name } 님은 [일반] 회원이십니다.<br><br>무통장입금으로 50,000원 이상 구매시 1%을 추가적립 받으실 수 있습니다.</p>
+				</div><center>
+				<div style="padding-left:13%; float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">입금완료<br>${rent1 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">배송중<br>${rent2 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">대여중<br>${rent3 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%; "><a style="font-size: 1vw;">반납<br>${rent4 }건</a></div>
+				<div style="float: left; width: 15%; height:40%; "><a style="font-size: 1vw;">나의 물건<br>${rent4 }건</a></div></center>
+			</div>
+		</div>
+		<div style=" width:93%; height:1000px; position: relative;">
+			<div style="float: left; width: 10%;">
+				<div style="height: 30px;"></div>
+				<a href="myPage.do?selectedMyPage=mP"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="mP">마이페이지</div></a>
+				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
+				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
+				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
+				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+			</div>
+			<div style="float: left; width: 88%; padding-left: 1%;">
+				<div>
+					<table id="myOrderlist_grid" border="1" cellpadding="10px" cellspacing="10px" class="table" style="text-align: center;">
+						
+					</table>
+				
+				</div>
+					
+			</div>
+		</div>
+		<center>
+	</c:if>
+	<c:if test="${selectedMyPage=='sL' }">
+		<center>
+		<div style="width: 93%; height: 130px; position: relative; padding-top: 20px;">
+			<div style="float: left; width:7%; height: 90%;"><img src="resources/img/myPageGradeImg.PNG" width="100%" height="100%"></div>
+			<div style="float:left; width:92%; height: 90%; background-color: #EEEEEE;">
+				<div style="padding-bottom: 2px;">
+					<p style="font-size: 0.9vw;">저희 BIT FR 가구점을 이용해 주셔서 감사합니다. ${member.name } 님은 [일반] 회원이십니다.<br><br>무통장입금으로 50,000원 이상 구매시 1%을 추가적립 받으실 수 있습니다.</p>
+				</div><center>
+				<div style="padding-left:13%; float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">입금완료<br>${rent1 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">배송중<br>${rent2 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">대여중<br>${rent3 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%; "><a style="font-size: 1vw;">반납<br>${rent4 }건</a></div>
+				<div style="float: left; width: 15%; height:40%; "><a style="font-size: 1vw;">나의 물건<br>${rent4 }건</a></div></center>
+			</div>
+		</div>
+		<div style=" width:93%; height:1000px; position: relative;">
+			<div style="float: left; width: 10%;">
+				<div style="height: 30px;"></div>
+				<a href="myPage.do?selectedMyPage=mP"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="mP">마이페이지</div></a>
+				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
+				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
+				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
+				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+			</div>
+			<div style="float: left; width: 88%; padding-left: 1%;">
+				
+					
+			</div>
+		</div>
+		<center>
+	</c:if>
+	<c:if test="${selectedMyPage=='mI' }">
+		<center>
+		<div style="width: 93%; height: 130px; position: relative; padding-top: 20px;">
+			<div style="float: left; width:7%; height: 90%;"><img src="resources/img/myPageGradeImg.PNG" width="100%" height="100%"></div>
+			<div style="float:left; width:92%; height: 90%; background-color: #EEEEEE;">
+				<div style="padding-bottom: 2px;">
+					<p style="font-size: 0.9vw;">저희 BIT FR 가구점을 이용해 주셔서 감사합니다. ${member.name } 님은 [일반] 회원이십니다.<br><br>무통장입금으로 50,000원 이상 구매시 1%을 추가적립 받으실 수 있습니다.</p>
+				</div><center>
+				<div style="padding-left:13%; float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">입금완료<br>${rent1 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">배송중<br>${rent2 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">대여중<br>${rent3 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%; "><a style="font-size: 1vw;">반납<br>${rent4 }건</a></div>
+				<div style="float: left; width: 15%; height:40%; "><a style="font-size: 1vw;">나의 물건<br>${rent4 }건</a></div></center>
+			</div>
+		</div>
+		<div style=" width:93%; height:1000px; position: relative;">
+			<div style="float: left; width: 10%;">
+				<div style="height: 30px;"></div>
+				<a href="myPage.do?selectedMyPage=mP"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="mP">마이페이지</div></a>
+				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
+				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
+				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
+				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+			</div>
+			<div style="float: left; width: 88%; padding-left: 1%;">
+				
+					
+			</div>
+		</div>
+		<center>
+	</c:if>
+	<c:if test="${selectedMyPage=='s' }">
+		<center>
+		<div style="width: 93%; height: 130px; position: relative; padding-top: 20px;">
+			<div style="float: left; width:7%; height: 90%;"><img src="resources/img/myPageGradeImg.PNG" width="100%" height="100%"></div>
+			<div style="float:left; width:92%; height: 90%; background-color: #EEEEEE;">
+				<div style="padding-bottom: 2px;">
+					<p style="font-size: 0.9vw;">저희 BIT FR 가구점을 이용해 주셔서 감사합니다. ${member.name } 님은 [일반] 회원이십니다.<br><br>무통장입금으로 50,000원 이상 구매시 1%을 추가적립 받으실 수 있습니다.</p>
+				</div><center>
+				<div style="padding-left:13%; float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">입금완료<br>${rent1 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">배송중<br>${rent2 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">대여중<br>${rent3 }건</a></div>
+				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%; "><a style="font-size: 1vw;">반납<br>${rent4 }건</a></div>
+				<div style="float: left; width: 15%; height:40%; "><a style="font-size: 1vw;">나의 물건<br>${rent4 }건</a></div></center>
+			</div>
+		</div>
+		<div style=" width:93%; height:1000px; position: relative;">
+			<div style="float: left; width: 10%;">
+				<div style="height: 30px;"></div>
+				<a href="myPage.do?selectedMyPage=mP"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="mP">마이페이지</div></a>
+				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
+				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
+				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
+				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+			</div>
+			<div style="float: left; width: 88%; padding-left: 1%;">
+				
+					
+			</div>
+		</div>
+		<center>
+	</c:if>
 	<div id="changePwd">
 		<table>
 			<tr>
@@ -215,7 +495,7 @@ p{
 			<tr>
 				<td id="title">비밀번호 힌트</td>
 				<td colspan="4"><select id="pwd_q" name="pwd_q">
-						<option value="자신의 보물 제 1호는?">자신의 보물 제 1호는?</option>
+						<option value="자신의 보물 제1호는?">자신의 보물 제1호는?</option>
 						<option value="자신의 출신 초등학교는?">자신의 출신 초등학교는?</option>
 						<option value="인상깊게 읽은 책 이름은?">인상깊게 읽은 책 이름은?</option>
 						<option value="가장 기억에 남는 선물은?">가장 기억에 남는 선물은?</option>
@@ -230,6 +510,7 @@ p{
 			<input type="hidden" id="roadAddrPart2"  value="">
 			<input type="hidden" id="confmKey" name="confmKey" value=""  >
 			<input type="hidden" id="zipNo" name="zipNo" >
+			<input type="hidden" id="selectedMyPage" value="${selectedMyPage }">
 		</table>
 		</form>
 		</div>

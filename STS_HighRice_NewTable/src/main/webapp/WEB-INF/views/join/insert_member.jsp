@@ -27,6 +27,13 @@
 				clearInterval(intervalObject)
 				var member_id = $("#member_id").val()
 				var data = {"member_id":member_id}
+				//var chkEmail = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+				var chkEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/; 
+				//var chkEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+				 if(!chkEmail.test($("#member_id").val())) {
+					 $("#chkResult_id").html(" *이메일 형식이 맞지 않습니다.")		                
+					 member_id.focus();
+		                return false;}
 				$.ajax({
 					url:"getOne_member.do",
 					data:data,
@@ -199,7 +206,7 @@
 				<td>
 					<select name="pwd_q">
 						<option>가장 기억에 남는 선물은?</option>
-						<option>자신의 보물 제 1호는?</option>
+						<option>자신의 보물 제1호는?</option>
 						<option>인상 깊게 읽은 책 이름은?</option>
 						<option>자신의 출신 초등학교는?</option>
 					</select>

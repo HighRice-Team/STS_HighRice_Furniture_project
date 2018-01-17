@@ -3,6 +3,7 @@ package com.bit_fr.db;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -45,9 +46,43 @@ public class ProductManager {
 		return list;
 	}
 	
-	public static List<ProductVo> getAll_productAdmin(){
+
+	public static List<ProductVo> getAll_productAdmin(ProductVo v){
+		HashMap<String, String>map = new HashMap<String, String>();
+		
+		if(v.getProduct_id()!=0) {
+
+			map.put("product_id", v.getProduct_id()+"");
+		}
+		
+		if(!v.getCategory().equals("")) {
+//			map.put("category",v.getCategory().toUpperCase());
+			map.put("category",v.getCategory());
+		}
+		if(!v.getProduct_name().equals("")) {
+			map.put("product_name","%"+v.getProduct_name()+"%");
+		}
+		if(!v.getMember_id().equals("")) {
+			map.put("member_id",v.getMember_id());
+		}
+		if(!v.getQuality().equals("")) {
+			map.put("quality",v.getQuality().toUpperCase());
+		}
+		if(v.getPrice()!=0) {
+			map.put("price",v.getPrice()+"");
+		}
+		if(!v.getCondition().equals("")) {
+			map.put("condition",v.getCondition());
+		}
+		
+
 		SqlSession session = factory.openSession();
+<<<<<<< HEAD
 		List<ProductVo> list = session.selectList("getAll_productAdmin");
+=======
+		List<ProductVo> list = session.selectList("getAll_productAdmin",map);
+		
+>>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 		session.close();
 		
 		return list;

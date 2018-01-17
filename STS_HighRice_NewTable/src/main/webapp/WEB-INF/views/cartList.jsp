@@ -34,7 +34,7 @@
 </style>
 <title>Insert title here</title>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
  $(function(){
 
@@ -53,13 +53,13 @@
        if($('input[type=checkbox]:checked').length>0){
           $("#countProduct").text($('input[type=checkbox]:checked').length);
           $("#tot_price").text($("#pay").val());
-          $("#mem_name").text($("#memName").val())
+          $("#mem_name").text($("#memName").val());
           //나의 풀 주소 
-          $("#mem_addr").text($("#roadAddrPart1").val()+"\t"+$("#addrDetail").val())
-          $("#mem_tel").text($("#memTel").val())
-          $("#paymentInfo").dialog("open")
+          $("#mem_addr").text($("#roadAddrPart1").val()+"\t"+$("#addrDetail").val());
+          $("#mem_tel").text($("#memTel").val());
+          $("#paymentInfo").dialog("open");
        }else{
-          alert("상품을 선택하시오.")
+          alert("상품을 선택하시오.");
        }
     })
     
@@ -99,8 +99,7 @@
                var pwd = $("#pPwd").val()
                var pwd2 = $("#pPwd2").val()
                var data={"pwd":pwd,"pwd2":pwd2};
-               var paymentOk_msg = "결제에 실패하였습니다.";
-           
+               
                $.ajax({
                   url:"pwdChk.do",
                   data:data,
@@ -117,10 +116,10 @@
 	                        		url : "updateConditionOderlistAjax.do",
 	                       		data : data,
 	                            	success : function(data) {
-		                            		if( data == 1){
+		                            		if( data == '1'){
 	                            				paymentOk_msg = "결제가 성공적으로 완료되었습니다.";
 	                            				alert(paymentOk_msg);
-		                            		}else if( re = -10){
+		                            		}else if( data == '-10'){
 		                            			paymentOk_msg = "잔액이 부족합니다.";
 		                            			alert(paymentOk_msg);
 		                            		}else{
@@ -334,16 +333,16 @@
    <table id ="mem">
       <tr>
       <td width="10%">이름  </td> 
-      <td width="70%"><input type = "text" value = "${mv.name}" readonly = "readonly" id="memName"></td>
+      <td width="70%"><label>${mv.name}</label><input type = "hidden" value = "${mv.name}" id="memName"></td>
       <td rowspan="3"><input type = "button" value = "정보변경" id ="update"><td>
       </tr>
       <tr>
       <td>주소  </td> 
-      <td><input type = "text" value = "${adr}" readonly = "readonly"></td>
+      <td><label>${adr}</label></td>
       </tr>
       <tr>
       <td>연락처 </td>
-      <td><input type = "text" value="${mv.tel}" readonly="readonly" id="memTel"></td>
+      <td><label>${mv.tel}</label><input type = "hidden" value="${mv.tel}" id="memTel"></td>
       
    </table>
    <br>
