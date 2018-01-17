@@ -8,6 +8,9 @@
 table{
 	width: 100%;
 }
+.chkCondition{
+	visibility: hidden;
+}
 
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,22 +21,7 @@ table{
 <script type="text/javascript">
 $(function(){
 		
-		
-		function updateCondition(button, product_id, condition){
-			str = $("#chkCondition").text(button).css("visibility", "visible").on("click",function(){
-    			data = {"product_id":product_id, "condition":condition}
-        		$.ajax({
-        			url:"UpdateCondition_product.do",
-        			data:data,
-        			success:function(data){
-        				alert("변경 완료")
-        				location.href=""
-        			}
-        		})
-        	})
-        	return str;
-		}
-		
+	
 		$("#tabs").tabs();
 		
 
@@ -162,7 +150,7 @@ $(function(){
 	            { type: "control", deleteButton:false, editButton:false },
 	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
 	            	
-	            	var str = $("<button id='chkCondition'>").css("visibility", "hidden");
+	            	var str = $("<button class='chkCondition'>");
 	            	$.ajax({
 	            		url:"getCondition_product.do",
 	            		data:{"product_id":item.product_id},
@@ -170,17 +158,50 @@ $(function(){
 	            			
 	            			data = eval("("+data+")")
 	            			if(data.condition=="등록"){
-	    	            		str = updateCondition("접수",item.product_id,"검수")
+	    	            		//str = updateCondition("접수",item.product_id,"검수")
+	    	            		str = $(str).text("검수").css("visibility","visible").on("click",function(){
+    									data = {"product_id":data.product_id, "condition":"검수"}
+        								$.ajax({
+        									url:"UpdateCondition_product.do",
+        									data:data,
+        									success:function(data){
+        									alert("변경 완료")
+        									location.href=""
+        										}
+        									})
+        							})
 	    	            	}
 	    	            	if(data.condition=="반납신청"){
-	    	            		str = updateCondition("반납", item.product_id, "반납")
+	    	            		//str = updateCondition("반납", item.product_id, "반납")
+	    	            		str = $(str).text("반납").css("visibility","visible").on("click",function(){
+    									data = {"product_id":data.product_id, "condition":"반납"}
+        								$.ajax({
+        									url:"UpdateCondition_product.do",
+        									data:data,
+        									success:function(data){
+        									alert("변경 완료")
+        									location.href=""
+        										}
+        									})
+        							})
 	    	            	}
-	    	            	if(data.condtion=="반납"){
-	    	            		str = updateCondition("물품게시", item.product_id, "물품게시")
+	    	            	if(data.condition=="반납"){
+	    	            		//str = updateCondition("물품게시", item.product_id, "물품게시")
+	    	            		str = $(str).text("물품게시").css("visibility","visible").on("click",function(){
+    									data = {"product_id":data.product_id, "condition":"물품게시"}
+        								$.ajax({
+        									url:"UpdateCondition_product.do",
+        									data:data,
+        									success:function(data){
+        									alert("변경 완료")
+        									location.href=""
+        										}
+        									})
+        							})
 	    	            	}
 	    	            	if(data.condition=='입금완료'){
 	    	            		
-	    	            	 	str = $("#chkCondition").text("배송").css("visibility", "visible").on("click",function(){
+	    	            	 	str = $(str).text("배송").css("visibility", "visible").on("click",function(){
 	    	            	 		var con = {"order_id":item.order_id , "price":data.price, "member_id":item.member_id}
 	    	            			$.ajax({
 	    	            				url:"sellCompliate_product.do",
