@@ -23,6 +23,7 @@ public class ProductDao {
 	}
 
 	public int getNextId_product() {
+		System.out.println("과정2");
 		return ProductManager.getNextId_product();
 	}
 
@@ -38,8 +39,8 @@ public class ProductDao {
 		return ProductManager.getCutomizeList_product(sql);
 	}
 
-	public List<ProductVo> getMySell_product(String member_id) {
-		return ProductManager.getMySell_product(member_id);
+	public List<ProductVo> getMySell_product(String sql) {
+		return ProductManager.getMySell_product(sql);
 	}
 
 	public int getMySellCount_product(String member_id) {
@@ -54,8 +55,8 @@ public class ProductDao {
 		return ProductManager.getAllPublishingCount_product(category, condition);
 	}
 
-	public List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
-		return ProductManager.getMySellForPaging_product(member_id, start, end);
+	public List<ProductVo> getMySellForPaging_product(String member_id) {
+		return ProductManager.getMySellForPaging_product(member_id);
 	}
 
 	public int getItemPublishingCount_product(String condition) {

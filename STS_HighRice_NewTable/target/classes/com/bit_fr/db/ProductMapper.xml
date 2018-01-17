@@ -21,7 +21,7 @@
 	</select>
 	
  	<select id="getNextId_product" resultType="java.lang.Integer">
-		select nvl(max(product_id),0) from product
+		select nvl(max(product_id),0)+1 from product
 	</select>
 	
 	<select id="getCount_product" resultType="java.lang.Integer">
@@ -29,11 +29,11 @@
 	</select>
 	
 	<select id="getCutomizeList_product" resultType="productVo">
- 		#{sql}
+ 		${sql}
  	</select>
  	
   	<select id="getMySell_product" resultType="productVo">
-		select * from product where member_id=#{member_id} order by product_id
+		${sql}
 	</select>
 	
 	<select id="getMySellCount_product" resultType="java.lang.Integer">
@@ -47,8 +47,7 @@
 	<select id="getMySellForPaging_product" resultType="productVo">	
 		<![CDATA[
 		select * from(select rownum a, product_id, condition, product_name, category, quality,member_id,price,main_img,sub_img
-		from(select * from product where member_id=#{member_id} order by product_id))
-		where a>=#{start} and a<=#{end}]]>
+		from(select * from product where member_id=#{member_id} order by product_id))]]>
 	</select>
 
 	<select id="getAllPublishingCount_product" resultType="java.lang.Integer">
@@ -64,11 +63,11 @@
 	</select>
 	
 	<insert id="insert_product">
-		insert into product values(#{product_id},null,#{product_name},#{category},#{quality},0,#{main_img},#{sub_img},#{member_id})
+		insert into product values(#{product_id},#{condition},#{product_name},#{category},#{quality},0,#{main_img},#{sub_img},#{member_id})
 	</insert>
 
 	<update id="update_product">
-		update product set product_name=#{product_name}, item=#{item}, quality=#{quality}, main_img=#{main_img}, sub_img=#{sub_img}
+		update product set product_name=#{product_name}, category=#{category}, quality=#{quality}, main_img=#{main_img}, sub_img=#{sub_img}
 	</update>
 	
 	<update id="updateCondition_product">

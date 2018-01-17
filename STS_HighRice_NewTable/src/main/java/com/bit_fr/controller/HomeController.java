@@ -82,7 +82,13 @@ public class HomeController {
 		return mav;
 	}
 	
-
+	@RequestMapping("qnaBoard.do")
+	public ModelAndView qnaBoard() {
+		ModelAndView mav = new ModelAndView("main");
+		mav.addObject("viewPage", "qnaBoard/qnaBoard.jsp");
+		return mav;
+	}
+	
 	@RequestMapping("myPage.do")
 	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min) {
 		ModelAndView mav = new ModelAndView();
@@ -107,7 +113,7 @@ public class HomeController {
 		// "반납");
 		//
 		int total = productDao.getMySellCount_product(member_id);
-		List<ProductVo> list = productDao.getMySellForPaging_product(member_id, min, max);
+		List<ProductVo> list = productDao.getMySellForPaging_product(member_id);
 
 		mav.addObject("member", member);
 		mav.addObject("rent1", rent1);
@@ -117,7 +123,6 @@ public class HomeController {
 		mav.addObject("total", total);
 		mav.addObject("list", list);
 		mav.addObject("len", list.size());
-		mav.addObject("min", min);
 
 		mav.addObject("viewPage", "myPage.jsp");
 

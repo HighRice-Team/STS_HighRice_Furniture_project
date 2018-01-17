@@ -24,15 +24,14 @@
 .over a{
 	color : white;
 	}
-.img_myPage{
-	width:100%;
-	}
-	
- #slider_img{ 
- 	border:1px solid; 
- 	border-color: white; 
- 	height: 370px;
- } 
+ #name{
+	font-size: 1.15vw;
+}
+
+p{
+	font-size: 1vw;
+	line-height: 10px; 
+}
 
 
 	
@@ -42,28 +41,59 @@
 
 <script type="text/javascript">
 	$(function () {
-		$(document).on("mouseover",".hover1",function(){
+		// 각 상품에 대하여 하이라이트 효과를 적용.
+		$(document).on("mouseover",".hover", function() {
 			$(this).addClass("over");
 		})
-		$(document).on("mouseout",".hover1",function(){
+		$(document).on("mouseout",".hover", function() {
 			$(this).removeClass("over");
+		})
+		
+
+		//창을 띄울 때 상품들의 이미지 크기를 조정.
+		$(".category_img").css("width", $("#product_box").width() * 0.225)
+		$(".category_img").css("height", $("#product_box").width() * 0.225)
+	
+		//창의 크기가 변동 될 때 상품들의 이미지 크기를 조정.
+		$(window).resize(function() {
+			$(".category_img").css("width", $("#product_box").width() * 0.225)
+			$(".category_img").css("height", $("#product_box").width() * 0.225)
 		})
 		
 		$(".slider").bxSlider({
 			mode:'horizontal',
-			captions:true,
 			slideWidth : 300,
-			pager:true,
+			pager:false,
 			preloadImages:'all',
  			minSlides:4,
 			maxSlides:4,
 			moveSlides:4,
-			infiniteLoop:false
+			infiniteLoop:true
 		});
 		
 		
 		
 	})
+</script>
+
+<script type="text/javascript">
+	// 	주소검색 API
+	function goPopup(){
+		// 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+	    var pop = window.open("search.do","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
+	    
+		// 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(http://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+	    //var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes"); 
+		}
+		/** API 서비스 제공항목 확대 (2017.02) **/
+	function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
+							, detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
+		// 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+		document.form.roadAddrPart1.value = roadAddrPart1;
+		document.form.roadAddrPart2.value = roadAddrPart2;
+		document.form.addrDetail.value = addrDetail;
+		document.form.zipNo.value = zipNo;
+	}
 </script>
 </head>
 <body>
@@ -92,19 +122,27 @@
 			</table>	
 		</div>
 		<div style="height: 100px;"></div>
-		<div style="height: 30px;"><h2>SELL LIST</h2></div>
-			
+		<div style="height: 30px; padding-bottom: 30px;"><h2>SELL LIST</h2></div>
 			<c:if test="${not empty list }">
 			<div class="slider" style="width:23%; background-color:#DDDDDD; float:left; border: 5px solid; border-color: white;">
 				<c:forEach items="${list }" var="list">
- 					<div id="slider_img" class="hover1">
- 						<a href="productDetail.do?product_id=${list.product_id }"><p>${list.product_name }</p><p><img src="resources/img/product/${list.main_img}" class="img_myPage"></p>${list.condition }<br>${list.quality }<br>${list.price }<input type="hidden" value="${list.product_id }" id="product_id"></a>
- 						<c:if test="${list.condition=='등록' }">
- 							<br><input type="button" value="삭제">
- 						</c:if>
- 					</div>
- 					
-- 				</c:forEach>
+ 					<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
+						<a href="productDetail.do?product_id=${list.product_id }">
+							<img src="resources/img/product/${list.main_img}"> <br>
+							<p id="name">${list.product_name }</p>
+							
+							<p>Category: ${list.category }</p>
+							<p>Condition: ${list.quality }</p>
+							<p>Price: ${list.price }WON/Month</p>
+						</a>
+							<c:if test="${list.condition=='등록' }">
+ 								<input type="button" value="삭제"><br>&nbsp;
+ 							</c:if>
+ 							<c:if test="${list.condition!='등록' }">
+ 								<br>&nbsp;
+ 							</c:if>
+					</div>
+ 				</c:forEach>
 			</div>
 			</c:if>
 	</div>
@@ -128,7 +166,7 @@
 	
 	<div id="dialog">
 		<center><h1>회원정보 수정</h1></center><br><br>
-		<form id="myForm" method="post">
+		<form id="form" name="form" method="post">
 			<table border="1" cellpadding="5" cellspacing="0" width="100%">
 			<tr>
 				<td id="title" width="15%">아이디</td>
@@ -137,12 +175,6 @@
 				</td>
 			</tr>
 
-<!-- 			<tr> -->
-<!-- 				<td id="title">비밀번호</td> -->
-<!-- 				<td width="20%"><input type="password" name="pwd" maxlength="50" required="required"></td> -->
-<!-- 				<td id="title">비밀번호 확인</td> -->
-<!-- 				<td><input type="password" id="pwdcheck" maxlength="50"required="required" name="pwd_chk"></td> -->
-<!-- 			</tr> -->
 
 			<tr>
 				<td id="title">이름</td>
@@ -170,24 +202,9 @@
 
 			<tr>
 				<td id="title">주소</td>
-<%-- 				<input type="hidden" value="${address_v.getAddress1()}" id="getAddress1"> --%>
-<%-- 				<input type="hidden" value="${address_v.getAddress2()}" id="getAddress2" > --%>
-<%-- 				<td colspan="4"><input type="hidden" name="n2" value="${n2 }"> --%>
-<!-- 					<select id="address1"  name="address1"> -->
-<!-- 						<option value="서울시">서울시</option> -->
-<!-- 						<option value="경기도">경기도</option> -->
-<!-- 						<option value="충남">충남</option> -->
-<!-- 						<option value="세종시">세종시</option> -->
-<!-- 					</select>  -->
 				<td>	
-					<select id="address2" name="address">
-						<option value="마포구">마포구</option>
-						<option value="고양시">고양시</option>
-						<option value="천안시">천안시</option>
-						<option value="다정동">다정동</option>
-						<option value="중랑구">중랑구</option>
-					</select> 
-					<input type="text" id="address_detail" name="address_detail" size="50" value="" required="required">
+					<input type="text" id="roadAddrPart1" size="55%" name="address" readonly="readonly"> <input type="button"  value="주소검색" onclick="goPopup();"><br>
+					<input type="text" id="addrDetail" readonly="readonly" name="address_detail" size="55%">
 				</td>
 			</tr>
 			<tr>
@@ -197,7 +214,6 @@
 			</tr>
 			<tr>
 				<td id="title">비밀번호 힌트</td>
-<%-- 				<input type="hidden" value="${v.getPwd_q()}" id="getPwd_q" > --%>
 				<td colspan="4"><select id="pwd_q" name="pwd_q">
 						<option value="자신의 보물 제 1호는?">자신의 보물 제 1호는?</option>
 						<option value="자신의 출신 초등학교는?">자신의 출신 초등학교는?</option>
@@ -211,7 +227,9 @@
 				<td colspan="4"><input type="text" name="pwd_a" id="pwd_a" maxlength="50" value="" required="required">
 				</td>
 			</tr>
-			
+			<input type="hidden" id="roadAddrPart2"  value="">
+			<input type="hidden" id="confmKey" name="confmKey" value=""  >
+			<input type="hidden" id="zipNo" name="zipNo" >
 		</table>
 		</form>
 		</div>

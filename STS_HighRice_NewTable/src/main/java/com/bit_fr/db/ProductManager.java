@@ -59,10 +59,13 @@ public class ProductManager {
 		session.close();
 		return p;
 	}
+	
 
 	public static int getNextId_product() {
+		System.out.println("과정3");
 		SqlSession session = factory.openSession();
-		int n = session.selectOne("product.NextId_product");
+		int n = session.selectOne("product.getNextId_product");
+		System.out.println("과정4"+n);
 		session.close();
 		return n;
 	}
@@ -81,9 +84,11 @@ public class ProductManager {
 		return p;
 	}
 
-	public static List<ProductVo> getMySell_product(String member_id) {
+	public static List<ProductVo> getMySell_product(String sql) {
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.getMySell_product", member_id);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+		List<ProductVo> list = session.selectList("product.getMySell_product", map);
 		session.close();
 		return list;
 	}
@@ -107,12 +112,10 @@ public class ProductManager {
 		return n;
 	}
 
-	public static List<ProductVo> getMySellForPaging_product(String member_id, int start, int end) {
+	public static List<ProductVo> getMySellForPaging_product(String member_id) {
 		SqlSession session = factory.openSession();
 		HashMap map = new HashMap();
 		map.put("member_id", member_id);
-		map.put("start", start);
-		map.put("end", end);
 		List<ProductVo> list = session.selectList("product.getMySellForPaging_product", map);
 		session.close();
 		return list;
@@ -144,7 +147,8 @@ public class ProductManager {
 	}
 
 	public static int insert_product(ProductVo p) {
-		SqlSession session = factory.openSession();
+		SqlSession session = factory.openSession(true);
+		System.out.println(p.getCategory());
 		int re = session.insert("product.insert_product", p);
 		session.close();
 		return re;
@@ -152,7 +156,7 @@ public class ProductManager {
 
 	public static int update_product(String product_name, String category, String quality, String main_img,
 			String sub_img) {
-		SqlSession session = factory.openSession();
+		SqlSession session = factory.openSession(true);
 		HashMap map = new HashMap();
 		map.put("product_name", product_name);
 		map.put("category", category);

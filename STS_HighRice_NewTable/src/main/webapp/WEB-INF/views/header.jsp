@@ -121,7 +121,7 @@ a {
 				
 			</div>
 			<div style="width: 20%; float: right;">
-				<a href="">SELL</a><br><br>
+				<a href="sellWrite.do">SELL</a><br><br>
 				<a href="aboutUs.do">ABOUT US</a><br>
 				<a href="">FAQ</a><br>
 				<a href="">QNA</a><br>
