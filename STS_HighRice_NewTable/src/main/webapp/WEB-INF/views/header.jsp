@@ -121,14 +121,14 @@ a {
 				
 			</div>
 			<div style="width: 20%; float: right;">
-				<a href="">SELL</a><br><br>
+
+				<a href="sellWrite.do">SELL</a><br><br>
 				<a href="aboutus.do">ABOUT US</a><br>
 				<a href="faq.do">FAQ</a><br>
-				<a href="">QNA</a><br>
+				<a href="qnaBoard.do">QNA</a><br>
 			</div>
 			<div style="width: 20%; float: right;">
-
-				<a href="customize.do">CUSTMIZE</a><br>
+				<a href="customize.do">CUSTOMIZE</a><br>
 				<a href="product.do?category=BED">BED</a><br>
 				<a href="product.do?category=SOFA">SOFA</a><br>
 				<a href="product.do?category=CLOSET">CLOSET</a><br>

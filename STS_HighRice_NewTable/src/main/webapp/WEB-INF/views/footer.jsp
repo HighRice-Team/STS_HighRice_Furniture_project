@@ -15,7 +15,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <style type="text/css">
 	#main_footer{
-		font-size: 1.3vw;
+		font-size: 1.2vw;
 	}
 </style>
 <script type="text/javascript">
@@ -190,8 +190,8 @@
 			<img src="resources/img/logo.png" style="width: 70%; height: auto;">
 		</div>
 		<div style="width: 50%; float: right; text-align: left;">
-			BIR FR Company<br> 주소 : 서울시 마포구 신수동<br> 고객센터 : 02-1234-5678<br>
-			이메일 : admin@bitfr.com<br>
+			BIT FR Company<br> 주소 : 서울시 마포구 신수동<br> 고객센터 : 02-1234-5678<br>
+			이메일 : bitfr@naver.com<br>
 		</div>
 	</div>
 
