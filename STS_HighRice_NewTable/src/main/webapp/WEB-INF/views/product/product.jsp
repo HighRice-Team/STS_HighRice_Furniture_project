@@ -96,13 +96,12 @@ p{
 			<a href="product.do?sort=price_max&category=${category }">높은가격순</a>
 		</div>
 		<br>
-		<div style="width: 100%; float: left;" id="product_box">
+		<div style="width: 100%; float: left; padding-bottom: 10px;" id="product_box">
 			<c:forEach items="${list }" var="list">
 				<div class="hover" style="width: 23%; background-color: #DDDDDD; float: left; border: 5px solid; border-color: white; padding-top: 3px;">
 					<a href="productDetail.do?product_id=${list.product_id }">
 						<img src="resources/img/product/${list.main_img }"class="category_img"> <br>
 						<p id="name">${list.product_name }</p>
-						
 						<p>Category: ${list.category }</p>
 						<p>Condition: ${list.quality }</p>
 						<p>Price: ${list.price }WON/Month</p>
@@ -110,9 +109,9 @@ p{
 				</div>
 			</c:forEach>
 		</div>
-		<div>
+		<div>		
 			<c:forEach var="pageNum" begin="1" end="${pageMax }">
-				<a href="product.do?pageNum=${pageNum }&category=${category}&order=${order}">${pageNum}</a>
+				<a href="product.do?pageNum=${pageNum }&category=${category}&order=${order}" style="font-size: 1.15vw;">${pageNum}</a>
 			</c:forEach>
 		</div>
 	</div>

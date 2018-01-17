@@ -6,109 +6,106 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="./css/ui.jqgrid.css">
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
+<link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <style>
+.detail{
+	display: none;
+}
+
 </style>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-<script type="text/javascript" src = "./js/jquery-ui.min.js"></script>
-<script type="text/javascript" src = "./js/i18n/grid.locale-en.js"></script>
-<script type="text/javascript" src = "./js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src ="resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-
-		function custom_link(cellvalue, options, rowdata, action) {
-			var html = '<img src="img/product/'+cellvalue+'" width="50">'
-			return html;
-		}
-
-//상태가 '등록' 외에는 수정, 삭제를 비활성화 (미완 상태)
-		var customDialog = {
-			onclickSubmit : function(params) {
-				var selectedRow = $("#tb").getGridParam("selrow")
-				rowData = $("#tb").getRowData(selectedRow)
-				var condition = rowData.condition.toString()
-				if (condition != '등록') {
-					return;
-				}
-				return {
-					product_id : rowData.product_id
-				}
-			}
-		}
-
-		$("#tb").jqGrid({
-			url : "sell/getSellList.jsp?member_id="+$("member_id").val(),
-			editurl : "sell/editSell.jsp",
-//editurl에 선택된 행의 product_id값을 보내야 하는지 여부 확인 필요
-			pager : "#pager",
-			caption : "등록 물품 목록",
-			height : "100%",
-			rowNum : 10,
-			loadonce : true,
-			autowidth:true,
-			colNames : [ '번호', '물품명', '품목', '품질', '현황', '메인 이미지', '서브 이미지' ],
-			colModel : [ {
-				name : 'product_id',
-				index : 'product_id',
-				width : 50
-			}, {
-				name : 'product_name',
-				index : 'product_name',
-				width : 200,
-				editable : true,
-				edittype : 'text'
-			}, {
-				name : 'item',
-				index : 'item',
-				width : 100,
-				editable : true,
-				edittype : 'select',
-				editoptions : {
-					value : "1:SOFA; 2:BED; 3:DESK; 4:CLOSET;"
-				}
-			}, {
-				name : 'quality',
-				index : 'quality',
-				width : 100,
-				editable : true,
-				edittype : 'select',
-				editoptions : {
-					value : "1:A; 2:B; 3:C;"
-				}
-			}, {
-				name : 'condition',
-				index : 'condition',
-				width : 100
-			}, {
-				name : 'main_img',
-				index : 'main_img',
-				formatter : custom_link,
-				editable : true,
-				edittype : 'file'
-			}, {
-				name : 'sub_img',
-				index : 'sub_img',
-				formatter : custom_link,
-				editable : true,
-				edittype : 'file'
-			} ]
-		}).navGrid("#pager", {
-			search : true,
-			edit : true,
-			add : true,
-			del : true
-		}, {}, customDialog, customDialog)
+		$(".updateBtn").click(function(){
+/* 			var product_id = $(this).parent().parent().find(".product_id").val()
+			var updateForm = $(this).parent().parent().parent().find(".detail").val()
+			var updateForm = $(this).next().find("#updateForm").val() */
+			$("#updateForm").removeClass()
+		})
+		
+		$(".deleteBtn").click(function(){
+			var product_id = $(tr).find()
+		})
 	})
+	
 </script>
 </head>
 <body>
-	<h2>SELL LIST</h2>
-	<hr>
-	<table id="tb" border="1" width="80%" cellpadding="0" cellspacing="0">
-	</table>
-	<input type="hidden" id = "member_id" value="${list.member_id}">
-	<div id="pager"></div>
-	
+	<div id="sellList" style="margin: 0 15% 0 15%; padding: 40px 0 40px 0; position: relative;">	
+		<h2>SELL LIST</h2><hr id="hr"><br>
+		<div style="margin: 0 10% 0 10%; padding: 10px 0 10px 0;">
+		<table>
+			<tr>
+				<td width="10%">이미지</td>
+				<td width="50%">물품명</td>
+				<td width="10%">카테고리</td>
+				<td width="10%">현황</td>
+				<td width="10%">물품상태</td>
+				<td width="7%">수정</td>
+				<td width="7%">삭제</td>
+			</tr>
+			<c:forEach var="list" items="${list}">
+			<tr>
+				<td width="10%"><img src="resources/img/product/${list.main_img}" width="70"></td>
+				<td width="50%"><a href="productDetail.do?product_id=${list.product_id}">${list.product_name}</a></td>
+				<td width="10%">${list.category}</td>
+				<td width="10%">${list.condition}</td>
+				<td width="10%">
+					<c:if test="${list.quality==null}">검수중</c:if>
+					<c:if test="${list.quality!=null}">${list.quality}</c:if>
+				</td>
+				<td width="7%">
+					<c:if test="${list.condition=='등록'}"><input type="button" value="수정" name="updateBtn" class="updateBtn"></c:if>
+				</td>
+				<td width="7%">
+					<c:if test="${list.condition=='등록'}"><input type="button" value="삭제" name="deleteBtn" class="deleteBtn"></c:if>
+				</td>
+				<input type="hidden" id = "member_id" value="${member_id}">
+				<input type="hidden" class = "product_id" value="${list.product_id}">
+				<input type="hidden" id = "getQuality" value="${list.quality}">
+			</tr>
+			<tr>
+				<td colspan="7">
+					<div id="updateForm" class="detail">
+					<form action="sellWriteOk.do" method="post" enctype="multipart/form-data">
+						<div style="padding: 10px" align="left">
+							제목 : <textarea rows="1" style="width: 90%" name="product_name">${list.product_name}</textarea>
+							<input type="hidden" name="product_id" value="${list.product_id}">
+						</div>
+						<div style="padding: 10px" align="left">
+							분류 :  <select name="category">
+							<option value="bed">BED</option>
+							<option value="sofa">SOFA</option>
+							<option value="desk">DESK</option>
+							<option value="closet">CLOSET</option></select>
+						</div>
+						<div style="padding: 10px" align="left">
+							품질 :  <input type="radio" name="quality" value="A">A
+							<input type="radio" name="quality" value="B">B
+							<input type="radio" name="quality" value="C">C
+						</div>
+						<div style="padding: 10px" align="left">
+							대표이미지 : <input type="file" name="main_img"><br>
+							서브이미지 : <input type="file" name="sub_img">
+						</div>
+						<div style="padding: 10px" align="center">
+							<input type="submit" value="수정">&nbsp;
+							<input type="reset" value="취소">
+						</div>
+					</form>
+					</div>
+				</td>
+			</tr>
+			</div>
+			</c:forEach>
+		</table>
+		</div><br>
+		<div>		
+			<c:forEach var="pageNum" begin="1" end="${pageMax}">
+				<a href="sellList.do?member_id=${member_id}&pageNum=${pageNum}" style="font-size: 1.15vw;">${pageNum}</a>
+			</c:forEach>
+		</div>
+	</div>
 </body>
 </html>

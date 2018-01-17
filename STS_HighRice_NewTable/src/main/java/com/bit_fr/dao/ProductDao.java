@@ -26,6 +26,7 @@ public class ProductDao {
 	}
 
 	public int getNextId_product() {
+		System.out.println("과정2");
 		return ProductManager.getNextId_product();
 	}
 
@@ -41,8 +42,8 @@ public class ProductDao {
 		return ProductManager.getCutomizeList_product(sql);
 	}
 
-	public List<ProductVo> getMySell_product(String member_id) {
-		return ProductManager.getMySell_product(member_id);
+	public List<ProductVo> getMySell_product(String sql) {
+		return ProductManager.getMySell_product(sql);
 	}
 
 	public int getMySellCount_product(String member_id) {

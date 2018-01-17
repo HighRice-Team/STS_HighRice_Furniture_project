@@ -57,7 +57,7 @@
 	          url:"insertOrderListAjax.do",
 	          data:data,
 	          success:function(data){
-	             if(data.re >= 1){
+	             if(data >= 1){
 	                if(confirm("이미 등록한 상품입니다. 장바구니로 이동하시겠습니까?")){
 	                   location.href="cartList.do";
 	                }                   
