@@ -79,21 +79,14 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping("aboutUs.do")
-	public ModelAndView aboutUs() {
-		ModelAndView mav = new ModelAndView("main");
-		mav.addObject("viewPage", "aboutUs.jsp");
-		return mav;
-	}
-	
-	@RequestMapping("qnaBoard.do")
+	@RequestMapping("/qnaBoard.do")
 	public ModelAndView qnaBoard() {
 		ModelAndView mav = new ModelAndView("main");
 		mav.addObject("viewPage", "qnaBoard/qnaBoard.jsp");
 		return mav;
 	}
 	
-	@RequestMapping("myPage.do")
+	@RequestMapping("/myPage.do")
 	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min,String selectedMyPage) {
 		ModelAndView mav = new ModelAndView();
 
