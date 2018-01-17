@@ -8,6 +8,7 @@
 table{
 	width: 100%;
 }
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -16,9 +17,10 @@ table{
 
 <script type="text/javascript">
 $(function(){
-	
+		
+		
 		function updateCondition(button, product_id, condition){
-			str = $("<button class='chkCondition'>").text(button).on("click",function(){
+			str = $("#chkCondition").text(button).css("visibility", "visible").on("click",function(){
     			data = {"product_id":product_id, "condition":condition}
         		$.ajax({
         			url:"UpdateCondition_product.do",
@@ -92,9 +94,9 @@ $(function(){
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
 	           { type: "control", deleteButton:false },
 	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
-	        	   var str;
+	        	   
 	        	   if(item.condition=="등록" || item.condition=="검수"){
-	        		   str = $("<button class='chkCondition'>").text("삭제").on("click",function(){
+	        		  return $("<button class='chkCondition'>").text("삭제").on("click",function(){
 	        			   data = {"product_id":item.product_id}
 	        			   var con = confirm("정말로 삭제하시겠습니까?")
 	        				if(con == true){
@@ -111,11 +113,12 @@ $(function(){
 		            		
 		            	})
 	        	   }
-	        	   return str;
+// 	        	   return str;
 	           }}
 	        ]
 		});
-			
+		
+		
 		$("#order_grid").jsGrid({
 	        width: "95%",
 	        height: "400px",
@@ -158,27 +161,27 @@ $(function(){
 	            { name: "rent_month",title:"대여기한(개월)", type: "number", width:30},
 	            { type: "control", deleteButton:false, editButton:false },
 	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
-	            	var str;
 	            	
-	            	str = $.ajax({
+	            	var str = $("<button id='chkCondition'>").css("visibility", "hidden");
+	            	$.ajax({
 	            		url:"getCondition_product.do",
 	            		data:{"product_id":item.product_id},
 	            		success:function(data){
+	            			
+	            			data = eval("("+data+")")
 	            			if(data.condition=="등록"){
 	    	            		str = updateCondition("접수",item.product_id,"검수")
-	    	            		return str;
 	    	            	}
 	    	            	if(data.condition=="반납신청"){
 	    	            		str = updateCondition("반납", item.product_id, "반납")
-	    	            		return str;
 	    	            	}
 	    	            	if(data.condtion=="반납"){
 	    	            		str = updateCondition("물품게시", item.product_id, "물품게시")
-	    	            		return str;
 	    	            	}
 	    	            	if(data.condition=='입금완료'){
-	    	            		str = $("<button class='chkCondition'>").text("배송").on("click",function(){
-	    	            			var con = {"order_id":item.order_id , "price":data.price, "member_id":item.member_id}
+	    	            		
+	    	            	 	str = $("#chkCondition").text("배송").css("visibility", "visible").on("click",function(){
+	    	            	 		var con = {"order_id":item.order_id , "price":data.price, "member_id":item.member_id}
 	    	            			$.ajax({
 	    	            				url:"sellCompliate_product.do",
 	    	            				data:con,
@@ -202,15 +205,13 @@ $(function(){
 	    	            				}
 	    	            			})
 	    	            		})
-	    	            		return str;
+	    	            		
 	    	            	}
-	    	            	
-	    	             return str;
+
 	            		}
 	            	})
-
-	       
-
+	            	
+	            	return str
 	            }},
 	        ]
 		})
