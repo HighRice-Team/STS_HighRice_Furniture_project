@@ -3,6 +3,7 @@ package com.bit_fr.db;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -24,98 +25,170 @@ public class ProductManager {
 			System.out.println(e);
 		}
 	}
-	
-	public static List<ProductVo> selectAll() {
+
+	public static List<ProductVo> getCust(String sql) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.selectAll_product");
+		List<ProductVo> list = session.selectList("product.getCust", map);
+		session.close();
+		return list;
+	}
+
+
+	public static List<ProductVo> getAll_product(String sql) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+		SqlSession session = factory.openSession();
+		List<ProductVo> list = session.selectList("product.getAll_product", map);
 		session.close();
 		return list;
 	}
 	
-	public static ProductVo selectOne(int id) {
+
+	public static List<ProductVo> getAll_productAdmin(ProductVo v){
+		HashMap<String, String>map = new HashMap<String, String>();
+		
+		if(v.getProduct_id()!=0) {
+
+			map.put("product_id", v.getProduct_id()+"");
+		}
+		
+		if(!v.getCategory().equals("")) {
+//			map.put("category",v.getCategory().toUpperCase());
+			map.put("category",v.getCategory());
+		}
+		if(!v.getProduct_name().equals("")) {
+			map.put("product_name","%"+v.getProduct_name()+"%");
+		}
+		if(!v.getMember_id().equals("")) {
+			map.put("member_id",v.getMember_id());
+		}
+		if(!v.getQuality().equals("")) {
+			map.put("quality",v.getQuality().toUpperCase());
+		}
+		if(v.getPrice()!=0) {
+			map.put("price",v.getPrice()+"");
+		}
+		if(!v.getCondition().equals("")) {
+			map.put("condition",v.getCondition());
+		}
+		
+
 		SqlSession session = factory.openSession();
-		ProductVo p = (ProductVo) session.selectList("product.selectOne_product", id);
+
+		List<ProductVo> list = session.selectList("getAll_productAdmin",map);
+		
+		session.close();
+		
+		return list;
+	}
+
+	public static ProductVo getOne_product(int product_id) {
+		SqlSession session = factory.openSession();
+		ProductVo p = session.selectOne("product.getOne_product", product_id);
 		session.close();
 		return p;
 	}
 	
-	public static List<ProductVo> selectSell(String member_id){
+
+	public static int getNextId_product() {
+		System.out.println("怨쇱젙3");
 		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.selectSell_product", member_id);
-		session.close();
-		return list;
-	}
-	
-	//min, max 값이 무엇인지 모르겠는 부분
-	public static List<ProductVo> selectAllByCondition() {
-		SqlSession session = factory.openSession();
-		List<ProductVo> list = session.selectList("product.selectAll_product");
-		session.close();
-		return list;
-	}
-	
-	// 상태 미상 1
-	public static int getXXXCount(String condition) {
-		SqlSession session = factory.openSession();
-		int re = session.selectOne("product.getXXXCount_product");
-		session.close();
-		return re;
-	}
-	
-	// 상태 미상 2
-	public static int getXXXCount(String category, String condition) {
-		SqlSession session = factory.openSession();
-		HashMap map = new HashMap();
-		map.put("category", category);
-		map.put("condition", condition);
-		
-		int re = session.selectOne("product.getXXXCount_product", map);
-		session.close();
-		return re;
-	}
-	
-	public static int nextNextId() {
-		SqlSession session = factory.openSession();
-		int n = session.selectOne("product.getNextId");
+		int n = session.selectOne("product.getNextId_product");
+		System.out.println("怨쇱젙4"+n);
 		session.close();
 		return n;
 	}
-	
-/* 자료형 모르겠는 부분	
-	public static ??????????? {
-		SqlSession session = factory.openSession();
-		int n = session.selectOne("product.getNextId");
-		session.close();
-		return n;
-	}
-*/
-	
-	public static int getCount() {
+
+	public static int getCount_product() {
 		SqlSession session = factory.openSession();
 		int re = session.selectOne("product.getCount_product");
 		session.close();
 		return re;
 	}
-	
-	public static int insertProduct(ProductVo p) {
+
+	public static ProductVo getCutomizeList_product(String sql) {
 		SqlSession session = factory.openSession();
+		ProductVo p = (ProductVo) session.selectList("product.getCutomizeList_product", sql);
+		session.close();
+		return p;
+	}
+
+	public static List<ProductVo> getMySell_product(String sql) {
+		SqlSession session = factory.openSession();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+		List<ProductVo> list = session.selectList("product.getMySell_product", map);
+		session.close();
+		return list;
+	}
+
+	public static int getMySellCount_product(String member_id) {
+		SqlSession session = factory.openSession();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", member_id);
+		int n = session.selectOne("product.getMySellCount_product", map);
+		session.close();
+		return n;
+	}
+
+	public static int getMySellCountWithCondition_product(String member_id, String condition) {
+		SqlSession session = factory.openSession();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", member_id);
+		map.put("condition", condition);
+		int n = session.selectOne("product.getMySellCountWithCondition_product", map);
+		session.close();
+		return n;
+	}
+
+	public static List<ProductVo> getMySellForPaging_product(String member_id) {
+		SqlSession session = factory.openSession();
+		HashMap map = new HashMap();
+		map.put("member_id", member_id);
+		List<ProductVo> list = session.selectList("product.getMySellForPaging_product", map);
+		session.close();
+		return list;
+	}
+
+	public static int getAllPublishingCount_product(String category, String condition) {
+		SqlSession session = factory.openSession();
+		HashMap map = new HashMap();
+		map.put("category", category);
+		map.put("condition", condition);
+
+		int re = session.selectOne("product.getAllPublishingCount_product", map);
+		session.close();
+		return re;
+	}
+
+	public static int getItemPublishingCount_product(String condition) {
+		SqlSession session = factory.openSession();
+		int re = session.selectOne("product.getItemPublishingCount_product");
+		session.close();
+		return re;
+	}
+
+	public static ProductVo getForAdmin_product() {
+		SqlSession session = factory.openSession();
+		ProductVo p = (ProductVo) session.selectList("product.getForAdmin_product");
+		session.close();
+		return p;
+	}
+
+	public static int insert_product(ProductVo p) {
+		SqlSession session = factory.openSession(true);
+		System.out.println(p.getCategory());
 		int re = session.insert("product.insert_product", p);
 		session.close();
 		return re;
 	}
-	
-	public static int updateCondition(int id, String condition) {
-		SqlSession session = factory.openSession();
-		HashMap map = new HashMap();
-		map.put("id", id);
-		map.put("condition", condition);
-		int re = session.update("product.updateCondition_product", map);
-		session.close();
-		return re;
-	}
-	
-	public static int updateProduct(String product_name, String category, String quality, String main_img, String sub_img) {
-		SqlSession session = factory.openSession();
+
+	public static int update_product(String product_name, String category, String quality, String main_img,
+			String sub_img) {
+		SqlSession session = factory.openSession(true);
 		HashMap map = new HashMap();
 		map.put("product_name", product_name);
 		map.put("category", category);
@@ -126,26 +199,32 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
-	
-	public static int updateAdmin(String category, String product_name, String condition, String quality, int price) {
-		SqlSession session = factory.openSession();
+
+	public static int updateCondition_product(int product_id, String condition) {
+		SqlSession session = factory.openSession(true);
 		HashMap map = new HashMap();
-		map.put("category", category);
-		map.put("product_name", product_name);
+		map.put("product_id", product_id);
 		map.put("condition", condition);
-		map.put("quality", quality);
-		map.put("price", price);
-		int re = session.update("product.updateAdmin_product", map);
+		int re = session.update("product.updateCondition_product", map);
 		session.close();
 		return re;
 	}
-	
-	public static int deleteProduct(int id) {
+
+	public static int updateAdmin_product(ProductVo p) {
 		SqlSession session = factory.openSession();
-		int re = session.delete("product.delete_product", id);
+		
+		int re = session.update("product.updateAdmin_product", p);
+		session.commit();
 		session.close();
 		return re;
 	}
-	
-	// 모르겠는 부분 처리 못함(매퍼 내)
+
+	public static int delete_product(int product_id) {
+
+		SqlSession session = factory.openSession();
+		int re = session.delete("product.delete_product", product_id);
+		session.commit();
+		session.close();
+		return re;
+	}
 }

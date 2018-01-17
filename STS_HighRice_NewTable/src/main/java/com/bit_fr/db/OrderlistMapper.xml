@@ -4,66 +4,103 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orderlist">
 
+	<select id="getMyRecentlyOrder_orderlist" resultType="orderlistVo">
+		select order_id, pay_date,main_img,product_name,price,rent_month,condition con from orderlist o,product p where o.product_id = p.product_id and o.member_id = '${member_id}' and o.pay_date >= '${today}'
+	</select>
+
 	<select id="getCheckExist_orderlist" resultType="java.lang.Integer">
-		select count(*) from
-		orderlist where member_id = #{member_id} and product_id
-		= #{product_id}
+		select count(*)
+		from
+		orderlist where member_id = #{member_id} and product_id = #{product_id}
 	</select>
 
 	<select id="getCountNextOrderId_orderlist" resultType="java.lang.Integer">
-		select nvl(
-		max(order_id)+1, 0 ) from orderlist
+		select nvl( max(order_id)+1, 0 ) from orderlist
 	</select>
 
 	<select id="getCountToMyCondition_orderlist" resultType="java.lang.Integer">
 		select
-		count(product_id) from orderlist
-		where member_id = #{member_id} and product_id in
-		(select product_id from product where condition = #{condition})
+		count(product_id) from orderlist where member_id = #{member_id} and
+		product_id in
+		(select product_id from product where condition =
+		#{condition})
 	</select>
 
 	<select id="getAll_orderlist" resultType="orderlistVo">
 		select * from orderlist
+		<trim prefix="WHERE" prefixOverrides="AND">
+				<if test="order_id!=null">AND order_id = #{order_id}</if>
+				<if test="member_id != null">AND member_id like '${member_id}'</if>
+				<if test="product_id!=null">AND and product_id = #{product_id}</if>
+				<if test = "pay_date != null">AND pay_date = '${pay_date}'</if>
+				<if test = "rent_start != null">AND rent_start='${rent_start}'</if>
+				<if test = "rent_end != null">AND rent_end='${rent_end}'</if>
+				<if test = "rent_month != null">AND rent_date=#{rent_date}</if>
+			</trim>
+		order by order_id
 	</select>
 
 	<select id="getMyOrderlistToCondition_orderlist" resultType="orderlistVo">
-		select * from orderlist
-		where member_id = #{member_id} and product_id in
+		select * from orderlist where member_id = #{member_id} and product_id
+		in
 		(select product_id from product where condition = #{condition})
 	</select>
 
-	<select id="getCountMyOrderToCondition_orderlist" resultType="java.lang.Integer">
-		select count(product_id) from orderlist 
-		where member_id = #{member_id} and product_id in (select product_id from product where condition = #{condition})
-	</select>
-
 	<select id="getAllMyOrder_orderlist" resultType="orderlistVo">
-		select * from orderlist
-		where member_id = #{member_id}
+		select pay_date,order_id,main_img,rent_month,product_name,price,condition con from product p,orderlist o where p.product_id=o.product_id and o.member_id = #{member_id}
+			<if test="product_name != null">AND product_name= '${product_name}'</if>
+			<if test="price != null">AND price = ${price}</if>
+			<if test="condition != null">AND condition = '${condition}'</if>
 	</select>
 
-	<insert id="insert_orderlist">
-		insert into orderlist values( #{order_id} ,
-		#{member_id} , #{product_id} ,
-		sysdate , #{rent_start} , null ,
-		#{rent_month} )
+	<select id="getMyCartList_orderlist" resultType="orderlistVo">
+		${sql}
+	</select>
+	
+	<select id="getRentMonth_orderlist" resultType="java.lang.Integer">
+		select rent_month from orderlist where member_id = #{member_id} and product_id = #{product_id}
+	</select>
+
+	<select id="getMyRentMonth_orderlist" resultType="java.lang.Integer">
+		select rent_month from orderlist
+		where member_id = #{member_id} and product_id = #{product_id}
+	</select>
+	
+	<insert id="insertCartlist_orderlist">
+		insert into orderlist values( #{order_id} , #{member_id} , #{product_id} , null , null , null , #{rent_month} )
+	</insert>
+	
+	<insert id="insertPayment_orderlist">
+		insert into orderlist values( #{order_id} , #{member_id} , #{product_id} , sysdate , (sysdate + 3) , ADD_MONTHS((sysdate + 3) , #{rent_month} ) , #{rent_month} )
 	</insert>
 
 	<update id="updateRentMonth_orderlist">
-		update orderlist set rent_month = #{rent_month} 
+		update orderlist set rent_month = #{rent_month}
+		where
+		member_id = #{member_id} and product_id = #{product_id}
+	</update>
+	
+	<update id="updatePaymentProduct_orderlist">
+		update member set balance = ( balance - #{paymentOne} ) 
+		where member_id = #{member_id}
+	</update>
+	
+	<update id="updateRentalDateFromCartlistPayment_orderlist">
+		update orderlist set pay_date = sysdate , rent_start = (sysdate + 3) , rent_end = ADD_MONTHS((sysdate + 3) , #{rent_month} )
 		where member_id = #{member_id} and product_id = #{product_id}
 	</update>
-
-	<update id="updateRentEnd_orderlist">
-		update orderlist set rent_end =
-		(select ADD_MONTHS(rent_start, rent_month)
-		from orderlist where order_id = #{order_id})
-		where order_id = #{order_id}
+	
+	<update id="updateDepositToMaster_orderlist">
+		update member set balance = ( balance + #{paymentOne} ) 
+		where member_id = 'master'
 	</update>
-
+	
 	<delete id="delete_orderlist">
-		delete orderlist 
-		where member_id = #{member_id} and product_id = #{product_id}
+		delete orderlist
+		where member_id = #{member_id} and
+		product_id = #{product_id}
 	</delete>
+	
+	
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.bit_fr.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,10 @@ public class OrderlistDao {
 	public int getCheckExist_orderlist(String member_id, int product_id) {
 		return OrderlistManager.getCheckExist_orderlist(member_id, product_id);
 	}
+	
+	public List<OrderlistVo>getMyRecentlyOrder_orderlist(String member_id){
+		return OrderlistManager.getMyRecentlyOrder_orderlist(member_id);
+	}
 
 	public int getCountNextOrderId_orderlist() {
 		return OrderlistManager.getCountNextOrderId_orderlist();
@@ -22,25 +27,28 @@ public class OrderlistDao {
 		return OrderlistManager.getCountToMyCondition_orderlist(member_id, condition);
 	}
 
-	public List<OrderlistVo> getAll_orderlist() {
-		return OrderlistManager.getAll_orderlist();
+	public List<OrderlistVo> getAll_orderlist(OrderlistVo o) {
+		return OrderlistManager.getAll_orderlist(o);
 	}
 
 	public List<OrderlistVo> getMyOrderlistToCondition_orderlist(String member_id, String condition) {
 		return OrderlistManager.getMyOrderlistToCondition_orderlist(member_id, condition);
 	}
 
-	public int getCountMyOrderToCondition_orderlist(String member_id, String condition) {
-		return OrderlistManager.getCountMyOrderToCondition_orderlist(member_id, condition);
+	public List<OrderlistVo> getAllMyOrder_orderlist(String member_id,OrderlistVo v) {
+		return OrderlistManager.getAllMyOrder_orderlist(member_id,v);
 	}
 
-	public List<OrderlistVo> getAllMyOrder_orderlist(String member_id) {
-		return OrderlistManager.getAllMyOrder_orderlist(member_id);
+	public List<OrderlistVo> getMyCartList_orderlist(String sql) {
+		return OrderlistManager.getMyCartList_orderlist(sql);
+	}
+	
+	public int getRentMonth_orderlist(String member_id, int product_id) {
+		return OrderlistManager.getRentMonth_orderlist(member_id, product_id);
 	}
 
-	// Controller 에서 order_id 가 dao.getNUM_NextOrderID 으로 받아와짐.
-	public int insert_orderlist(OrderlistVo v) {
-		return OrderlistManager.insert_orderlist(v);
+	public int insertCartlist_orderlist(OrderlistVo v) {
+		return OrderlistManager.insertCartlist_orderlist(v);
 	}
 
 	public int updateRentMonth_orderlist(String member_id, int product_id, int rent_month) {
@@ -55,6 +63,25 @@ public class OrderlistDao {
 	public int delete_orderlist(String member_id, int product_id) {
 		return OrderlistManager.delete_orderlist(member_id, product_id);
 	}
-	
+
+	public int updatePaymentProduct_orderlist(String member_id, long paymentOne) {
+		return OrderlistManager.updatePaymentProduct_orderlist(member_id, paymentOne);
+	}
+
+	public int updateRentalDateFromCartlistPayment_orderlist(String member_id, int product_id, int rent_month) {
+		return OrderlistManager.updateRentalDateFromCartlistPayment_orderlist(member_id, product_id, rent_month);
+	}
+
+	public int getMyRentMonth_orderlist(String member_id, int product_id) {
+		return OrderlistManager.getMyRentMonth_orderlist(member_id, product_id);
+	}
+
+	public int updateDepositToMaster_orderlist(long paymentOne) {
+		return OrderlistManager.updateDepositToMaster_orderlist(paymentOne);
+	}
+
+	public int insertPayment_orderlist(OrderlistVo v) {
+		return OrderlistManager.insertPayment_orderlist(v);
+	}
 
 }

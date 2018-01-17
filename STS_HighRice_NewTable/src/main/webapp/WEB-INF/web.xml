@@ -46,5 +46,22 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<!-- 로그인 필터 -->
+	<filter>
+		<display-name>loginMember</display-name>
+		<filter-name>loginMember</filter-name>
+		<filter-class>com.bit_fr.filter.LoginFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>loginMember</filter-name>
+		<url-pattern>/myPage.do</url-pattern>
+		<url-pattern>/cartList.do</url-pattern>
+		<url-pattern>/goPaymentInfo.do</url-pattern>
+		<url-pattern>/goPayment.do</url-pattern>
+		<url-pattern>/admin.do</url-pattern>
+		<url-pattern>/sellWrite.do</url-pattern>
+	</filter-mapping>
 
 </web-app>

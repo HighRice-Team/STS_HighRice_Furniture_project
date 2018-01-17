@@ -1,5 +1,7 @@
 package com.bit_fr.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ProductVo {
 	private int product_id;
 	private String condition;
@@ -10,7 +12,44 @@ public class ProductVo {
 	private String main_img;
 	private String sub_img;
 	private String member_id;
-	private int rownum;
+	private int rnum;
+	private MultipartFile mainIMG;
+	private MultipartFile subIMG;
+	
+	
+
+	public MultipartFile getMainIMG() {
+		return mainIMG;
+	}
+
+	public void setMainIMG(MultipartFile mainIMG) {
+		this.mainIMG = mainIMG;
+	}
+
+	public MultipartFile getSubIMG() {
+		return subIMG;
+	}
+
+	public void setSubIMG(MultipartFile subIMG) {
+		this.subIMG = subIMG;
+	}
+
+	public ProductVo(int product_id, String condition, String product_name, String category, String quality, int price,
+			String main_img, String sub_img, String member_id, int rnum, MultipartFile mainIMG, MultipartFile subIMG) {
+		super();
+		this.product_id = product_id;
+		this.condition = condition;
+		this.product_name = product_name;
+		this.category = category;
+		this.quality = quality;
+		this.price = price;
+		this.main_img = main_img;
+		this.sub_img = sub_img;
+		this.member_id = member_id;
+		this.rnum = rnum;
+		this.mainIMG = mainIMG;
+		this.subIMG = subIMG;
+	}
 
 	// Setter
 	public void setProduct_id(int product_id) {
@@ -37,6 +76,13 @@ public class ProductVo {
 		this.price = price;
 	}
 
+	@Override
+	public String toString() {
+		return "ProductVo [product_id=" + product_id + ", condition=" + condition + ", product_name=" + product_name
+				+ ", category=" + category + ", quality=" + quality + ", price=" + price + ", main_img=" + main_img
+				+ ", sub_img=" + sub_img + ", member_id=" + member_id + ", rnum=" + rnum + "]";
+	}
+
 	public void setMain_img(String main_img) {
 		this.main_img = main_img;
 	}
@@ -49,8 +95,8 @@ public class ProductVo {
 		this.member_id = member_id;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
 	}
 
 	// Getter
@@ -90,8 +136,8 @@ public class ProductVo {
 		return member_id;
 	}
 
-	public int getRownum() {
-		return rownum;
+	public int getRnum() {
+		return rnum;
 	}
 
 	// Constructor
@@ -101,8 +147,8 @@ public class ProductVo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProductVo(int product_id, String condition, String product_name, String category, String quality, int price,
-			String main_img, String sub_img, String member_id, int rownum) {
+	public ProductVo(int rnum, int product_id, String condition, String product_name, String category, String quality,
+			int price, String main_img, String sub_img, String member_id) {
 		super();
 		this.product_id = product_id;
 		this.condition = condition;
@@ -113,7 +159,7 @@ public class ProductVo {
 		this.main_img = main_img;
 		this.sub_img = sub_img;
 		this.member_id = member_id;
-		this.rownum = rownum;
+		this.rnum = rnum;
 	}
 
 }
