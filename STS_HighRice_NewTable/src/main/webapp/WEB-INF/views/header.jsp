@@ -128,7 +128,7 @@ a {
 				<a href="">QNA</a><br>
 			</div>
 			<div style="width: 20%; float: right;">
-				<a href="customize.do">CUSTMIZE</a><br>
+				<a href="customize.do">CUSTOMIZE</a><br>
 				<a href="product.do?category=BED">BED</a><br>
 				<a href="product.do?category=SOFA">SOFA</a><br>
 				<a href="product.do?category=CLOSET">CLOSET</a><br>
