@@ -121,15 +121,10 @@ a {
 				
 			</div>
 			<div style="width: 20%; float: right;">
-<<<<<<< HEAD
+
 				<a href="sellWrite.do">SELL</a><br><br>
-				<a href="aboutUs.do">ABOUT US</a><br>
-				<a href="">FAQ</a><br>
-=======
-				<a href="">SELL</a><br><br>
 				<a href="aboutus.do">ABOUT US</a><br>
 				<a href="faq.do">FAQ</a><br>
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 				<a href="">QNA</a><br>
 			</div>
 			<div style="width: 20%; float: right;">

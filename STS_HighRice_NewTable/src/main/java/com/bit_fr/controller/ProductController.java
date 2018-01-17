@@ -224,7 +224,7 @@ public class ProductController {
 		return view;
 	}
 	
-<<<<<<< HEAD
+
 	@RequestMapping("/sellList.do")
 	public ModelAndView getMySell_product(String member_id, @RequestParam(defaultValue = "1") int pageNum) {
 		ModelAndView view = new ModelAndView();
@@ -235,7 +235,23 @@ public class ProductController {
 		String sql = "select * from (select rownum rnum, product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from (select product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from product where member_id='"+member_id+"' order by product_id))";
 	
 		List<ProductVo> list = dao.getMySell_product(sql);
-=======
+
+		int pageMax = list.size() / productMax;		
+		if(list.size() % productMax != 0)
+			pageMax++;	
+		sql += " where rnum>=" + startNum + " and rnum<=" + endNum;
+		
+		list = dao.getMySell_product(sql);
+		
+		view.setViewName("main"); 
+		view.addObject("len", list.size());
+		view.addObject("member_id", member_id);
+		view.addObject("list", list);
+		view.addObject("pageMax", pageMax);
+		view.addObject("viewPage", "sell/sellList.jsp");
+		return view;
+	}
+	
 	@RequestMapping(value ="/UpdateCondition_product", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String UpdateConditionToSell_product(int product_id, String condition) {
@@ -252,23 +268,6 @@ public class ProductController {
 		}
 		
 		return str;
-	}
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
-
-		int pageMax = list.size() / productMax;		
-		if(list.size() % productMax != 0)
-			pageMax++;	
-		sql += " where rnum>=" + startNum + " and rnum<=" + endNum;
-		
-		list = dao.getMySell_product(sql);
-		
-		view.setViewName("main"); 
-		view.addObject("len", list.size());
-		view.addObject("member_id", member_id);
-		view.addObject("list", list);
-		view.addObject("pageMax", pageMax);
-		view.addObject("viewPage", "sell/sellList.jsp");
-		return view;
 	}
 	
 	@RequestMapping("/sellInsert.do")

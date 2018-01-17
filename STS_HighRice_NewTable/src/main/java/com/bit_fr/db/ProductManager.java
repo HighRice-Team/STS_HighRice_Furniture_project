@@ -77,12 +77,9 @@ public class ProductManager {
 		
 
 		SqlSession session = factory.openSession();
-<<<<<<< HEAD
-		List<ProductVo> list = session.selectList("getAll_productAdmin");
-=======
+
 		List<ProductVo> list = session.selectList("getAll_productAdmin",map);
 		
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 		session.close();
 		
 		return list;
