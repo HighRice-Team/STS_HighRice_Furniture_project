@@ -49,6 +49,7 @@ public class HomeController {
 
 	@Autowired
 	private OrderlistDao orderlistDao;
+	
 
 	public void setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
@@ -77,13 +78,6 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate);
 
 		return "home";
-	}
-	
-	@RequestMapping("/qnaBoard.do")
-	public ModelAndView qnaBoard() {
-		ModelAndView mav = new ModelAndView("main");
-		mav.addObject("viewPage", "qnaBoard/qnaBoard.jsp");
-		return mav;
 	}
 	
 	@RequestMapping("/myPage.do")
