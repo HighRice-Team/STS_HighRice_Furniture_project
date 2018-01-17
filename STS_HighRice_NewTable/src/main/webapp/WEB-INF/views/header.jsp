@@ -125,7 +125,7 @@ a {
 				<a href="sellWrite.do">SELL</a><br><br>
 				<a href="aboutus.do">ABOUT US</a><br>
 				<a href="faq.do">FAQ</a><br>
-				<a href="">QNA</a><br>
+				<a href="qnaBoard.do">QNA</a><br>
 			</div>
 			<div style="width: 20%; float: right;">
 				<a href="customize.do">CUSTOMIZE</a><br>
