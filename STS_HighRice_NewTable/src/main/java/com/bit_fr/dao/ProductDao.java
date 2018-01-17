@@ -1,6 +1,7 @@
 package com.bit_fr.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +15,10 @@ public class ProductDao {
 		return ProductManager.getAll_product(sql);
 	}
 	
+
 	public List<ProductVo> getAll_productAdmin(ProductVo v){
 		return ProductManager.getAll_productAdmin(v);
+
 	}
 
 	public ProductVo getOne_product(int product_id) {
@@ -23,6 +26,7 @@ public class ProductDao {
 	}
 
 	public int getNextId_product() {
+		System.out.println("과정2");
 		return ProductManager.getNextId_product();
 	}
 
@@ -38,8 +42,8 @@ public class ProductDao {
 		return ProductManager.getCutomizeList_product(sql);
 	}
 
-	public List<ProductVo> getMySell_product(String member_id) {
-		return ProductManager.getMySell_product(member_id);
+	public List<ProductVo> getMySell_product(String sql) {
+		return ProductManager.getMySell_product(sql);
 	}
 
 	public int getMySellCount_product(String member_id) {

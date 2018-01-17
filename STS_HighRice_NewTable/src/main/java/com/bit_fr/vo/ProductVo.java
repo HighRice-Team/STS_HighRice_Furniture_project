@@ -1,5 +1,7 @@
 package com.bit_fr.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ProductVo {
 	private int product_id;
 	private String condition;
@@ -11,6 +13,43 @@ public class ProductVo {
 	private String sub_img;
 	private String member_id;
 	private int rnum;
+	private MultipartFile mainIMG;
+	private MultipartFile subIMG;
+	
+	
+
+	public MultipartFile getMainIMG() {
+		return mainIMG;
+	}
+
+	public void setMainIMG(MultipartFile mainIMG) {
+		this.mainIMG = mainIMG;
+	}
+
+	public MultipartFile getSubIMG() {
+		return subIMG;
+	}
+
+	public void setSubIMG(MultipartFile subIMG) {
+		this.subIMG = subIMG;
+	}
+
+	public ProductVo(int product_id, String condition, String product_name, String category, String quality, int price,
+			String main_img, String sub_img, String member_id, int rnum, MultipartFile mainIMG, MultipartFile subIMG) {
+		super();
+		this.product_id = product_id;
+		this.condition = condition;
+		this.product_name = product_name;
+		this.category = category;
+		this.quality = quality;
+		this.price = price;
+		this.main_img = main_img;
+		this.sub_img = sub_img;
+		this.member_id = member_id;
+		this.rnum = rnum;
+		this.mainIMG = mainIMG;
+		this.subIMG = subIMG;
+	}
 
 	// Setter
 	public void setProduct_id(int product_id) {

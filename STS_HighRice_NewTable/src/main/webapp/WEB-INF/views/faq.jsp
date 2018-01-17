@@ -24,7 +24,7 @@
 		<hr>
 	</div>
 	<div id="accordion" style="margin: 0 15% 0 15%; padding: 40px 0 40px 0; text-align: left;">
-		<h3>Q. 회원으로 가입해야만 상품을 구입할 수 있나요?</h3>
+		<div>Q. 회원으로 가입해야만 상품을 구입할 수 있나요?</div>
 		<div>
 			<p>
 				예, 저희 BIT FR Company는 가구 대여사이트로 대여후 반납이 확인되어야 함으로,<br> 회원제로

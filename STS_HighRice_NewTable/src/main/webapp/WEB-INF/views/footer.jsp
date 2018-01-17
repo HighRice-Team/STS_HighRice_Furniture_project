@@ -15,7 +15,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <style type="text/css">
 	#main_footer{
-		font-size: 1.3vw;
+		font-size: 1.2vw;
 	}
 </style>
 <script type="text/javascript">
@@ -165,30 +165,6 @@
 	      }
 	})
 	
-// 	마이페이지에서 회원정보 변경을 위한 다일로그 오픈
-	$("input[value=회원정보수정]").click(function(){
-		
-		var data = {'member_id':$("#id_mypage").val()}
-		
-		$.ajax({url:"getOne_member_ajax.do", data:data ,success:function(data){
-			
-			data = eval('('+data+')')
-			
-			$("#member_id").html(data.member_id);
-			$("#name").html(data.name);
-			$("#jumin").html(data.jumin);
-			$("#account_no").val(data.account_no);
-			$("#address3").val(data.address3);
-			$("#tel").val(data.tel);
-			$("#pwd_a").val(data.pwd_a);
-			$("#pwd_q").val(data.pwd_q);
-			$("#bank").val(data.bank);
-			$("#roadAddrPart1").val(data.address);
-			$("#addrDetail").val(data.address_detail);
-		}})
-		$("#dialog").dialog("open");
-	})
-	
 // 	마이페이지 상품삭제 버튼
 	$("input[value=삭제]").click(function(){
 //			location.href="productDelete.do?product_id="+$(this).parent().find("#product_id").val();
@@ -214,8 +190,8 @@
 			<img src="resources/img/logo.png" style="width: 70%; height: auto;">
 		</div>
 		<div style="width: 50%; float: right; text-align: left;">
-			BIR FR Company<br> 주소 : 서울시 마포구 신수동<br> 고객센터 : 02-1234-5678<br>
-			이메일 : admin@bitfr.com<br>
+			BIT FR Company<br> 주소 : 서울시 마포구 신수동<br> 고객센터 : 02-1234-5678<br>
+			이메일 : bitfr@naver.com<br>
 		</div>
 	</div>
 

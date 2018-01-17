@@ -1,5 +1,6 @@
 package com.bit_fr.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,10 @@ public class OrderlistDao {
 	public int getCheckExist_orderlist(String member_id, int product_id) {
 		return OrderlistManager.getCheckExist_orderlist(member_id, product_id);
 	}
+	
+	public List<OrderlistVo>getMyRecentlyOrder_orderlist(String member_id){
+		return OrderlistManager.getMyRecentlyOrder_orderlist(member_id);
+	}
 
 	public int getCountNextOrderId_orderlist() {
 		return OrderlistManager.getCountNextOrderId_orderlist();
@@ -22,20 +27,24 @@ public class OrderlistDao {
 		return OrderlistManager.getCountToMyCondition_orderlist(member_id, condition);
 	}
 
-	public List<OrderlistVo> getAll_orderlist() {
-		return OrderlistManager.getAll_orderlist();
+	public List<OrderlistVo> getAll_orderlist(OrderlistVo o) {
+		return OrderlistManager.getAll_orderlist(o);
 	}
 
 	public List<OrderlistVo> getMyOrderlistToCondition_orderlist(String member_id, String condition) {
 		return OrderlistManager.getMyOrderlistToCondition_orderlist(member_id, condition);
 	}
 
-	public List<OrderlistVo> getAllMyOrder_orderlist(String member_id) {
-		return OrderlistManager.getAllMyOrder_orderlist(member_id);
+	public List<OrderlistVo> getAllMyOrder_orderlist(String member_id,OrderlistVo v) {
+		return OrderlistManager.getAllMyOrder_orderlist(member_id,v);
 	}
 
 	public List<OrderlistVo> getMyCartList_orderlist(String sql) {
 		return OrderlistManager.getMyCartList_orderlist(sql);
+	}
+	
+	public int getRentMonth_orderlist(String member_id, int product_id) {
+		return OrderlistManager.getRentMonth_orderlist(member_id, product_id);
 	}
 
 	public int insertCartlist_orderlist(OrderlistVo v) {
