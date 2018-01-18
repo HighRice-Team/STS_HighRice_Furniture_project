@@ -47,7 +47,7 @@
 	</select>
 
 	<select id="getAllMyOrder_orderlist" resultType="orderlistVo">
-		select pay_date,order_id,main_img,rent_month,product_name,price,condition con from product p,orderlist o where p.product_id=o.product_id and o.member_id = #{member_id} and condition != '물품게시'
+		select pay_date,order_id,main_img,rent_month,product_name,price,condition con from product p,orderlist o where p.product_id=o.product_id and o.member_id = #{member_id} and condition != '물품게시' and pay_date is not null
 			<if test="product_name != null">AND product_name= '${product_name}'</if>
 			<if test="price != null">AND price = ${price}</if>
 			<if test="condition != null">AND condition = '${condition}'</if>

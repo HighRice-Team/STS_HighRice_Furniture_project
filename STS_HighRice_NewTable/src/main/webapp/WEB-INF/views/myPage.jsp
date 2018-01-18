@@ -92,6 +92,39 @@ p{
 			infiniteLoop:true
 		});
 		
+		
+		$("#mySellList_grid").jsGrid({
+	        width: "100%",
+	        height: "auto",
+	        filtering: true,
+	        sorting: true,
+	        paging: true,
+	        autoload: true,
+	        autosearch:true,
+	        pageSize : 10,
+	        pageButtonCount:5,
+	        
+	        controller : {
+	        	loadData:function(filter){
+	        		return $.ajax({
+	        			url:"getAllMy_product.do",
+	        			type:"POST",
+	        			data:filter,
+	        			dataType:"JSON"
+	        		})
+	        	}
+	        },
+	        
+	        fields: [
+	            { name: "product_id", title:"상품번호",  type: "number", width: 50},
+	            { name: "product_name", title:"상품명",type:"text", width: 120},
+	            { name: "condition", title:"처리상태", type: "text", width: 50 },
+	            { title:"총 판매금액[건수]",  itemTemplate:function(_,item){  return item.total+"["+item.cnt+"]"}, type: "text", width: 50 },
+	            { title:"페이백 [10%]", itemTemplate:function(_,item){  return item.total*0.1}, type: "text",width:50},
+	            { name: "버튼", width:50 }
+	        ]
+		});
+		
 		$("#myOrderlist_grid").jsGrid({
 	        width: "100%",
 	        height: "auto",
@@ -199,7 +232,7 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href=""><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
 	<!-- 			<div><img src="resources/img/slide1.jpg" width="100%" height="150px"></div> -->
@@ -320,7 +353,7 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href=""><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
 				<div>
@@ -356,11 +389,14 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href=""><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
-				
-					
+				<div>
+					<table id="mySellList_grid" cellpadding="10px" cellspacing="10px" class="table" style="text-align: center;">
+						
+					</table>
+				</div>	
 			</div>
 		</div>
 		<center>
@@ -387,7 +423,7 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href=""><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
 				

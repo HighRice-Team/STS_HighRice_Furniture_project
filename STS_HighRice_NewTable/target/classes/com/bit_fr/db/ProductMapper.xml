@@ -12,6 +12,10 @@
 		${sql}
 	</select>
 	
+	<select id="getAllMy_product" resultType="productVo">
+		select count(o.product_id)cnt,sum(o.rent_month*p.price)total,p.product_name,p.condition,o.product_id from orderlist o,product p where o.product_id=p.product_id and pay_date is not null and o.product_id in (select product_id from product where member_id=#{member_id}) group by o.product_id, p.product_name,p.condition
+	</select>
+	
 	<select id="getAll_productAdmin" resultType="productVo">
 
 		select * from product 

@@ -25,6 +25,16 @@ public class ProductManager {
 			System.out.println(e);
 		}
 	}
+	
+	public static List<ProductVo> getAllMy_product(String member_id) {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("member_id", member_id);
+
+		SqlSession session = factory.openSession();
+		List<ProductVo> list = session.selectList("product.getAllMy_product", map);
+		session.close();
+		return list;
+	}
 
 	public static List<ProductVo> getCust(String sql) {
 		HashMap<String, String> map = new HashMap<String, String>();

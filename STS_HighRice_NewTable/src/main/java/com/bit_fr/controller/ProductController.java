@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,23 @@ public class ProductController {
 	public void setDao(ProductDao dao) {
 		this.dao = dao;
 	}
+	@RequestMapping(value="/getAllMy_product.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String getAllMy_product(HttpSession session) {
+		String str = "";
+		String member_id = (String)session.getAttribute("id");
+		List<ProductVo> list = dao.getAllMy_product(member_id);
+		try {
+			ObjectMapper om = new ObjectMapper();
+			str = om.writeValueAsString(list);
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return str;
+	}
+	
 	@RequestMapping("/customize.do")
 	public ModelAndView gotoCustomize(@RequestParam(defaultValue = "1") int pageNum, String category, String quality,
 			@RequestParam(defaultValue = "0") int min, @RequestParam(defaultValue = "0") int max) {
