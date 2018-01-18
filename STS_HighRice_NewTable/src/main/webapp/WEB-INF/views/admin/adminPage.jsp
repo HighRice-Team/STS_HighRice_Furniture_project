@@ -24,6 +24,7 @@ $(function(){
 	
 		$("#tabs").tabs();
 		
+		//제품 검수완료 및 변경을 위한 dialog
 		$("#productDialog").dialog({
 			width:400,
 			maxWidth:400,
@@ -55,6 +56,7 @@ $(function(){
 	        	
 	        },
 	        
+	        // 더블클릭 시 다이얼로그를 열어줌
 	        rowDoubleClick:function(args){
 	        	var data = args.item
 	        	$("#productDialog").dialog("open")
