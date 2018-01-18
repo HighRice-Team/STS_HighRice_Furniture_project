@@ -73,6 +73,10 @@
 		select product_id, item, product_name, m.member_id, condition, a.address2, quality, price from product p, member m, address a where p.member_id=m.member_id and m.address_id=a.address_id
 	</select>
 	
+	<select id="getCondition_product" resultType="java.lang.String">
+		select condition from product where product_id = #{product_id}
+	</select>
+	
 	<insert id="insert_product">
 		insert into product values(#{product_id},#{condition},#{product_name},#{category},#{quality},0,#{main_img},#{sub_img},#{member_id})
 	</insert>

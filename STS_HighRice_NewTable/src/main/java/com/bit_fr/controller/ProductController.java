@@ -225,6 +225,8 @@ public class ProductController {
 	}
 	
 
+	
+
 	@RequestMapping("/sellList.do")
 	public ModelAndView getMySell_product(String member_id, @RequestParam(defaultValue = "1") int pageNum) {
 		ModelAndView view = new ModelAndView();
@@ -250,6 +252,23 @@ public class ProductController {
 		view.addObject("pageMax", pageMax);
 		view.addObject("viewPage", "sell/sellList.jsp");
 		return view;
+	}
+	
+	@RequestMapping(value ="/getCondition_product.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String getCondition_product(int product_id) {
+		String str = "";
+		
+		ProductVo p = dao.getOne_product(product_id);
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(p);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}
+		
+		return str;
 	}
 	
 	@RequestMapping(value ="/UpdateCondition_product", produces="text/plain; charset=utf-8")

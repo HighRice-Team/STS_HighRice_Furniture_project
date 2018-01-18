@@ -52,8 +52,9 @@ $(function(){
 				<input id="insert" type="button" value="등록">&nbsp;
 				<input type="reset" value="취소">
 			</div>
-		</form>
 		</div>
+		</form>
 	</div>
+	
 </body>
 </html>

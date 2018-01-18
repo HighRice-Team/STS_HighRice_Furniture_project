@@ -69,6 +69,10 @@ public class ProductDao {
 	public ProductVo getForAdmin_product() {
 		return ProductManager.getForAdmin_product();
 	}
+	
+	public String getCondition_product(int product_id) {
+		return ProductManager.getCondition_product(product_id);
+	}
 
 	public int insert_product(ProductVo p) {
 		return ProductManager.insert_product(p);

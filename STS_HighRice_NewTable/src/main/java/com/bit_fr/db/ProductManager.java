@@ -170,6 +170,13 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
+	
+	public static String getCondition_product(int product_id) {
+		SqlSession session = factory.openSession();
+		String condition = session.selectOne("product.getCondition_product", product_id);
+		session.close();
+		return condition;
+	}
 
 	public static ProductVo getForAdmin_product() {
 		SqlSession session = factory.openSession();
