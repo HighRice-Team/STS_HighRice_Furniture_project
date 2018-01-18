@@ -144,10 +144,11 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/sellWrite.do")
-	public ModelAndView sellWrite() {
+	public ModelAndView sellWrite(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-
+		String member_id = (String)session.getAttribute("id");
 		mav.addObject("viewPage", "sell/sellWrite.jsp");
+		mav.addObject("member_id", member_id);
 		mav.setViewName("main");
 
 		return mav;

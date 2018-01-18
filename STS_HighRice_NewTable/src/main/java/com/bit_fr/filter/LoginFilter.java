@@ -33,7 +33,7 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		String id = null;
-
+		
 		if (((HttpServletRequest) request).getSession().getAttribute("id") != null) {
 			id = (String) ((HttpServletRequest) request).getSession().getAttribute("id");
 		}
