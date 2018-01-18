@@ -158,7 +158,7 @@ public class ProductController {
 	
 	
 	@RequestMapping("/product.do")
-
+	@ResponseBody
 	public ModelAndView getAll_product(@RequestParam(defaultValue = "") String sort, String category, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "0") int min, @RequestParam(defaultValue = "0") int max) {
 		ModelAndView view = new ModelAndView();
 		int productMax = 16;
@@ -224,24 +224,45 @@ public class ProductController {
 		return view;
 	}
 	
-
+	
 	@RequestMapping("/sellList.do")
-	public ModelAndView getMySell_product(String member_id, @RequestParam(defaultValue = "1") int pageNum) {
-		ModelAndView view = new ModelAndView();
-		view.setViewName("main");
+	public ModelAndView sellList(String member_id) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		mav.addObject("member_id", member_id);
+		mav.addObject("viewPage", "sell/sellList.jsp");
+		return mav;
+	}
+
+	@RequestMapping(value = "/sellList_product.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String getMySell_product(String member_id, @RequestParam(defaultValue = "1") int pageNum) {
+/*		ModelAndView view = new ModelAndView();
+		view.setViewName("main");*/
 		int productMax = 10;
 		int endNum = pageNum * productMax;
 		int startNum = endNum - (productMax - 1);
+		System.out.println("member_id: "+member_id);
 		String sql = "select * from (select rownum rnum, product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from (select product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from product where member_id='"+member_id+"' order by product_id))";
 	
 		List<ProductVo> list = dao.getMySell_product(sql);
 
 		int pageMax = list.size() / productMax;		
 		if(list.size() % productMax != 0)
-			pageMax++;	
-		sql += " where rnum>=" + startNum + " and rnum<=" + endNum;
-		
+			pageMax++;
 		list = dao.getMySell_product(sql);
+		String str = "";
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			str = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return str;
+		
+		/*list = dao.getMySell_product(sql);
 		
 		view.setViewName("main"); 
 		view.addObject("len", list.size());
@@ -249,7 +270,9 @@ public class ProductController {
 		view.addObject("list", list);
 		view.addObject("pageMax", pageMax);
 		view.addObject("viewPage", "sell/sellList.jsp");
-		return view;
+		
+		
+		return view;*/
 	}
 	
 	@RequestMapping(value ="/UpdateCondition_product", produces="text/plain; charset=utf-8")
@@ -270,25 +293,33 @@ public class ProductController {
 		return str;
 	}
 	
-	@RequestMapping("/sellInsert.do")
+	@RequestMapping(value="/sellInsert.do",produces="text/plain;charset=utf-8")
 	@ResponseBody
 	public ModelAndView insert_sell(ProductVo p, HttpServletRequest request) {
 		String path = request.getRealPath("/resources");	
 		String main_img = "";
 		String sub_img = "";
-		int fsize = 0;
+		int fsize1 = 0;
+		int fsize2 = 0;
 		
 		MultipartFile mainIMG = p.getMainIMG();
 		MultipartFile subIMG = p.getSubIMG();
-		if(mainIMG!=null) {
+		
+		if(mainIMG!=null && subIMG!=null) {
 			try{
-				byte []data = mainIMG.getBytes();
+				byte []data1 = mainIMG.getBytes();
+				byte []data2 = subIMG.getBytes();
+		
 				main_img = mainIMG.getOriginalFilename();
-				fsize = data.length;
-				
-				FileOutputStream fos = new FileOutputStream(path + "/" +main_img);
-				fos.write(data);
-				fos.close();
+				sub_img = subIMG.getOriginalFilename();
+				fsize1 = data1.length;
+				fsize2 = data2.length;
+				FileOutputStream fos1 = new FileOutputStream(path + "/" + main_img);
+				FileOutputStream fos2 = new FileOutputStream(path + "/" + sub_img);
+				fos1.write(data1);
+				fos2.write(data2);
+				fos1.close();
+				fos2.close();
 				
 			}catch (Exception e) {
 				// TODO: handle exception
@@ -297,11 +328,12 @@ public class ProductController {
 		}
 		p.setMain_img(main_img);
 		p.setSub_img(sub_img);
-		
+
 		int product_id = dao.getNextId_product();
 		p.setProduct_id(product_id);
 		p.setCondition("등록");
 		String str="";
+		
 		ModelAndView view = new ModelAndView();
 		ObjectMapper mapper = new ObjectMapper();
 		try {
@@ -309,6 +341,7 @@ public class ProductController {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		System.out.println("category: "+p.getCategory());
 		dao.insert_product(p);
 		view.setViewName("main");
 		view.addObject("member_id", p.getMember_id());

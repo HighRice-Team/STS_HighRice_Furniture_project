@@ -196,6 +196,10 @@
 	</div>
 
 	<div id="loginDialog_footer" title="로그인">
+		<%
+			String referer = request.getHeader("referer");
+			System.out.println(referer);
+		%>
 		<form id="loginForm_footer">
 			<table>
 				<tr>

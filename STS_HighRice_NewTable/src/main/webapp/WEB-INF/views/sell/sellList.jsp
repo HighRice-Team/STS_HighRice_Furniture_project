@@ -8,30 +8,148 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="resources/css/jquery-ui.min.css">
 <style>
-.detail{
-	display: none;
-}
 
 </style>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src ="resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	$(function() {
-		$(".updateBtn").click(function(){
-/* 			var product_id = $(this).parent().parent().find(".product_id").val()
-			var updateForm = $(this).parent().parent().parent().find(".detail").val()
-			var updateForm = $(this).next().find("#updateForm").val() */
-			$("#updateForm").removeClass()
-		})
+	$(function(){
+		var member_id = $("#member_id").val()
+		$("#sellList_grid").jsGrid({
+	        width: "95%",
+	        height: "auto",
+	        editing:true,
+	        filtering: false,
+	        sorting: true,
+	        paging: true,
+	        autoload: true,
+	        autosearch:true,
+	        searchModeButtonTooltip :"Switch to searching",
+	        pageSize : 10,
+	        pageButtonCount:5,
+	        
+	        rowClick: function(args) {
+	        	
+	        },
+	        
+	        controller : {
+	        	
+	        	loadData:function(filter){
+	        		return $.ajax({
+	        			type:"POST",
+	        			url:"sellList_product.do?member_id="+member_id,
+	        			data:filter,
+	        			dataType:"JSON"
+	        		})
+	        	},
+	        	updateItem : function(item){
+	            	$.ajax({
+	            		url:"adminUpdate_product.do",
+	            		data:item,
+	            		success:function(data){
+	            			alert("업데이트 완료");
+	            		}
+	            	})
+	            }
+	        },
+	        
+	        fields: [
+	            { name: "main_img", title:"이미지",  itemTemplate:function(_,item){  return $("<img>").attr("src","resources/img/product/"+item.main_img).attr("width","100%") }, width: 30},
+	            { name: "product_name",title:"물품명", type: "text", width: 200 },
+	            { name: "category", title:"품목",type: "text", width: 200},
+	          /*   	items:[{id:"", Name:""},{id:"DESK", Name:"DESK"}, {id:"CLOSET", Name:"CLOSET"}, {id:"SOFA", Name:"SOFA"}, {id:"BED", Name:"BED"}],
+	            	valueField: "id", textField: "Name", valueType:"String", width: 50 }, */	
+	            { name: "condition", title:"현황", type: "select",
+	            	items:[{id:"", Name:""},{id:"물품게시", Name:"물품게시"}, {id:"배송중", Name:"배송중"}, 
+	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},
+	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
+	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"}],
+	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },	            	
+	            { name: "quality", title:"물품 상태", type: "select",
+	            	items:[{id:"", Name:""},{id:"A", Name:"A"}, {id:"B", Name:"B"}, {id:"C", Name:"C"}],
+	            	valueField: "id", textField: "Name", valueType:"String", width: 50 },
+
+	            { type: "control", deleteButton:false },
+/* 	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
+	            	var str;
+	            	if(item.condition=="등록"){
+	            		str = updateCondition("접수",item.product_id,"검수")
+	            	}
+	            	if(item.condition=="반납신청"){
+	            		str = updateCondition("반납", item.product_id, "반납")
+	            	}
+	            	if(item.condition=="반납"){
+	            		str = updateCondition("물품게시", item.product_id, "물품게시")
+	            	}
+	            	if(item.condition=="입금완료"){
+	            		str = $("<button class='chkCondition'>").text("배송").on("click",function(){
+	            			var data = {"product_id":item.product_id ,"member_id":item.member_id, "price":item.price}
+	            			$.ajax({
+	            				url:"sellCompliate_product.do",
+	            				data:data,
+	            				success:function(d){
+	            					if(d == -1){
+	            						alert("페이백 적용 실패")
+	            					}
+	            					else{
+// 	            						str = updateCondition("배송", item.product_id, "배송중")
+										var data ={"product_id":item.product_id, condition:"배송중"}
+										$.ajax({
+											url:"UpdateCondition_product.do",
+											data:data,
+											success:function(data){
+												alert("변경 완료")
+												location.href=""
+											}
+										})
+	            					}
+	            					
+	            				}
+	            			})
+	            		})
+	            	}
+	            	return str;
+	            }}, */
+	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
+	        	   var str;
+	        	   if(item.condition=="등록" || item.condition=="검수"){
+	        		   str = $("<button class='chkCondition'>").text("삭제").on("click",function(){
+	        			   data = {"product_id":item.product_id}
+	        			   var con = confirm("정말로 삭제하시겠습니까?")
+	        				if(con == true){
+	        					$.ajax({
+			            			url:"delete_product.do",
+			            			data:data,
+			            			success:function(data){
+			            				alert("삭제 완료")
+			            				location.href=""
+			            			}
+			            		})
+			            		// 이 값에 해당되는 상품을 삭제
+	        				}
+		            		
+		            	})
+	        	   }
+	        	   return str;
+	           }}
+	        ]
+		});
 		
-		$(".deleteBtn").click(function(){
-			var product_id = $(tr).find()
-		})
 	})
 	
 </script>
 </head>
 <body>
+	<h2>SELL LIST</h2>
+	<hr>
+	<input type="hidden" id="member_id" value="${member_id}">
+	<div>
+		<table id="sellList_grid" border="1" cellpadding="10px" cellspacing="10px" class="table"></table>
+		<div id="pager"></div>
+		<input type="hidden" id="member_id" value="${member_id}">
+	</div>
+</body>
+<%-- <body>
 	<div id="sellList" style="margin: 0 15% 0 15%; padding: 40px 0 40px 0; position: relative;">	
 		<h2>SELL LIST</h2><hr id="hr"><br>
 		<div style="margin: 0 10% 0 10%; padding: 10px 0 10px 0;">
@@ -107,5 +225,5 @@
 			</c:forEach>
 		</div>
 	</div>
-</body>
+</body> --%>
 </html>
