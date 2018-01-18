@@ -61,6 +61,7 @@ $(function(){
 	        	var data = args.item
 	        	$("#productDialog").dialog("open")
 	        	$("#product_name").val(data.product_name)
+	        	$("#product_id").val(data.product_id)
 	        },
 	        
 	        controller : {
@@ -396,7 +397,7 @@ $(function(){
 		<div style="margin: 0 20% 0 20%; padding: 20px 0 20px 0; ">
 			<div style="padding: 10px" align="left">
 				품명 : <textarea rows="1" style="width: 90%" name="product_name" id="product_name"></textarea>
-				<input type="hidden" name="member_id" value="${member_id}" id="member_id">
+				<input type="hidden" name="product_id" id="product_id">
 			</div>
 			<div style="padding: 10px" align="left">
 				분류 :  <select name="category">
