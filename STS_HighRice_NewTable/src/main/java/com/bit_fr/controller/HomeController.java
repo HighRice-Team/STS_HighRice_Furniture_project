@@ -49,6 +49,7 @@ public class HomeController {
 
 	@Autowired
 	private OrderlistDao orderlistDao;
+	
 
 	public void setMemberDao(MemberDao memberDao) {
 		this.memberDao = memberDao;
@@ -78,8 +79,8 @@ public class HomeController {
 
 		return "home";
 	}
-
-	@RequestMapping("myPage.do")
+	
+	@RequestMapping("/myPage.do")
 	public ModelAndView goMyPage(HttpSession session, @RequestParam(value = "min", defaultValue = "1") int min,String selectedMyPage) {
 		ModelAndView mav = new ModelAndView();
 

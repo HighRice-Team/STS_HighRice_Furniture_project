@@ -9,6 +9,7 @@
  	<typeAlias type="com.bit_fr.vo.MemberVo" alias="memberVo"/>
  	<typeAlias type="com.bit_fr.vo.OrderlistVo" alias="orderlistVo"/>
  	<typeAlias type="com.bit_fr.vo.ProductVo" alias="productVo"/>
+ 	<typeAlias type="com.bit_fr.vo.QnaBoardVo" alias="qnaBoardVo" />
  </typeAliases>
  
   <environments default="development">
@@ -26,5 +27,6 @@
     <mapper resource="com/bit_fr/db/MemberMapper.xml"/>
     <mapper resource="com/bit_fr/db/OrderlistMapper.xml"/>
     <mapper resource="com/bit_fr/db/ProductMapper.xml"/>
+    <mapper resource="com/bit_fr/db/QnaBoardMapper.xml" />
   </mappers>
 </configuration>
