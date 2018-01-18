@@ -1,5 +1,8 @@
 package com.bit_fr.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bit_fr.dao.MemberDao;
@@ -172,11 +176,11 @@ public class HomeController {
 		return mav;
 	}
 
+	//어드민에서 프로덕트 리스트를 불러오기 위한 ajax
 	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_product(ProductVo v) {
 		String str = "";
-		System.out.println(v);
 		
 		List<ProductVo> list = productDao.getAll_productAdmin(v);
 
@@ -192,6 +196,7 @@ public class HomeController {
 		return str;
 	}
 
+	//어드민에서 오더리스트를 불러오기 위한 ajax
 	@RequestMapping(value = "/admin_orderlist.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String admin_orderlist(OrderlistVo v) {
@@ -228,6 +233,7 @@ public class HomeController {
 		return str;
 	}
 
+	//어드민에서 editing을 바로 하기 위한 ajax
 	@RequestMapping(value = "/adminUpdate_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String adminUpdate_product(ProductVo p) {
@@ -246,14 +252,7 @@ public class HomeController {
 		return str;
 	}
 
-	@RequestMapping("/adminUpdate_orderlist.do")
-	@ResponseBody
-	public String adminUpdate_orderlist(OrderlistVo o) {
-		String str = "";
-
-		return str;
-	}
-
+	//맴버 업데이트를 위한 ajax
 	@RequestMapping(value = "/adminUpdate_member.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
 	public String adminUpdate_member(MemberVo m) {
@@ -272,6 +271,7 @@ public class HomeController {
 		return str;
 	}
 	
+	//비밀번호 리셋을 위한 ajax
 	@RequestMapping(value = "/updateResetPwd_member.do", produces = "text/plain;charset=utf-8")
 	@ResponseBody
 	public String updateResetPwd_member(String member_id) {
@@ -287,11 +287,11 @@ public class HomeController {
 		return str;
 	}
 	
+	//입금완료 된 상품을 배송하기 위한 ajax
 	@RequestMapping(value = "sellCompliate_product.do", produces="text/plain; charset=UTF-8")
 	@ResponseBody
 	public String sellCompliate_product(int order_id, int price, String member_id) {
-		System.out.println(order_id);
-		System.out.println(price);
+		
 		
 		String str = "";	
 		
@@ -315,20 +315,83 @@ public class HomeController {
 		
 		return str;
 	}
-	@RequestMapping(value = "getPwd_q.do", produces="text/plain; charset=UTF-8")
-	@ResponseBody
-	public String getPwd_q() {
-		String str = "";
-		List<String> list = memberDao.getPwd_q();
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			mapper.writeValueAsString(list);
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
+	
+	//검수가 된 물품을 실제로 게시하기 위한 메소드
+	@RequestMapping("adminSell_product.do")
+	public ModelAndView adminSell_product(HttpServletRequest request, ProductVo p) {
+		ModelAndView mav = new ModelAndView();
+		
+		System.out.println(p);
+		
+		String main_img = "";
+		String sub_img = "";
+		
+		String path = request.getRealPath("/resources/img/product");
+		String oldMain_img = p.getMain_img();
+		String oldSub_img = p.getSub_img();
+		int mainFsize = 0;
+		int subFsize = 0;
+		
+		MultipartFile mainIMG = p.getMainIMG();
+		MultipartFile subIMG = p.getSubIMG();
+		
+		if(mainIMG != null) {
+			try {
+				byte[] mainbyte = mainIMG.getBytes();
+			
+				main_img = mainIMG.getOriginalFilename();
+				mainFsize = mainbyte.length;
+				
+				FileOutputStream mainfos = new FileOutputStream(path+"/"+main_img);
+				mainfos.write(mainbyte);
+				
+				mainfos.close();
+				
+				if(!main_img.equals(oldMain_img)) {
+					
+					p.setMain_img(main_img);
+					
+					File file = new File(path+"/"+oldMain_img);
+					file.delete();
+				}
+			
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
-		return str;
+		if(subIMG != null) {
+			try {
+				byte[] subbyte = subIMG.getBytes();
+				sub_img = subIMG.getOriginalFilename();
+				
+				subFsize = subbyte.length;
+				FileOutputStream subfos = new FileOutputStream(path+"/"+sub_img);
+				
+				subfos.write(subbyte);
+				subfos.close();
+				
+				if(!sub_img.equals(oldSub_img)) {
+					p.setSub_img(sub_img);
+					
+					File file = new File(path+"/"+oldSub_img);
+					file.delete();
+				}
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e);
+			}
+		}
+		
+		System.out.println(p);
+		
+		productDao.updateAdmin_product(p);
+		mav.addObject("viewPage", "admin/adminPage.jsp");
+		mav.setViewName("main");
+		
+		return mav;
 	}
 	
 

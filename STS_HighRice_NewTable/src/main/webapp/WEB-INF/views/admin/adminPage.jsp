@@ -32,13 +32,16 @@ $(function(){
 			autoOpen:false,
 			modal:true,
 			buttons:{
+				"수정":function(){
+					$("#productDialog").submit()
+				},
 				"취소":function(){
 					$("#productDialog").dialog("close")
 				}
 			}
 		})
 		
-
+		//프로덕트 그리드
 		$("#product_grid").jsGrid({
 	        width: "95%",
 	        height: "auto",
@@ -59,9 +62,15 @@ $(function(){
 	        // 더블클릭 시 다이얼로그를 열어줌
 	        rowDoubleClick:function(args){
 	        	var data = args.item
+	        
 	        	$("#productDialog").dialog("open")
 	        	$("#product_name").val(data.product_name)
 	        	$("#product_id").val(data.product_id)
+	        	$("#category").val(data.category)
+	        	$("#main_img").val(data.main_img)
+	        	$("#sub_img").val(data.sub_img)
+	        	$("#price").val(data.price)
+	        	$("#condition").val("물품게시")
 	        },
 	        
 	        controller : {
@@ -91,6 +100,11 @@ $(function(){
 	            	items:[{id:"", Name:""},{id:"DESK", Name:"DESK"}, {id:"CLOSET", Name:"CLOSET"}, {id:"SOFA", Name:"SOFA"}, {id:"BED", Name:"BED"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 50 },
 	            { name: "product_name",title:"품명", type: "text", width: 200 },
+	            { name: "main_img",title:"사진", width: 200, itemTemplate:function(_,item){
+	            	if(item.main_img != null){
+	            		return $("<img/>").attr("src", "resources/img/product/"+item.main_img).css("width","70px")
+	            	}
+	            } },
 	            { name: "member_id", title:"판매자", type: "text",width:50},
 	            { name: "quality", title:"품질", type: "select",
 	            	items:[{id:"", Name:""},{id:"A", Name:"A"}, {id:"B", Name:"B"}, {id:"C", Name:"C"}],
@@ -123,12 +137,11 @@ $(function(){
 		            		
 		            	})
 	        	   }
-// 	        	   return str;
 	           }}
 	        ]
 		});
 		
-		
+		//오더 그리드
 		$("#order_grid").jsGrid({
 	        width: "95%",
 	        height: "400px",
@@ -388,37 +401,34 @@ $(function(){
 		</div>
 	</div>
 	
-	<form id="productDialog">
-<!-- 		<table> -->
-<!-- 			<tr> -->
-<!-- 				<td></td> -->
-<!-- 			</tr> -->
-<!-- 		</table> -->
+	<form id="productDialog" method="post" enctype="multipart/form-data" action="adminSell_product.do">
 		<div style="margin: 0 20% 0 20%; padding: 20px 0 20px 0; ">
 			<div style="padding: 10px" align="left">
 				품명 : <textarea rows="1" style="width: 90%" name="product_name" id="product_name"></textarea>
 				<input type="hidden" name="product_id" id="product_id">
+				<input type="hidden" name="condition" id="condition">
 			</div>
 			<div style="padding: 10px" align="left">
-				분류 :  <select name="category">
-						<option value="bed">BED</option>
-						<option value="sofa">SOFA</option>
-						<option value="desk">DESK</option>
-						<option value="closet">CLOSET</option>	
+				분류 :  <select name="category" id="category">
+						<option value="BED">BED</option>
+						<option value="SOFA">SOFA</option>
+						<option value="DESK">DESK</option>
+						<option value="CLOSET">CLOSET</option>	
 					</select>
 			</div>
 			<div style="padding: 10px" align="left">
 				품질 :<input type="radio" name="quality" value="A">A
 					<input type="radio" name="quality" value="B">B
-					<input type="radio" name="quality" value="C">C
+					<input type="radio" name="quality" value="C" checked="checked">C
 			</div>
 			<div style="padding: 10px" align="left">
 				대표이미지 : <input type="file" name="mainIMG"><br>
 				서브이미지 : <input type="file" name="subIMG">
+				<input type="hidden" name="main_img" id = "main_img">
+				<input type="hidden" name="sub_img" id="sub_img">
 			</div>
-			<div style="padding: 10px" align="center">
-				<input id="insert" type="button" value="등록">&nbsp;
-				<input type="reset" value="취소">
+			<div style="padding: 10px" align="left">
+				가격 : <input type="text" name="price" id="price">
 			</div>
 		</div>
 	</form>
