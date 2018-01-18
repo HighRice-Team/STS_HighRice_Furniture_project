@@ -24,6 +24,19 @@ $(function(){
 	
 		$("#tabs").tabs();
 		
+		$("#productDialog").dialog({
+			width:400,
+			maxWidth:400,
+			minWidth:400,
+			autoOpen:false,
+			modal:true,
+			buttons:{
+				"취소":function(){
+					$("#productDialog").dialog("close")
+				}
+			}
+		})
+		
 
 		$("#product_grid").jsGrid({
 	        width: "95%",
@@ -40,6 +53,12 @@ $(function(){
 	        
 	        rowClick: function(args) {
 	        	
+	        },
+	        
+	        rowDoubleClick:function(args){
+	        	var data = args.item
+	        	$("#productDialog").dialog("open")
+	        	$("#product_name").val(data.product_name)
 	        },
 	        
 	        controller : {
@@ -165,7 +184,7 @@ $(function(){
         									url:"UpdateCondition_product.do",
         									data:data,
         									success:function(data){
-        									alert("변경 완료")
+        									alert("물품등록 확인")
         									location.href=""
         										}
         									})
@@ -179,7 +198,7 @@ $(function(){
         									url:"UpdateCondition_product.do",
         									data:data,
         									success:function(data){
-        									alert("변경 완료")
+        									alert("반납처리 완료")
         									location.href=""
         										}
         									})
@@ -193,7 +212,7 @@ $(function(){
         									url:"UpdateCondition_product.do",
         									data:data,
         									success:function(data){
-        									alert("변경 완료")
+        									alert("물품게시 완료")
         									location.href=""
         										}
         									})
@@ -365,5 +384,40 @@ $(function(){
 			</div>
 		</div>
 	</div>
+	
+	<form id="productDialog">
+<!-- 		<table> -->
+<!-- 			<tr> -->
+<!-- 				<td></td> -->
+<!-- 			</tr> -->
+<!-- 		</table> -->
+		<div style="margin: 0 20% 0 20%; padding: 20px 0 20px 0; ">
+			<div style="padding: 10px" align="left">
+				품명 : <textarea rows="1" style="width: 90%" name="product_name" id="product_name"></textarea>
+				<input type="hidden" name="member_id" value="${member_id}" id="member_id">
+			</div>
+			<div style="padding: 10px" align="left">
+				분류 :  <select name="category">
+						<option value="bed">BED</option>
+						<option value="sofa">SOFA</option>
+						<option value="desk">DESK</option>
+						<option value="closet">CLOSET</option>	
+					</select>
+			</div>
+			<div style="padding: 10px" align="left">
+				품질 :<input type="radio" name="quality" value="A">A
+					<input type="radio" name="quality" value="B">B
+					<input type="radio" name="quality" value="C">C
+			</div>
+			<div style="padding: 10px" align="left">
+				대표이미지 : <input type="file" name="mainIMG"><br>
+				서브이미지 : <input type="file" name="subIMG">
+			</div>
+			<div style="padding: 10px" align="center">
+				<input id="insert" type="button" value="등록">&nbsp;
+				<input type="reset" value="취소">
+			</div>
+		</div>
+	</form>
 </body>
 </html>
