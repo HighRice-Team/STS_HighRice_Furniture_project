@@ -289,21 +289,25 @@ public class HomeController {
 	
 	@RequestMapping(value = "sellCompliate_product.do", produces="text/plain; charset=UTF-8")
 	@ResponseBody
-	public String sellCompliate_product(ProductVo p) {
-		String str = "";	
-		int rent_month = orderlistDao.getRentMonth_orderlist(p.getMember_id(), p.getProduct_id());
+	public String sellCompliate_product(int order_id, int price, String member_id) {
+		System.out.println(order_id);
+		System.out.println(price);
 		
+		String str = "";	
+		
+		int rent_month = orderlistDao.getRentMonth_orderlist(order_id);
+	
 		if(rent_month == -1) {
 			str = rent_month+"";
 			return str;
 		}
-		int payback = (p.getPrice()*rent_month)/10;
+		int payback = (price*rent_month)/10;
 		
-		int re = memberDao.updatePayback_member(p.getMember_id(), payback);
+		int re = memberDao.updatePayback_member(member_id, payback);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			str = mapper.writeValueAsString(re);
+//			str = mapper.writeValueAsString(re);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e);
