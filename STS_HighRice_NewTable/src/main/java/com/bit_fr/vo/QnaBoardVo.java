@@ -1,7 +1,5 @@
 package com.bit_fr.vo;
 
-import java.util.Date;
-
 public class QnaBoardVo {
 	private int board_id;
 	private String post_type;
