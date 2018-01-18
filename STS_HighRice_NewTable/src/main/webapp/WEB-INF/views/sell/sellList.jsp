@@ -16,9 +16,9 @@
 	$(function(){
 		var member_id = $("#member_id").val()
 		$("#sellList_grid").jsGrid({
-	        width: "95%",
+	        width: "100%",
 	        height: "auto",
-	        editing:true,
+	        editing: true,
 	        filtering: false,
 	        sorting: true,
 	        paging: true,
@@ -140,13 +140,16 @@
 </script>
 </head>
 <body>
-	<h2>SELL LIST</h2>
-	<hr>
-	<input type="hidden" id="member_id" value="${member_id}">
-	<div>
-		<table id="sellList_grid" border="1" cellpadding="10px" cellspacing="10px" class="table"></table>
-		<div id="pager"></div>
+	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0">
+		<h2>SELL LIST3333</h2>
+		<hr>
 		<input type="hidden" id="member_id" value="${member_id}">
+		
+		<div style="position: relative;">
+			<table id="sellList_grid" width="100%"></table>
+			<div id="pager"></div>
+			<input type="hidden" id="member_id" value="${member_id}">
+		</div>
 	</div>
 </body>
 <%-- <body>
