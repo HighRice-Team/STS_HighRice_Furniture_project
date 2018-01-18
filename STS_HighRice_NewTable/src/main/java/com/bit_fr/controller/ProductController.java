@@ -223,14 +223,7 @@ public class ProductController {
 		view.addObject("viewPage", "product/productDetail.jsp");
 		return view;
 	}
-	
-<<<<<<< HEAD
-	
-=======
 
-	
-
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
 	@RequestMapping("/sellList.do")
 	public ModelAndView sellList(String member_id) {
 		ModelAndView mav = new ModelAndView();
