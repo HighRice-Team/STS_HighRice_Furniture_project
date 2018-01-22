@@ -320,9 +320,7 @@ public class HomeController {
 	@RequestMapping("adminSell_product.do")
 	public ModelAndView adminSell_product(HttpServletRequest request, ProductVo p) {
 		ModelAndView mav = new ModelAndView();
-		
-		System.out.println(p);
-		
+	
 		String main_img = "";
 		String sub_img = "";
 		
@@ -384,8 +382,6 @@ public class HomeController {
 				System.out.println(e);
 			}
 		}
-		
-		System.out.println(p);
 		
 		productDao.updateAdmin_product(p);
 		mav.addObject("viewPage", "admin/adminPage.jsp");
