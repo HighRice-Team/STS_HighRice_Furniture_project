@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -16,7 +15,6 @@ $(function(){
 				var member_id = $("<span></span>").html("작성자 : "+qb.member_id);
 				var regdate = $("<span></span>").html("작성일 : "+qb.regdate);
 				var row1 = $("<div></div>").append(post_type, member_id, regdate);
-				
 				var board_id = $("<span></span>").html("NO."+qb.board_id+":");
 				var title = $("<span></span>").html(qb.title);
 				var content = $("<p></p>").html(qb.content);
@@ -53,7 +51,6 @@ $(function(){
 					
 				}else if (qb.b_level == 2){
 					$("#adminReplyForm").css("visibility", "hidden")
-					
 					$("#questionEdit").empty();
 					$("#questionEdit").append(hiddenBtn);
 					$(updateBtn).toggle(
@@ -106,7 +103,7 @@ $(function(){
 </head>
 <body>
 	<div class="contentForm">
-		<input type="hidden" name="member_id"  id="member_id" value="${qnaboard.member_id }">
+		<input type="hidden" name="member_id" id="member_id" value="${qnaboard.member_id }">
 		<h2>DETAILsdfd</h2><hr>
 		<div id="Q" style="background: #ddd">
 			<div id="question"></div>
@@ -127,7 +124,7 @@ $(function(){
 				<input type="button" id="insert" value="등록">
 			</form>
 		</c:if>
-		<input type="button" class="button"  value="목록보기" onclick="location.href = 'qnaBoard.do'" >
+		<input type="button" class="button" value="목록보기" onclick="location.href = 'qnaBoard.do'" >
 	</div>
 </body>
 </html>
