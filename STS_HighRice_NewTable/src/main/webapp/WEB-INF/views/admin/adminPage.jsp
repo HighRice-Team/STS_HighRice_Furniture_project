@@ -117,7 +117,7 @@ $(function(){
 	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
 	        	   
 	        	   if(item.condition=="등록" || item.condition=="검수"){
-	        		  return $("<button class='chkCondition'>").text("삭제").on("click",function(){
+	        		  return $("<button class='delCondition'>").text("삭제").on("click",function(){
 	        			   data = {"product_id":item.product_id}
 	        			   var con = confirm("정말로 삭제하시겠습니까?")
 	        				if(con == true){
