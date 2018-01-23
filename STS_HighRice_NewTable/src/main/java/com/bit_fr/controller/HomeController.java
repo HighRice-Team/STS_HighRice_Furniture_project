@@ -165,14 +165,6 @@ public class HomeController {
 
 		return mav;
 	}
-	@RequestMapping("/adminTest.do")
-	public ModelAndView admin2() {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("main");
-		mav.addObject("viewPage", "qnaBoard/admin.jsp");
-
-		return mav;
-	}
 
 	@RequestMapping(value = "/admin_product.do", produces="text/plain; charset=utf-8")
 	@ResponseBody
