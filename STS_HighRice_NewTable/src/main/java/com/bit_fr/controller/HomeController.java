@@ -2,20 +2,14 @@ package com.bit_fr.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
-import javax.annotation.Resources;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +24,6 @@ import com.bit_fr.dao.ProductDao;
 import com.bit_fr.vo.MemberVo;
 import com.bit_fr.vo.OrderlistVo;
 import com.bit_fr.vo.ProductVo;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -331,6 +324,4 @@ public class HomeController {
 		
 		return str;
 	}
-	
-
 }

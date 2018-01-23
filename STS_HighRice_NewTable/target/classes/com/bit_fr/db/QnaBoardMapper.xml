@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="qnaBoard">
 	<select id="getAll_qnaBoard" resultType="qnaBoardVo">
-		select * from qnaboard order by board_id desc
+		<![CDATA[select * from qnaboard where board_id > 0 and b_level < 3 order by board_id desc]]>
 	</select>
 	<select id="getOne_qnaBoard" resultType="qnaBoardVo">
 		select * from qnaboard where board_id = #{board_id}
@@ -18,7 +18,7 @@
 			insert into qnaboard values(#{board_id}, #{post_type}, #{title}, #{member_id}, null, sysdate, #{content}, #{b_ref}, #{b_level})
 		</if>
 		<if test="product_id != 0">
-		insert into qnaboard values(#{board_id}, #{post_type}, #{title}, #{member_id}, #{product_id}, sysdate, #{content}, #{b_ref}, #{b_level})
+			insert into qnaboard values(#{board_id}, #{post_type}, #{title}, #{member_id}, #{product_id}, sysdate, #{content}, #{b_ref}, #{b_level})
 		</if>
 	</insert>
 	<update id="update_qnaBoard">
