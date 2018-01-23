@@ -1,64 +1,35 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>  
 <script type="text/javascript">
 $(function(){
-	$.ajax({url:"getAll_qnaBoard.do",success:function(data){
-		var arr = eval("("+data+")");
-		$.each(arr, function(index, qb){
-			var qnaOne = $("<tr></tr>")
-			var board_id = $("<td></td>").html(qb.board_id);
-			var post_type = $("<td></td>").html(qb.post_type);
-			var title = $("<td></td>").append(($("<a></a>").attr("href", "detail.do?board_id="+qb.board_id)).html(qb.title))		
-			if(qb.b_level == 1){
-				title = $("<td></td>").append(($("<a></a>").attr("href", "detail.do?board_id="+qb.board_id)).html("[답변완료]_"+qb.title))		
+	$("#qnaBoardList").jsGrid({
+		width:"100%", height:"auto", autoload:true, paging:true, pageSize:5, pageButtonCount:5,
+		controller : {
+			loadData: function(filter) {
+				return $.ajax({type:"POST",url:'getAll_qnaBoard.do',data:filter,dataType : "JSON"})
 			}
-			var member_id = $("<td></td>").html(qb.member_id)
-			var product_id = $("<td></td>").html(qb.product_id);
-			var regdate = $("<td></td>").html(qb.regdate)
-
-			if (qb.board_id > 0 && qb.b_level != 3) {
-				$(qnaOne).append(board_id, post_type, title, member_id, product_id, regdate);
-				$("#qnaBoardList").append(qnaOne);
-			}
-		});
-	}});
+		},rowClick: function(agrs) {
+			location.href="detail.do?board_id="+agrs.item.board_id
+		},fields: [
+			{ name: "board_id", title:"NO",type: "number", width: 2},
+			{ name: "post_type", title:"TYPE",type: "text", width: 50},
+			{ title: "TITLE", type: "text", itemTemplate:function(_,item) {if(item.b_level == 1) {str= "[답변완료]" + item.title} else {str=item.title} return str}, width: 150},
+			{ name: "member_id",title:"MEMBER", type: "text",width:30},
+			{ name: "regdate", title:"WRITE_DATE", type: "text", width:50 }
+		]
+	})
 });
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0">
-	<h2>QNA</h2>
-	<hr>
-	<table id="qnaBoardList" width="100%" style="text-align: left;">
-	</table>
-	<hr>
-	<a href="insert.do" style="float: right;">게시물 등록</a><br>
+	<div class="contentForm">
+		<h2>QNAd</h2><hr>
+		<table id="qnaBoardList"></table>
+		<input type="button" class="button" value="게시물등록" onclick="location.href = 'insert.do'" />
 	</div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

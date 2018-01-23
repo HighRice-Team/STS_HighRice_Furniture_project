@@ -2,8 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	qnaBoardList();
@@ -11,7 +9,6 @@ $(function(){
 		$.ajax({url:"getAll_qnaBoard.do",success:function(data){
 			var arr = eval("("+data+")")
 			$.each(arr, function(index, qb){
-				var reply = $("<div style=\"background: #eee\"></div>")
 				var post_type = $("<p></p>").html(qb.post_type);
 				var title = $("<p></p>").append(($("<a></a>").attr("href", "detail.do?board_id="+qb.board_id)).html(qb.title))		
 				if(qb.b_level == 1){
@@ -29,7 +26,7 @@ $(function(){
 						$(content).remove();
 						title = $("<p></p>").append($("<input>").attr({"type":"text", "id":"updateTitle", "value":qb.title}))
 						content = $("<p></p>").append($("<input>").attr({"type":"text", "id":"updateContent", "value":qb.content}))
-						$(reply).append(post_type,title,member_id,regdate,content,updateBtn,deleteBtn);
+						$("#productReplyList").append(post_type,title,member_id,regdate,content,updateBtn,deleteBtn);
 					},function(){
 						var data = {"board_id": qb.board_id,"title": $("#updateTitle").val(),"content":$("#updateContent").val()}
 						$.ajax({url:"update_qnaBoard.do", data:data, success:function(data){
@@ -37,7 +34,7 @@ $(function(){
 							$(content).remove();
 							title = $("<p></p>").html(qb.title);
 							content = $("<p></p>").html(qb.content);
-							$(reply).append(post_type,title,member_id,regdate,content,updateBtn,deleteBtn);
+							$("#productReplyList").append(post_type,title,member_id,regdate,content,updateBtn,deleteBtn);
 							location.reload();
 						}})
 					}
@@ -48,13 +45,11 @@ $(function(){
 					}})		
 				})
 				if (qb.product_id==1 &&  qb.b_level!=3) { //상세페이지의 product_id 값이랑 비교
-					$(reply).append(post_type,title,member_id,regdate,content);
+					$("#productReplyList").append(post_type,title,member_id,regdate,content);
 					if (qb.member_id == "a1" &&  qb.b_level==0) { //세션에 저장된 member_id 값이랑 비교
-						$(reply).append(post_type,title,member_id,regdate,content,updateBtn,deleteBtn);
+						$("#productReplyList").append(post_type,title,member_id,regdate,content,updateBtn,deleteBtn);
 					}
 				}
-				$("#productReplyList").append(reply);
-			
 			})
 		}})
 	}
@@ -72,8 +67,9 @@ $(function(){
 <title>Insert title here</title>
 </head>
 <body>
-	<div style="margin: 0 15% 0 15%; padding: 40px 0 40px 0;">
-		<h2>reply</h2><hr>
+	<div class="contentForm">
+	<div id="productReplyList" width="100%"></div>
+	<a href="qnaBoard.do">qnaBoard</a>
 		<form id="insertForm" style="width: 100%">
 			<input type="hidden" name="board_id"  id="board_id" value="0">
 			<input type="hidden" name="member_id" value="a1"> <!-- 세션에 저장된 id 값이 가야함 -->
@@ -94,10 +90,7 @@ $(function(){
 			 	<input type="text" name="content" id="content" size="50%" style="height:30px; width: 100%">
 			</div>
 			<input type="button" id="insert" value="등록" style="float: right; height:55px; width: 10%;  margin-top: 2px;">
-		</form><br><br><br>
-		<div id="productReplyList" width="100%">
-		</div>
-		<a href="qnaBoard.do">qnaBoard 전체 목록보기</a>
+		</form>
 	</div>
 </body>
 </html>
