@@ -32,8 +32,4 @@ $(function(){
 		<input type="button" class="button" value="게시물등록" onclick="location.href = 'insert.do'" />
 	</div>
 </body>
-<<<<<<< HEAD
 </html>
-=======
-</html>
->>>>>>> branch 'master' of https://github.com/HighRice-Team/STS_HighRice_Furniture_project.git
