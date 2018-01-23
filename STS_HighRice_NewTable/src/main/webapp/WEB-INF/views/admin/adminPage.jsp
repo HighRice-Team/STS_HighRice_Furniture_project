@@ -8,6 +8,10 @@
 table{
 	width: 100%;
 }
+.chkCondition{
+	visibility: hidden;
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -16,23 +20,23 @@ table{
 
 <script type="text/javascript">
 $(function(){
-	
-		function updateCondition(button, product_id, condition){
-			str = $("<button class='chkCondition'>").text(button).on("click",function(){
-    			data = {"product_id":product_id, "condition":condition}
-        		$.ajax({
-        			url:"UpdateCondition_product.do",
-        			data:data,
-        			success:function(data){
-        				alert("변경 완료")
-        				location.href=""
-        			}
-        		})
-        	})
-        	return str;
-		}
 		
+	
 		$("#tabs").tabs();
+		
+		//제품 검수완료 및 변경을 위한 dialog
+		$("#productDialog").dialog({
+			width:400,
+			maxWidth:400,
+			minWidth:400,
+			autoOpen:false,
+			modal:true,
+			buttons:{
+				"취소":function(){
+					$("#productDialog").dialog("close")
+				}
+			}
+		})
 		
 
 		$("#product_grid").jsGrid({
@@ -50,6 +54,14 @@ $(function(){
 	        
 	        rowClick: function(args) {
 	        	
+	        },
+	        
+	        // 더블클릭 시 다이얼로그를 열어줌
+	        rowDoubleClick:function(args){
+	        	var data = args.item
+	        	$("#productDialog").dialog("open")
+	        	$("#product_name").val(data.product_name)
+	        	$("#product_id").val(data.product_id)
 	        },
 	        
 	        controller : {
@@ -90,51 +102,11 @@ $(function(){
 	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
 	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
-	            { type: "control", deleteButton:false },
-	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
-	            	var str;
-	            	if(item.condition=="등록"){
-	            		str = updateCondition("접수",item.product_id,"검수")
-	            	}
-	            	if(item.condition=="반납신청"){
-	            		str = updateCondition("반납", item.product_id, "반납")
-	            	}
-	            	if(item.condition=="반납"){
-	            		str = updateCondition("물품게시", item.product_id, "물품게시")
-	            	}
-	            	if(item.condition=="입금완료"){
-	            		str = $("<button class='chkCondition'>").text("배송").on("click",function(){
-	            			var data = {"product_id":item.product_id ,"member_id":item.member_id, "price":item.price}
-	            			$.ajax({
-	            				url:"sellCompliate_product.do",
-	            				data:data,
-	            				success:function(d){
-	            					if(d == -1){
-	            						alert("페이백 적용 실패")
-	            					}
-	            					else{
-// 	            						str = updateCondition("배송", item.product_id, "배송중")
-										var data ={"product_id":item.product_id, condition:"배송중"}
-										$.ajax({
-											url:"UpdateCondition_product.do",
-											data:data,
-											success:function(data){
-												alert("변경 완료")
-												location.href=""
-											}
-										})
-	            					}
-	            					
-	            				}
-	            			})
-	            		})
-	            	}
-	            	return str;
-	            }},
+	           { type: "control", deleteButton:false },
 	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
-	        	   var str;
+	        	   
 	        	   if(item.condition=="등록" || item.condition=="검수"){
-	        		   str = $("<button class='chkCondition'>").text("삭제").on("click",function(){
+	        		  return $("<button class='chkCondition'>").text("삭제").on("click",function(){
 	        			   data = {"product_id":item.product_id}
 	        			   var con = confirm("정말로 삭제하시겠습니까?")
 	        				if(con == true){
@@ -151,11 +123,12 @@ $(function(){
 		            		
 		            	})
 	        	   }
-	        	   return str;
+// 	        	   return str;
 	           }}
 	        ]
 		});
-			
+		
+		
 		$("#order_grid").jsGrid({
 	        width: "95%",
 	        height: "400px",
@@ -196,7 +169,93 @@ $(function(){
 	            { name: "rent_start",title:"대여시작", type: "text", width:100 },
 	            { name: "rent_end", title:"대여마강", type: "text", width:100 },
 	            { name: "rent_month",title:"대여기한(개월)", type: "number", width:30},
-	            { type: "control", deleteButton:false, editButton:false }
+	            { type: "control", deleteButton:false, editButton:false },
+	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
+	            	
+	            	var str = $("<button class='chkCondition'>");
+	            	$.ajax({
+	            		url:"getCondition_product.do",
+	            		data:{"product_id":item.product_id},
+	            		success:function(data){
+	            			
+	            			data = eval("("+data+")")
+	            			if(data.condition=="등록"){
+	    	            		//str = updateCondition("접수",item.product_id,"검수")
+	    	            		str = $(str).text("검수").css("visibility","visible").on("click",function(){
+    									data = {"product_id":data.product_id, "condition":"검수"}
+        								$.ajax({
+        									url:"UpdateCondition_product.do",
+        									data:data,
+        									success:function(data){
+        									alert("물품등록 확인")
+        									location.href=""
+        										}
+        									})
+        							})
+	    	            	}
+	    	            	if(data.condition=="반납신청"){
+	    	            		//str = updateCondition("반납", item.product_id, "반납")
+	    	            		str = $(str).text("반납").css("visibility","visible").on("click",function(){
+    									data = {"product_id":data.product_id, "condition":"반납"}
+        								$.ajax({
+        									url:"UpdateCondition_product.do",
+        									data:data,
+        									success:function(data){
+        									alert("반납처리 완료")
+        									location.href=""
+        										}
+        									})
+        							})
+	    	            	}
+	    	            	if(data.condition=="반납"){
+	    	            		//str = updateCondition("물품게시", item.product_id, "물품게시")
+	    	            		str = $(str).text("물품게시").css("visibility","visible").on("click",function(){
+    									data = {"product_id":data.product_id, "condition":"물품게시"}
+        								$.ajax({
+        									url:"UpdateCondition_product.do",
+        									data:data,
+        									success:function(data){
+        									alert("물품게시 완료")
+        									location.href=""
+        										}
+        									})
+        							})
+	    	            	}
+	    	            	if(data.condition=='입금완료'){
+	    	            		
+	    	            	 	str = $(str).text("배송").css("visibility", "visible").on("click",function(){
+	    	            	 		var con = {"order_id":item.order_id , "price":data.price, "member_id":item.member_id}
+	    	            			$.ajax({
+	    	            				url:"sellCompliate_product.do",
+	    	            				data:con,
+	    	            				success:function(d){
+	    	            					if(d == -1){
+	    	            						alert("페이백 적용 실패")
+	    	            					}
+	    	            					else{
+	    	            						//str = updateCondition("배송", item.product_id, "배송중")
+	    										var data ={"product_id":item.product_id, condition:"배송중"}
+	    										$.ajax({
+	    											url:"UpdateCondition_product.do",
+	    											data:data,
+	    											success:function(data){
+	    												alert("변경 완료")
+	    												location.href=""
+	    											}
+	    										})
+	    	            					}
+	    	            					
+	    	            				}
+	    	            			})
+	    	            		})
+	    	            		
+	    	            	}
+
+	            		}
+	            	})
+	            	
+	            	return str
+	            }},
 	        ]
 		})
 		
@@ -328,5 +387,40 @@ $(function(){
 			</div>
 		</div>
 	</div>
+	
+	<form id="productDialog">
+<!-- 		<table> -->
+<!-- 			<tr> -->
+<!-- 				<td></td> -->
+<!-- 			</tr> -->
+<!-- 		</table> -->
+		<div style="margin: 0 20% 0 20%; padding: 20px 0 20px 0; ">
+			<div style="padding: 10px" align="left">
+				품명 : <textarea rows="1" style="width: 90%" name="product_name" id="product_name"></textarea>
+				<input type="hidden" name="product_id" id="product_id">
+			</div>
+			<div style="padding: 10px" align="left">
+				분류 :  <select name="category">
+						<option value="bed">BED</option>
+						<option value="sofa">SOFA</option>
+						<option value="desk">DESK</option>
+						<option value="closet">CLOSET</option>	
+					</select>
+			</div>
+			<div style="padding: 10px" align="left">
+				품질 :<input type="radio" name="quality" value="A">A
+					<input type="radio" name="quality" value="B">B
+					<input type="radio" name="quality" value="C">C
+			</div>
+			<div style="padding: 10px" align="left">
+				대표이미지 : <input type="file" name="mainIMG"><br>
+				서브이미지 : <input type="file" name="subIMG">
+			</div>
+			<div style="padding: 10px" align="center">
+				<input id="insert" type="button" value="등록">&nbsp;
+				<input type="reset" value="취소">
+			</div>
+		</div>
+	</form>
 </body>
 </html>
