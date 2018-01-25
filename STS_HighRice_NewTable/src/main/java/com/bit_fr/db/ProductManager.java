@@ -187,7 +187,6 @@ public class ProductManager {
 
 	public static int insert_product(ProductVo p) {
 		SqlSession session = factory.openSession(true);
-		System.out.println(p.getCategory());
 		int re = session.insert("product.insert_product", p);
 		session.close();
 		return re;
