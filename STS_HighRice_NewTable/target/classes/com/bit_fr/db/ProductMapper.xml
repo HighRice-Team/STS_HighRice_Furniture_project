@@ -90,7 +90,14 @@
 	</update>
 	
 	<update id="updateAdmin_product">
-		update product set category = #{category}, product_name =#{product_name}, condition = #{condition}, quality =#{quality}, price = #{price} where product_id =#{product_id}
+		update product set category = #{category}, product_name =#{product_name}, condition = #{condition}, quality =#{quality}, price = #{price} 
+		<if test="main_img != null">
+			,main_img = #{main_img} 
+		</if>
+		<if test="sub_img!=null">
+			,sub_img = #{sub_img}
+		</if>
+		where product_id =#{product_id}
 	</update>
 	
 	<delete id="delete_product">
