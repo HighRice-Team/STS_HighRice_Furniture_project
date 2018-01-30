@@ -384,8 +384,7 @@ public class HomeController {
 		}
 		
 		productDao.updateAdmin_product(p);
-		mav.addObject("viewPage", "admin/adminPage.jsp");
-		mav.setViewName("main");
+		mav.setViewName("redirect:/admin.do");
 		
 		return mav;
 	}
