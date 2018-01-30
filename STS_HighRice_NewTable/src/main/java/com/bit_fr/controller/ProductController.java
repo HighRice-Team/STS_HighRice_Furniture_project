@@ -158,7 +158,7 @@ public class ProductController {
 	
 	
 	@RequestMapping("/product.do")
-
+	@ResponseBody
 	public ModelAndView getAll_product(@RequestParam(defaultValue = "") String sort, String category, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "0") int min, @RequestParam(defaultValue = "0") int max) {
 		ModelAndView view = new ModelAndView();
 		int productMax = 16;
@@ -223,27 +223,45 @@ public class ProductController {
 		view.addObject("viewPage", "product/productDetail.jsp");
 		return view;
 	}
-	
-
-	
 
 	@RequestMapping("/sellList.do")
-	public ModelAndView getMySell_product(String member_id, @RequestParam(defaultValue = "1") int pageNum) {
-		ModelAndView view = new ModelAndView();
-		view.setViewName("main");
+	public ModelAndView sellList(String member_id) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		mav.addObject("member_id", member_id);
+		mav.addObject("viewPage", "sell/sellList.jsp");
+		return mav;
+	}
+
+	@RequestMapping(value = "/sellList_product.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String getMySell_product(String member_id, @RequestParam(defaultValue = "1") int pageNum) {
+/*		ModelAndView view = new ModelAndView();
+		view.setViewName("main");*/
 		int productMax = 10;
 		int endNum = pageNum * productMax;
 		int startNum = endNum - (productMax - 1);
+		System.out.println("member_id: "+member_id);
 		String sql = "select * from (select rownum rnum, product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from (select product_id,condition, product_name, category, quality, price, main_img, sub_img, member_id from product where member_id='"+member_id+"' order by product_id))";
 	
 		List<ProductVo> list = dao.getMySell_product(sql);
 
 		int pageMax = list.size() / productMax;		
 		if(list.size() % productMax != 0)
-			pageMax++;	
-		sql += " where rnum>=" + startNum + " and rnum<=" + endNum;
-		
+			pageMax++;
 		list = dao.getMySell_product(sql);
+		String str = "";
+		ObjectMapper mapper = new ObjectMapper();
+		
+		try {
+			str = mapper.writeValueAsString(list);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return str;
+		
+		/*list = dao.getMySell_product(sql);
 		
 		view.setViewName("main"); 
 		view.addObject("len", list.size());
@@ -251,7 +269,9 @@ public class ProductController {
 		view.addObject("list", list);
 		view.addObject("pageMax", pageMax);
 		view.addObject("viewPage", "sell/sellList.jsp");
-		return view;
+		
+		
+		return view;*/
 	}
 	
 	@RequestMapping(value ="/getCondition_product.do", produces="text/plain; charset=utf-8")
@@ -342,6 +362,8 @@ public class ProductController {
 	      view.addObject("viewPage", "sell/sellList.jsp");
 	      return view;
 	   }
+
+
 	
 	@RequestMapping("/sellUpdate.do")
 	public ModelAndView update_sell() {

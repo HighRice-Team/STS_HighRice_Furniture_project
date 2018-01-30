@@ -22,17 +22,16 @@ html, body {
 	<div style="text-align: center;">
 		<!-- 헤더영역 -->
 		<div style="background: #ccc; height: 200px; position:static;">
-			<%@ include file="header.jsp" %>
+			<jsp:include page="header.jsp" />
 		</div>
-
 		<!-- 바디영역 -->
-		<div style="min_height: 100%; position:static;">
+		<div style="min_height: 100%; position:relative;">
 			<jsp:include page="${viewPage }" />
 		</div>
-
 		<!-- 푸터영역 -->
 		<div style="background: #ddd; height: 120px; position:static;">
-			<%@ include file="footer.jsp" %>
+			<jsp:include page="footer.jsp" />
+		<%-- <%@ include file="footer.jsp" %> --%>
 		</div>
 	</div>
 </body>
