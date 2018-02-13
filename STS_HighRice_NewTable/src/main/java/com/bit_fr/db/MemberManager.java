@@ -120,7 +120,6 @@ public class MemberManager {
 
 		return re;
 	}
-
 	
 	// Update
 
