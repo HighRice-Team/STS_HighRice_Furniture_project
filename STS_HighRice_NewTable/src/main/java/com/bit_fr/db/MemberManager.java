@@ -122,7 +122,6 @@ public class MemberManager {
 	}
 
 	
-	
 	// Update
 
 	public static int updateResetPwd_member(String member_id) { // 회원계정의 비밀번호 초기화
