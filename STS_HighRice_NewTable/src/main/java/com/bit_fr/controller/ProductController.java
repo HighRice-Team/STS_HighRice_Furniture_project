@@ -310,60 +310,60 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/sellInsert.do",produces="text/plain;charset=utf-8")
-	@ResponseBody
-	public ModelAndView insert_sell(ProductVo p, HttpServletRequest request) {
-		String path = request.getRealPath("/resources");	
-		String main_img = "";
-		String sub_img = "";
-		int fsize1 = 0;
-		int fsize2 = 0;
-		
-		MultipartFile mainIMG = p.getMainIMG();
-		MultipartFile subIMG = p.getSubIMG();
-		
-		if(mainIMG!=null && subIMG!=null) {
-			try{
-				byte []data1 = mainIMG.getBytes();
-				byte []data2 = subIMG.getBytes();
-		
-				main_img = mainIMG.getOriginalFilename();
-				sub_img = subIMG.getOriginalFilename();
-				fsize1 = data1.length;
-				fsize2 = data2.length;
-				FileOutputStream fos1 = new FileOutputStream(path + "/" + main_img);
-				FileOutputStream fos2 = new FileOutputStream(path + "/" + sub_img);
-				fos1.write(data1);
-				fos2.write(data2);
-				fos1.close();
-				fos2.close();
-				
-			}catch (Exception e) {
-				// TODO: handle exception
-				System.out.println(e);
-			}
-		}
-		p.setMain_img(main_img);
-		p.setSub_img(sub_img);
+	   @ResponseBody
+	   public ModelAndView insert_sell(ProductVo p, HttpServletRequest request) {
+	      String path = request.getRealPath("/resources/img/product");   
+	      String main_img = "";
+	      String sub_img = "";
+	      int fsize1 = 0;
+	      int fsize2 = 0;
+	      MultipartFile mainIMG = p.getMainIMG();
+	      MultipartFile subIMG = p.getSubIMG();
+	      
+	      if(mainIMG!=null && subIMG!=null) {
+	         try{
+	            byte []data1 = mainIMG.getBytes();
+	            byte []data2 = subIMG.getBytes();
+	      
+	            main_img = mainIMG.getOriginalFilename();
+	            sub_img = subIMG.getOriginalFilename();
+	            fsize1 = data1.length;
+	            fsize2 = data2.length;
+	            FileOutputStream fos1 = new FileOutputStream(path + "/" + main_img);
+	            FileOutputStream fos2 = new FileOutputStream(path + "/" + sub_img);
+	            fos1.write(data1);
+	            fos2.write(data2);
+	            fos1.close();
+	            fos2.close();
+	            
+	         }catch (Exception e) {
+	            // TODO: handle exception
+	            System.out.println(e);
+	         }
+	      }
+	      p.setMain_img(main_img);
+	      p.setSub_img(sub_img);
 
-		int product_id = dao.getNextId_product();
-		p.setProduct_id(product_id);
-		p.setCondition("등록");
-		String str="";
-		
-		ModelAndView view = new ModelAndView();
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			str = mapper.writeValueAsString(p);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		System.out.println("category: "+p.getCategory());
-		dao.insert_product(p);
-		view.setViewName("main");
-		view.addObject("member_id", p.getMember_id());
-		view.addObject("viewPage", "sell/sellList.jsp");
-		return view;
-	}
+	      int product_id = dao.getNextId_product();
+	      p.setProduct_id(product_id);
+	      p.setCondition("등록");
+	      String str="";
+	      
+	      ModelAndView view = new ModelAndView();
+	      ObjectMapper mapper = new ObjectMapper();
+	      try {
+	         str = mapper.writeValueAsString(p);
+	      } catch (Exception e) {
+	         System.out.println(e);
+	      }
+	      dao.insert_product(p);
+	      view.setViewName("main");
+	      view.addObject("member_id", p.getMember_id());
+	      view.addObject("viewPage", "sell/sellList.jsp");
+	      return view;
+	   }
+
+
 	
 	@RequestMapping("/sellUpdate.do")
 	public ModelAndView update_sell() {
