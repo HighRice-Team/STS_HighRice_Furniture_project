@@ -105,8 +105,11 @@
 								$.ajax({
 									url:"updatePwd_member.do",
 									data:data,
+									success:function(data){
+										alert("비밀번호 변경 완료");
+										
+									}
 								})
-								alert("비밀번호 변경 완료");
 								location.href="";
 								$("#changePwd").dialog("close")
 							}else{
