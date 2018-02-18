@@ -27,16 +27,15 @@
 	</select>
 
 	<select id="getAll_orderlist" resultType="orderlistVo">
-		select * from orderlist
-		<trim prefix="WHERE" prefixOverrides="AND">
+		select * from orderlist where pay_date is not null and pay_date != '1111-11-11' 
 				<if test="order_id!=null">AND order_id = #{order_id}</if>
 				<if test="member_id != null">AND member_id like '${member_id}'</if>
-				<if test="product_id!=null">AND and product_id = #{product_id}</if>
-				<if test = "pay_date != null">AND pay_date = '${pay_date}'</if>
-				<if test = "rent_start != null">AND rent_start='${rent_start}'</if>
-				<if test = "rent_end != null">AND rent_end='${rent_end}'</if>
-				<if test = "rent_month != null">AND rent_date=#{rent_date}</if>
-			</trim>
+				<if test="product_id!=null">AND product_id = #{product_id}</if>
+				<if test = "pay_date != null">AND pay_date like '${pay_date}'</if>
+				<if test = "rent_start != null">AND rent_start like '${rent_start}'</if>
+				<if test = "rent_end != null">AND rent_end like '${rent_end}'</if>
+				<if test = "rent_month != null">AND rent_month like '${rent_month}'</if>
+				<if test = "orderlist_condition != null">AND orderlist_condition like '${orderlist_condition}'</if>
 		order by order_id
 	</select>
 
@@ -47,7 +46,7 @@
 	</select>
 
 	<select id="getAllMyOrder_orderlist" resultType="orderlistVo">
-		select pay_date,order_id,main_img,rent_month,product_name,price,condition con from product p,orderlist o where p.product_id=o.product_id and o.member_id = #{member_id}
+		select pay_date,order_id,main_img,rent_month,product_name,price,condition con from product p,orderlist o where p.product_id=o.product_id and o.member_id = #{member_id} and condition != '물품게시' and pay_date is not null
 			<if test="product_name != null">AND product_name= '${product_name}'</if>
 			<if test="price != null">AND price = ${price}</if>
 			<if test="condition != null">AND condition = '${condition}'</if>
@@ -93,6 +92,10 @@
 	<update id="updateDepositToMaster_orderlist">
 		update member set balance = ( balance + #{paymentOne} ) 
 		where member_id = 'master'
+	</update>
+	
+	<update id="autoUpdateRentStart_orderlist">
+		<![CDATA[ update orderlist set rent_start = sysdate where pay_date+3 <= sysdate and pay_date != '1111-11-11' ]]> 
 	</update>
 	
 	<delete id="delete_orderlist">

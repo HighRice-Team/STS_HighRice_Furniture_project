@@ -4,56 +4,69 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 
-	<!-- 	<select id="getAll_product" resultType="productVo">
-		select * from product where category=#{category} order by product_id desc
-	</select> -->
-	
+	<!-- <select id="getAll_product" resultType="productVo"> select * from product 
+		where category=#{category} order by product_id desc </select> -->
+
 	<select id="getAll_product" resultType="productVo">
 		${sql}
 	</select>
-	
-	<select id="getAll_productAdmin" resultType="productVo">
 
-		select * from product 
-			<trim prefix="WHERE" prefixOverrides="AND">
-				<if test="product_id!=null">AND product_id=${product_id}</if>
-				<if test="category!=null">AND category='${category}'</if>
-				<if test="product_name!=null">AND product_name like '${product_name}'</if>
-				<if test="member_id!=null">AND member_id='${member_id}'</if>
-				<if test="quality!=null">AND quality='${quality}'</if>
-				<if test="price!=null">AND price=${price}</if>
-				<if test="condition!=null">AND condition='${condition}'</if>
-			</trim>
-			order by product_id
+	<select id="getAllMy_product" resultType="productVo">
+		select * from (select
+		product_id, product_name, condition from product where
+		member_id=#{member_id})t1
+		left outer join
+		(select o.product_id as op,sum(price*rent_month) total,count(o.product_id)
+		cnt from orderlist o,product p where p.product_id = o.product_id and
+		p.member_id=#{member_id} group by o.product_id)t2
+		on t1.product_id=t2.op order by t1.product_id
+	</select>
+
+	<select id="getAll_productAdmin" resultType="productVo">
+		select * from product
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="product_id!=null">AND product_id=${product_id}</if>
+			<if test="category!=null">AND category='${category}'</if>
+			<if test="product_name!=null">AND product_name like '${product_name}'</if>
+			<if test="member_id!=null">AND member_id='${member_id}'</if>
+			<if test="quality!=null">AND quality='${quality}'</if>
+			<if test="price!=null">AND price=${price}</if>
+			<if test="condition!=null">AND condition='${condition}'</if>
+		</trim>
+		order by product_id
 	</select>
 
 	<select id="getOne_product" resultType="productVo">
-		select * from product where product_id=#{product_id}
+		select * from product
+		where product_id=#{product_id}
 	</select>
-	
- 	<select id="getNextId_product" resultType="java.lang.Integer">
-		select nvl(max(product_id),0)+1 from product
+
+	<select id="getNextId_product" resultType="java.lang.Integer">
+		select
+		nvl(max(product_id),0)+1 from product
 	</select>
-	
+
 	<select id="getCount_product" resultType="java.lang.Integer">
-		select count(*) from product
+		select count(*) from
+		product
 	</select>
-	
+
 	<select id="getCutomizeList_product" resultType="productVo">
- 		${sql}
- 	</select>
- 	
-  	<select id="getMySell_product" resultType="productVo">
 		${sql}
 	</select>
-	
+
+	<select id="getMySell_product" resultType="productVo">
+		${sql}
+	</select>
+
 	<select id="getMySellCount_product" resultType="java.lang.Integer">
- 		select count(*) from product where member_id = #{member_id}
- 	</select>
- 	
- 	<select id="getMySellCountWithCondition_product" resultType="java.lang.Integer">
- 		select count(*) from product where member_id = #{member_id} and condition = #{condition}
- 	</select>	
+		select count(*) from product where member_id = #{member_id}
+	</select>
+
+	<select id="getMySellCountWithCondition_product" resultType="java.lang.Integer">
+		select count(*) from product where member_id = #{member_id} and
+		condition = #{condition}
+	</select>
 
 	<select id="getMySellForPaging_product" resultType="productVo">	
 		<![CDATA[
@@ -62,50 +75,59 @@
 	</select>
 
 	<select id="getAllPublishingCount_product" resultType="java.lang.Integer">
-		select nvl(count(*),0) from product where condition='물품게시'
+		select
+		nvl(count(*),0) from product where condition='물품게시'
 	</select>
-	
+
 	<select id="getItemPublishingCount_product" resultType="java.lang.Integer">
-		select count(*) from product where item=#{item} and condition='물품게시'
+		select
+		count(*) from product where item=#{item} and condition='물품게시'
 	</select>
-	
+
 	<select id="getForAdmin_product" resultType="productVo">
-		select product_id, item, product_name, m.member_id, condition, a.address2, quality, price from product p, member m, address a where p.member_id=m.member_id and m.address_id=a.address_id
+		select product_id,
+		item, product_name, m.member_id, condition, a.address2, quality, price
+		from product p, member m, address a where p.member_id=m.member_id and
+		m.address_id=a.address_id
 	</select>
-	
 	<select id="getCondition_product" resultType="java.lang.String">
 		select condition from product where product_id = #{product_id}
 	</select>
-	
 	<insert id="insert_product">
-		insert into product values(#{product_id},#{condition},#{product_name},#{category},#{quality},0,#{main_img},#{sub_img},#{member_id})
+		insert into product
+		values(#{product_id},#{condition},#{product_name},#{category},#{quality},0,#{main_img},#{sub_img},#{member_id})
 	</insert>
 
 	<update id="update_product">
-		update product set product_name=#{product_name}, category=#{category}, quality=#{quality}, main_img=#{main_img}, sub_img=#{sub_img}
+		update product set product_name=#{product_name},
+		category=#{category}, quality=#{quality}, main_img=#{main_img},
+		sub_img=#{sub_img}
 	</update>
-	
+
 	<update id="updateCondition_product">
-		update product set condition=#{condition} where product_id=#{product_id}
+		update product set condition=#{condition} where
+		product_id=#{product_id}
 	</update>
-	
+
 	<update id="updateAdmin_product">
-		update product set category = #{category}, product_name =#{product_name}, condition = #{condition}, quality =#{quality}, price = #{price} 
+		update product set category = #{category},
+		product_name =#{product_name}, condition = #{condition}, quality
+		=#{quality}, price = #{price} where product_id =#{product_id}
+
 		<if test="main_img != null">
 			,main_img = #{main_img} 
 		</if>
 		<if test="sub_img!=null">
 			,sub_img = #{sub_img}
 		</if>
-		where product_id =#{product_id}
 	</update>
-	
+
 	<delete id="delete_product">
 		delete product where product_id=#{product_id}
 	</delete>
-	
+
 	<select id="getCust" resultType="productVo">
 		${sql}
 	</select>
-	
+
 </mapper>
