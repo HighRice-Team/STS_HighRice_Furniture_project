@@ -20,7 +20,7 @@
 			<input type="hidden" name="product_price" value="${product_info.price }"><br>
 			<input type="hidden" name="product_mainImg" value="${product_info.main_img}"><br>
 			<input type="hidden" name="product_subImg" value="${product_info.sub_img }"><br>
-			<input type="hidden" name="orderlist_id" value="${orderlist_info.order_id }"><br>
+			<input type="hidden" name="order_id" value="${orderlist_info.order_id }"><br>
 			<input type="hidden" name="orderlist_condition" value="${orderlist_info.orderlist_condition }"><br>
 			<input type="hidden" name="orderlist_rent_month" value="${orderlist_info.rent_month }"><br>
 			<input type="hidden" name="member_id" value="${member_info.member_id }"><br>
