@@ -12,13 +12,7 @@ public class OrderlistVo {
 	private int rent_month;
 
 	//toString for yours
-	@Override
-	public String toString() {
-		return "OrderlistVo [order_id=" + order_id + ", member_id=" + member_id + ", product_id=" + product_id
-				+ ", pay_date=" + pay_date + ", rent_start=" + rent_start + ", rent_end=" + rent_end + ", rent_month="
-				+ rent_month + ", rnum=" + rnum + ", product_name=" + product_name + ", main_img=" + main_img
-				+ ", price=" + price + ", pr=" + pr + ", con=" + con + "]";
-	}
+	
 	// page Vo
 	private int rnum;
 
@@ -30,6 +24,7 @@ public class OrderlistVo {
 	private int pr;
 	// condition
 	private String con;
+	private String orderlist_condition;
 	public int getOrder_id() {
 		return order_id;
 	}
@@ -108,9 +103,19 @@ public class OrderlistVo {
 	public void setCon(String con) {
 		this.con = con;
 	}
+	public String getOrderlist_condition() {
+		return orderlist_condition;
+	}
+	public void setOrderlist_condition(String orderlist_condition) {
+		this.orderlist_condition = orderlist_condition;
+	}
+	public OrderlistVo() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public OrderlistVo(int order_id, String member_id, int product_id, String pay_date, String rent_start,
 			String rent_end, int rent_month, int rnum, String product_name, String main_img, String price, int pr,
-			String con) {
+			String con, String orderlist_condition) {
 		super();
 		this.order_id = order_id;
 		this.member_id = member_id;
@@ -125,11 +130,16 @@ public class OrderlistVo {
 		this.price = price;
 		this.pr = pr;
 		this.con = con;
+		this.orderlist_condition = orderlist_condition;
 	}
-	public OrderlistVo() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return "OrderlistVo [order_id=" + order_id + ", member_id=" + member_id + ", product_id=" + product_id
+				+ ", pay_date=" + pay_date + ", rent_start=" + rent_start + ", rent_end=" + rent_end + ", rent_month="
+				+ rent_month + ", rnum=" + rnum + ", product_name=" + product_name + ", main_img=" + main_img
+				+ ", price=" + price + ", pr=" + pr + ", con=" + con + ", orderlist_condition=" + orderlist_condition
+				+ "]";
 	}
-
+	
 	
 }

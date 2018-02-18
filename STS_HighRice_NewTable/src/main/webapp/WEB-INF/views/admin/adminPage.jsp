@@ -190,13 +190,30 @@ $(function(){
 	        
 	        fields: [
 	            { name: "order_id", title:"주문번호",type: "number", width: 30},
-	            { name: "member_id", title:"구매자",type: "text", width: 30},
+	            { name: "member_id", title:"구매자",type: "text", width: 80},
 	            { name: "product_id",title:"제품번호", type: "number", width: 30},
-	            { name: "pay_date",title:"구매일", type: "text",width:100},
-	            { name: "rent_start",title:"대여시작", type: "text", width:100 },
-	            { name: "rent_end", title:"대여마강", type: "text", width:100 },
-	            { name: "rent_month",title:"대여기한(개월)", type: "number", width:30},
-	            { type: "control", deleteButton:false, editButton:false }
+	            { name: "pay_date",title:"구매일", type: "text",width:60},
+	            { name: "rent_start",title:"대여시작", type: "text", width:60 },
+	            { name: "rent_end", title:"대여마강", type: "text", width:60 },
+	            { name: "rent_month",title:"대여기한(개월)", type: "number", width:60},
+	            { name: "orderlist_condition", title:"상태", type: "select",
+	            	items:[{id:"", Name:""},{id:"입금완료", Name:"입금완료"}, {id:"배송중", Name:"배송중"}, 
+	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},
+	            		{id:"검수완료", Name:"검수완료"},	{id:"반납요청", Name:"반납요청"}],
+	            	valueField: "id", textField: "Name", valueType:"String", width: 60 },
+	            { name:"비고", width:100, itemTemplate:function(_,item){
+	            	var str = $("<div></div>")
+	            	if(item.orderlist_condition=="입금완료"){
+	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='배송' id='deliveryBtn_admin'>"))
+	            		str.append($("<div style='float:left; margin-left:10px;'></div>").html("<input type='button' value='취소' id='resetBtn_admin'>"))
+	            	}else if(item.orderlist_condition=="반납요청"){
+	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='반납' id='returnBtn_admin'>"))
+	            	}else if(item.orderlist_condition=="환불요청"){
+	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='환불' id='refundBtn_admin'>"))
+	            	}
+	            	return str;
+	              }
+	            }
 	        ]
 		})
 		
@@ -282,7 +299,19 @@ $(function(){
 	            
 	        ]
 		})
-
+		
+		$(document).on("click","#resetBtn_admin",function(){
+			alert("취소")
+		})
+		$(document).on("click","#deliveryBtn_admin",function(){
+			var a = window.open("admin/deliveryInfo.do","배송처리","width=400,height=500")
+		})
+		$(document).on("click","#returnBtn_admin",function(){
+			var a = window.open("admin/deliveryInfo.do","배송처리","width=400,height=500")
+		})
+		$(document).on("click","#refundBtn_admin",function(){
+			alert("환불처리")
+		})
 })
 
 </script>

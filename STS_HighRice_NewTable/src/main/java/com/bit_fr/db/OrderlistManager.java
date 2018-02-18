@@ -86,11 +86,10 @@ public class OrderlistManager {
 		SqlSession session = factory.openSession();
 		
 		HashMap<String , String> map = new HashMap<String, String>();
-		
 		if(o.getOrder_id() != 0) {
 			map.put("order_id", o.getOrder_id()+"");
 		}
-		if(o.getMember_id() != null && !o.getMember_id().equals("")) {
+		if(!o.getMember_id().equals("")) {
 			map.put("member_id", "%"+o.getMember_id()+"%");
 		}
 		if(o.getProduct_id()!=0) {
@@ -103,11 +102,16 @@ public class OrderlistManager {
 			map.put("rent_start","%"+o.getRent_start()+"%");
 		}
 		if(o.getRent_month()!=0) {
-			map.put("rent_month",o.getRent_month()+"");
+			map.put("rent_month","%"+o.getRent_month()+"%");
 		}
 		if(!o.getRent_end().equals("")) {
 			map.put("rent_end","%"+o.getRent_end()+"%");
 		}
+		if(!o.getOrderlist_condition().equals("")) {
+			map.put("orderlist_condition", "%"+o.getOrderlist_condition()+"%");
+		}
+		
+		
 
 		List<OrderlistVo> list = session.selectList("orderlist.getAll_orderlist", map);
 		session.close();
@@ -291,6 +295,13 @@ public class OrderlistManager {
 		re = session.update("orderlist.updateDepositToMaster_orderlist", map);
 		session.close();
 
+		return re;
+	}
+	
+	public static int autoUpdateRentStart_orderlist() {
+		SqlSession session = factory.openSession(true);
+		int re = session.update("orderlist.autoUpdateRentStart_orderlist");
+		session.close();
 		return re;
 	}
 

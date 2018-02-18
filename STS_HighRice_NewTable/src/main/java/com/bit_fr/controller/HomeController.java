@@ -1,6 +1,7 @@
 package com.bit_fr.controller;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +68,17 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
+	@Scheduled(cron="0 0 0 * * *")
+	public void pro() {
+//		스케쥴링 내용적기
+	}
+	
+	@RequestMapping("admin/deliveryInfo.do")
+	public void deliveryInfo() {
+		
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -198,10 +211,20 @@ public class HomeController {
 		String str = "";
 		
 		List<OrderlistVo> list = orderlistDao.getAll_orderlist(v);
+		List<OrderlistVo> list2 = new ArrayList<OrderlistVo>();
+		
+		for(OrderlistVo vo : list) {
+			vo.setPay_date(vo.getPay_date().substring(0,10)); 
+			vo.setRent_start(vo.getRent_start().substring(0,10)); 
+			vo.setRent_end(vo.getRent_end().substring(0,10)); 
+			
+			list2.add(vo);
+		}
+		
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			str = mapper.writeValueAsString(list);
+			str = mapper.writeValueAsString(list2);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e);

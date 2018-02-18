@@ -71,6 +71,10 @@ public class OrderlistDao {
 	public int updateRentalDateFromCartlistPayment_orderlist(String member_id, int product_id, int rent_month) {
 		return OrderlistManager.updateRentalDateFromCartlistPayment_orderlist(member_id, product_id, rent_month);
 	}
+	
+	public int autoUpdateRentStart_orderlist() {
+		return OrderlistManager.autoUpdateRentStart_orderlist();
+	}
 
 	public int getMyRentMonth_orderlist(String member_id, int product_id) {
 		return OrderlistManager.getMyRentMonth_orderlist(member_id, product_id);
