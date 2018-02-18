@@ -92,6 +92,39 @@ p{
 			infiniteLoop:true
 		});
 		
+		
+		$("#mySellList_grid").jsGrid({
+	        width: "100%",
+	        height: "auto",
+	        filtering: true,
+	        sorting: true,
+	        paging: true,
+	        autoload: true,
+	        autosearch:true,
+	        pageSize : 10,
+	        pageButtonCount:5,
+	        
+	        controller : {
+	        	loadData:function(filter){
+	        		return $.ajax({
+	        			url:"getAllMy_product.do",
+	        			type:"POST",
+	        			data:filter,
+	        			dataType:"JSON"
+	        		})
+	        	}
+	        },
+	        
+	        fields: [
+	            { name: "product_id", title:"상품번호",  type: "number", width: 50},
+	            { name: "product_name", title:"상품명",type:"text", width: 120},
+	            { name: "condition", title:"처리상태", type: "text", width: 50 },
+	            { title:"총 판매금액[건수]",  itemTemplate:function(_,item){  return item.total+"["+item.cnt+"]"}, type: "text", width: 50 },
+	            { title:"페이백 [10%]", itemTemplate:function(_,item){  return item.total*0.1}, type: "text",width:50},
+	            { name: "버튼", width:50 }
+	        ]
+		});
+		
 		$("#myOrderlist_grid").jsGrid({
 	        width: "100%",
 	        height: "auto",
@@ -199,7 +232,7 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
 	<!-- 			<div><img src="resources/img/slide1.jpg" width="100%" height="150px"></div> -->
@@ -320,7 +353,7 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
 				<div>
@@ -356,11 +389,14 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
-				
-					
+				<div>
+					<table id="mySellList_grid" cellpadding="10px" cellspacing="10px" class="table" style="text-align: center;">
+						
+					</table>
+				</div>	
 			</div>
 		</div>
 		<center>
@@ -387,7 +423,7 @@ p{
 				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
 				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
 				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
+				<a href="sellWrite.do"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
 			</div>
 			<div style="float: left; width: 88%; padding-left: 1%;">
 				
@@ -396,54 +432,6 @@ p{
 		</div>
 		<center>
 	</c:if>
-	<c:if test="${selectedMyPage=='s' }">
-		<center>
-		<div style="width: 93%; height: 130px; position: relative; padding-top: 20px;">
-			<div style="float: left; width:7%; height: 90%;"><img src="resources/img/myPageGradeImg.PNG" width="100%" height="100%"></div>
-			<div style="float:left; width:92%; height: 90%; background-color: #EEEEEE;">
-				<div style="padding-bottom: 2px;">
-					<p style="font-size: 0.9vw;">저희 BIT FR 가구점을 이용해 주셔서 감사합니다. ${member.name } 님은 [일반] 회원이십니다.<br><br>무통장입금으로 50,000원 이상 구매시 1%을 추가적립 받으실 수 있습니다.</p>
-				</div><center>
-				<div style="padding-left:13%; float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">입금완료<br>${rent1 }건</a></div>
-				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">배송중<br>${rent2 }건</a></div>
-				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%;"><a style="font-size: 1vw;">대여중<br>${rent3 }건</a></div>
-				<div style="float: left; width: 15%;border-right: 1px solid grey; height:40%; "><a style="font-size: 1vw;">반납<br>${rent4 }건</a></div>
-				<div style="float: left; width: 15%; height:40%; "><a style="font-size: 1vw;">나의 물건<br>${rent4 }건</a></div></center>
-			</div>
-		</div>
-		<div style=" width:93%; height:1000px; position: relative;">
-			<div style="float: left; width: 10%;">
-				<div style="height: 30px;"></div>
-				<a href="myPage.do?selectedMyPage=mP"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="mP">마이페이지</div></a>
-				<a href="myPage.do?selectedMyPage=oL"><div style="width: 100%; margin-bottom: 3px;" class="menu_myPage" id="oL">주문내역</div></a>
-				<a href="myPage.do?selectedMyPage=sL"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="sL">판매내역</div></a>
-				<a onclick="showMemberInfo()"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="mI">회원정보</div></a>
-				<a href="myPage.do?selectedMyPage=s"><div style="width: 100%; margin-bottom: 3px; " class="menu_myPage" id="s">판매하기</div></a>
-			</div>
-			<div style="float: left; width: 88%; padding-left: 1%;">
-				
-					
-			</div>
-		</div>
-		<center>
-	</c:if>
-	<div id="changePwd">
-		<table>
-			<tr>
-				<td>현재 비밀번호</td>
-				<td><input type="password" id="oldPwd"></td>
-			</tr>
-			<tr>
-				<td>변경할 비밀번호</td>
-				<td><input type="password" id="newPwd"></td>
-			</tr>
-			<tr>
-				<td>변경할 비밀번호 확인</td>
-				<td><input type="password" id="chk_newPwd"></td>
-			</tr>
-		</table>
-	</div>
-	
 	<div id="dialog">
 		<center><h1>회원정보 수정</h1></center><br><br>
 		<form id="form" name="form" method="post">

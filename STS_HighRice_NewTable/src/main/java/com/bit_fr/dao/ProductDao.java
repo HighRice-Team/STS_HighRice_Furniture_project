@@ -15,6 +15,10 @@ public class ProductDao {
 		return ProductManager.getAll_product(sql);
 	}
 	
+	public List<ProductVo> getAllMy_product(String member_id) {
+		return ProductManager.getAllMy_product(member_id);
+	}
+	
 
 	public List<ProductVo> getAll_productAdmin(ProductVo v){
 		return ProductManager.getAll_productAdmin(v);
