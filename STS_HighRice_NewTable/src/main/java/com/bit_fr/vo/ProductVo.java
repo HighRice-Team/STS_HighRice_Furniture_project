@@ -38,6 +38,7 @@ public class ProductVo {
 		this.total = total;
 		this.cnt = cnt;
 	}
+
 	public int getProduct_id() {
 		return product_id;
 	}

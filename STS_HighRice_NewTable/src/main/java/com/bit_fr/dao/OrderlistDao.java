@@ -43,8 +43,8 @@ public class OrderlistDao {
 		return OrderlistManager.getMyCartList_orderlist(sql);
 	}
 	
-	public int getRentMonth_orderlist(String member_id, int product_id) {
-		return OrderlistManager.getRentMonth_orderlist(member_id, product_id);
+	public int getRentMonth_orderlist(int order_id) {
+		return OrderlistManager.getRentMonth_orderlist(order_id);
 	}
 
 	public int insertCartlist_orderlist(OrderlistVo v) {

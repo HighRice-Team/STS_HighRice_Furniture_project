@@ -164,18 +164,17 @@ public class OrderlistManager {
 	}
 	
 	//for rent_month of payback
-	public static int getRentMonth_orderlist(String member_id, int product_id) {
+	public static int getRentMonth_orderlist(int order_id) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("member_id", member_id);
-		map.put("product_id", product_id+"");
+		
+		map.put("order_id", order_id+"");
 		
 		SqlSession session = factory.openSession();
 		
-		int rent_month = -1;
+//		int rent_month = -1;
 		
-		if(session.selectOne("orderlist.getRentMonth_orderlist", map)!= null) {
-			rent_month = session.selectOne("orderlist.getRentMonth_orderlist", map);
-		}
+	 	int rent_month = session.selectOne("orderlist.getRentMonth_orderlist", map);
+		
 		
 		session.close();
 		

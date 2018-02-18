@@ -33,6 +33,7 @@ public class QnaBoardController {
 		ModelAndView view = new ModelAndView("main");
 		view.addObject("qnaboard", dao.getOne_qnaBoard(board_id));
 		view.addObject("viewPage", "qnaBoard/detail.jsp");
+
 		return view;
 	}
 

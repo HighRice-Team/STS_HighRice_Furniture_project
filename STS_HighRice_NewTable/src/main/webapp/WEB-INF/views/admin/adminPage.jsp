@@ -8,33 +8,37 @@
 table{
 	width: 100%;
 }
+.chkCondition{
+	visibility: hidden;
+}
+
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.0.min.js"></script>
-
-
 <script type="text/javascript">
 $(function(){
-	
-		function updateCondition(button, product_id, condition){
-			str = $("<button class='chkCondition'>").text(button).on("click",function(){
-    			data = {"product_id":product_id, "condition":condition}
-        		$.ajax({
-        			url:"UpdateCondition_product.do",
-        			data:data,
-        			success:function(data){
-        				alert("변경 완료")
-        				location.href=""
-        			}
-        		})
-        	})
-        	return str;
-		}
 		
+	
 		$("#tabs").tabs();
 		
-
+		//제품 검수완료 및 변경을 위한 dialog
+		$("#productDialog").dialog({
+			width:400,
+			maxWidth:400,
+			minWidth:400,
+			autoOpen:false,
+			modal:true,
+			buttons:{
+				"수정":function(){
+					$("#productDialog").submit()
+				},
+				"취소":function(){
+					$("#productDialog").dialog("close")
+				}
+			}
+		})
+		
+		//프로덕트 그리드
 		$("#product_grid").jsGrid({
 	        width: "95%",
 	        height: "auto",
@@ -50,6 +54,20 @@ $(function(){
 	        
 	        rowClick: function(args) {
 	        	
+	        },
+	        
+	        // 더블클릭 시 다이얼로그를 열어줌
+	        rowDoubleClick:function(args){
+	        	var data = args.item
+	        
+	        	$("#productDialog").dialog("open")
+	        	$("#product_name").val(data.product_name)
+	        	$("#product_id").val(data.product_id)
+	        	$("#category").val(data.category)
+	        	$("#main_img").val(data.main_img)
+	        	$("#sub_img").val(data.sub_img)
+	        	$("#price").val(data.price)
+	        	$("#condition").val("물품게시")
 	        },
 	        
 	        controller : {
@@ -79,6 +97,11 @@ $(function(){
 	            	items:[{id:"", Name:""},{id:"DESK", Name:"DESK"}, {id:"CLOSET", Name:"CLOSET"}, {id:"SOFA", Name:"SOFA"}, {id:"BED", Name:"BED"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 50 },
 	            { name: "product_name",title:"품명", type: "text", width: 200 },
+	            { name: "main_img",title:"사진", width: 200, itemTemplate:function(_,item){
+	            	if(item.main_img != null){
+	            		return $("<img/>").attr("src", "resources/img/product/"+item.main_img).css("width","70px")
+	            	}
+	            } },
 	            { name: "member_id", title:"판매자", type: "text",width:50},
 	            { name: "quality", title:"품질", type: "select",
 	            	items:[{id:"", Name:""},{id:"A", Name:"A"}, {id:"B", Name:"B"}, {id:"C", Name:"C"}],
@@ -90,51 +113,11 @@ $(function(){
 	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
 	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
-	            { type: "control", deleteButton:false },
-	            { name:"UpdateCondition", title:"수정", width:70, itemTemplate:function(_,item){
-	            	var str;
-	            	if(item.condition=="등록"){
-	            		str = updateCondition("접수",item.product_id,"검수")
-	            	}
-	            	if(item.condition=="반납신청"){
-	            		str = updateCondition("반납", item.product_id, "반납")
-	            	}
-	            	if(item.condition=="반납"){
-	            		str = updateCondition("물품게시", item.product_id, "물품게시")
-	            	}
-	            	if(item.condition=="입금완료"){
-	            		str = $("<button class='chkCondition'>").text("배송").on("click",function(){
-	            			var data = {"product_id":item.product_id ,"member_id":item.member_id, "price":item.price}
-	            			$.ajax({
-	            				url:"sellCompliate_product.do",
-	            				data:data,
-	            				success:function(d){
-	            					if(d == -1){
-	            						alert("페이백 적용 실패")
-	            					}
-	            					else{
-// 	            						str = updateCondition("배송", item.product_id, "배송중")
-										var data ={"product_id":item.product_id, condition:"배송중"}
-										$.ajax({
-											url:"UpdateCondition_product.do",
-											data:data,
-											success:function(data){
-												alert("변경 완료")
-												location.href=""
-											}
-										})
-	            					}
-	            					
-	            				}
-	            			})
-	            		})
-	            	}
-	            	return str;
-	            }},
+	           { type: "control", deleteButton:false },
 	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
-	        	   var str;
+	        	   
 	        	   if(item.condition=="등록" || item.condition=="검수"){
-	        		   str = $("<button class='chkCondition'>").text("삭제").on("click",function(){
+	        		  return $("<button class='delCondition'>").text("삭제").on("click",function(){
 	        			   data = {"product_id":item.product_id}
 	        			   var con = confirm("정말로 삭제하시겠습니까?")
 	        				if(con == true){
@@ -151,11 +134,11 @@ $(function(){
 		            		
 		            	})
 	        	   }
-	        	   return str;
 	           }}
 	        ]
 		});
-			
+		
+		//오더 그리드
 		$("#order_grid").jsGrid({
 	        width: "95%",
 	        height: "400px",
@@ -214,6 +197,7 @@ $(function(){
 	            	return str;
 	              }
 	            }
+
 	        ]
 		})
 		
@@ -357,5 +341,37 @@ $(function(){
 			</div>
 		</div>
 	</div>
+	
+	<form id="productDialog" method="post" enctype="multipart/form-data" action="adminSell_product.do">
+		<div style="margin: 0 20% 0 20%; padding: 20px 0 20px 0; ">
+			<div style="padding: 10px" align="left">
+				품명 : <textarea rows="1" style="width: 90%" name="product_name" id="product_name"></textarea>
+				<input type="hidden" name="product_id" id="product_id">
+				<input type="hidden" name="condition" id="condition">
+			</div>
+			<div style="padding: 10px" align="left">
+				분류 :  <select name="category" id="category">
+						<option value="BED">BED</option>
+						<option value="SOFA">SOFA</option>
+						<option value="DESK">DESK</option>
+						<option value="CLOSET">CLOSET</option>	
+					</select>
+			</div>
+			<div style="padding: 10px" align="left">
+				품질 :<input type="radio" name="quality" value="A">A
+					<input type="radio" name="quality" value="B">B
+					<input type="radio" name="quality" value="C" checked="checked">C
+			</div>
+			<div style="padding: 10px" align="left">
+				대표이미지 : <input type="file" name="mainIMG"><br>
+				서브이미지 : <input type="file" name="subIMG">
+				<input type="hidden" name="main_img" id = "main_img">
+				<input type="hidden" name="sub_img" id="sub_img">
+			</div>
+			<div style="padding: 10px" align="left">
+				가격 : <input type="text" name="price" id="price">
+			</div>
+		</div>
+	</form>
 </body>
 </html>

@@ -9,11 +9,15 @@
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
 <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
 <style type="text/css">
+	.button { width: 100px; height: 30px; margin: 15px 0 10px 0; font-size: 15px; border: 1px solid #ddd; border-radius: 7px;}
+	.contentForm { margin: 0 15% 0 15%; padding: 40px 0 40px 0;}
+	#table { width="100%"; float: left;}
 	#main_footer{
 		font-size: 1.2vw;
 	}
@@ -101,8 +105,11 @@
 								$.ajax({
 									url:"updatePwd_member.do",
 									data:data,
+									success:function(data){
+										alert("비밀번호 변경 완료");
+										
+									}
 								})
-								alert("비밀번호 변경 완료");
 								location.href="";
 								$("#changePwd").dialog("close")
 							}else{
@@ -196,6 +203,10 @@
 	</div>
 
 	<div id="loginDialog_footer" title="로그인">
+		<%
+			String referer = request.getHeader("referer");
+			System.out.println(referer);
+		%>
 		<form id="loginForm_footer">
 			<table>
 				<tr>

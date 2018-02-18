@@ -10,7 +10,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.bit_fr.vo.MemberVo;
-import com.bit_fr.vo.OrderlistVo;
 
 public class MemberManager {
 	private static SqlSessionFactory factory;
@@ -121,8 +120,6 @@ public class MemberManager {
 
 		return re;
 	}
-
-	
 	
 	// Update
 

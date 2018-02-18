@@ -57,7 +57,7 @@
 	</select>
 	
 	<select id="getRentMonth_orderlist" resultType="java.lang.Integer">
-		select rent_month from orderlist where member_id = #{member_id} and product_id = #{product_id}
+		select rent_month from orderlist where order_id = #{order_id}
 	</select>
 
 	<select id="getMyRentMonth_orderlist" resultType="java.lang.Integer">
