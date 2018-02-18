@@ -187,12 +187,12 @@ $(function(){
 	            { name:"비고", width:100, itemTemplate:function(_,item){
 	            	var str = $("<div></div>")
 	            	if(item.orderlist_condition=="입금완료"){
-	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='배송' id='deliveryBtn_admin'>"))
-	            		str.append($("<div style='float:left; margin-left:10px;'></div>").html("<input type='button' value='취소' id='resetBtn_admin'>"))
+	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='배송' order_id='"+item.order_id+"' id='deliveryBtn_admin'>"))
+	            		str.append($("<div style='float:left; margin-left:10px;'></div>").html("<input type='button' value='취소' order_id='"+item.order_id+"' id='resetBtn_admin'>"))
 	            	}else if(item.orderlist_condition=="반납요청"){
-	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='반납' id='returnBtn_admin'>"))
+	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='반납' order_id='"+item.order_id+"' id='returnBtn_admin'>"))
 	            	}else if(item.orderlist_condition=="환불요청"){
-	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='환불' id='refundBtn_admin'>"))
+	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='환불' order_id='"+item.order_id+"' id='refundBtn_admin'>"))
 	            	}
 	            	return str;
 	              }
@@ -241,7 +241,7 @@ $(function(){
 	        },
 	        
 	        fields: [
-	            { name: "member_id", title:"아이디",type: "text", width: 150, readOnly:true },
+	            { name: "member_id", title:"아이디",type: "text", width: 150},
 	            { name: "name",title:"이름", type: "text", width: 50 },
 // 	            { name: "pwd", title:"비밀번호", type: "text", width: 70 },
 	            { name: "tel", title:"전화번호",type: "text", width: 100 },
@@ -286,15 +286,17 @@ $(function(){
 		
 		$(document).on("click","#resetBtn_admin",function(){
 			alert("취소")
+			order_id = $(this).attr("order_id")
 		})
 		$(document).on("click","#deliveryBtn_admin",function(){
-			var a = window.open("admin/deliveryInfo.do","배송처리","width=400,height=500")
+			var a = window.open("admin/deliveryInfo.do?order_id="+$(this).attr("order_id"),"배송처리","width=400,height=500")
 		})
 		$(document).on("click","#returnBtn_admin",function(){
-			var a = window.open("admin/deliveryInfo.do","배송처리","width=400,height=500")
+			var a = window.open("admin/deliveryInfo.do?order_id="+$(this).attr("order_id"),"배송처리","width=400,height=500")
 		})
 		$(document).on("click","#refundBtn_admin",function(){
 			alert("환불처리")
+			order_id = $(this).attr("order_id")
 		})
 })
 

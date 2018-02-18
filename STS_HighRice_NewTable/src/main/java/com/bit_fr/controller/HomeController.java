@@ -74,8 +74,32 @@ public class HomeController {
 	}
 	
 	@RequestMapping("admin/deliveryInfo.do")
-	public void deliveryInfo() {
+	public ModelAndView deliveryInfo(int order_id) {
+		ModelAndView mav = new ModelAndView();
+		OrderlistVo orderV = orderlistDao.getOne_orderlist(order_id);
+		List<MemberVo> bitManList = memberDao.getBitMan_member();
 		
+		String bitSelect="<select name='bitman'>";
+		
+		for(MemberVo mv : bitManList) {
+			bitSelect+= "<option value='"+mv.getName()+"'>"+mv.getName()+"</option>";
+		}
+		 bitSelect += "</select>";
+		 
+		 System.out.println(bitSelect);
+		int product_id = orderV.getProduct_id();
+		String member_id = orderV.getMember_id();
+		MemberVo memberVo =  memberDao.getOne_member(member_id);
+		
+		mav.addObject("bitSelect",bitSelect);
+		ProductVo productVo = productDao.getOne_product(product_id);
+		
+		mav.addObject("product_info",productVo);
+		mav.addObject("orderlist_info",orderV);
+		mav.addObject("member_info",memberVo);
+		
+		
+		return mav;
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)

@@ -9,6 +9,11 @@ import com.bit_fr.vo.MemberVo;
 
 @Repository
 public class MemberDao {
+	
+	public List<MemberVo> getBitMan_member(){
+		return MemberManager.getBitMan_member();
+	}
+	
 	public List<MemberVo> getAll_member(MemberVo m) {
 		return MemberManager.getAll_member(m);
 	}

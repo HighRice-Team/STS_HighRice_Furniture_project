@@ -4,6 +4,10 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="orderlist">
 
+	<select id="getOne_orderlist" resultType="orderlistVo">
+		select * from orderlist where order_id = ${order_id}
+	</select>
+
 	<select id="getMyRecentlyOrder_orderlist" resultType="orderlistVo">
 		select order_id, pay_date,main_img,product_name,price,rent_month,condition con from orderlist o,product p where o.product_id = p.product_id and o.member_id = '${member_id}' and o.pay_date >= '${today}'
 	</select>

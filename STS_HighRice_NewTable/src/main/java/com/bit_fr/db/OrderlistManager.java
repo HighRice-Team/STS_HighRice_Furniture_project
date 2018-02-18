@@ -29,6 +29,19 @@ public class OrderlistManager {
 		}
 	}
 	
+	public static OrderlistVo getOne_orderlist(int order_id) {
+		SqlSession session = factory.openSession();
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("order_id", order_id+"");
+		
+		OrderlistVo v = session.selectOne("orderlist.getOne_orderlist",map);
+		
+		session.close();
+		
+		return v;
+	}
+	
 	public static List<OrderlistVo> getMyRecentlyOrder_orderlist(String member_id){
 		SqlSession session = factory.openSession();
 		HashMap<String, String> map = new HashMap<String, String>();
