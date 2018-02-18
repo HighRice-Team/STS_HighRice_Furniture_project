@@ -76,6 +76,10 @@
 	<insert id="insertPayment_orderlist">
 		insert into orderlist values( #{order_id} , #{member_id} , #{product_id} , sysdate , (sysdate + 3) , ADD_MONTHS((sysdate + 3) , #{rent_month} ) , #{rent_month} )
 	</insert>
+	
+	<update id="updateOrderlistCondition_orderlist">
+		update orderlist set orderlist_condition = '${orderlist_condition}' where order_id = ${order_id}
+	</update>
 
 	<update id="updateRentMonth_orderlist">
 		update orderlist set rent_month = #{rent_month}

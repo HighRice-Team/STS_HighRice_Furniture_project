@@ -87,6 +87,10 @@ public class OrderlistDao {
 	public int updateDepositToMaster_orderlist(long paymentOne) {
 		return OrderlistManager.updateDepositToMaster_orderlist(paymentOne);
 	}
+	
+	public int updateOrderlistCondition_orderlist(int order_id, String orderlist_condition) {
+		return OrderlistManager.updateOrderlistCondition_orderlist(order_id, orderlist_condition);
+	}
 
 	public int insertPayment_orderlist(OrderlistVo v) {
 		return OrderlistManager.insertPayment_orderlist(v);

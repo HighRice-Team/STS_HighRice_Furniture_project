@@ -316,6 +316,16 @@ public class OrderlistManager {
 		session.close();
 		return re;
 	}
+	
+	public static int updateOrderlistCondition_orderlist(int order_id, String orderlist_condition) {
+		SqlSession session = factory.openSession(true);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("order_id", order_id+"");
+		map.put("orderlist_condition", orderlist_condition);
+		int re = session.update("orderlist.updateOrderlistCondition_orderlist",map);
+		session.close();
+		return re;
+	}
 
 	public static int delete_orderlist(String member_id, int product_id) {
 		int re = -1;

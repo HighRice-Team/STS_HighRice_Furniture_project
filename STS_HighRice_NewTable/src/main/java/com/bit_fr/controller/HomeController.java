@@ -70,7 +70,7 @@ public class HomeController {
 	
 	@Scheduled(cron="0 0 0 * * *")
 	public void pro() {
-//		스케쥴링 내용적기
+		
 	}
 	
 	@RequestMapping("admin/deliveryInfo.do")
@@ -86,7 +86,6 @@ public class HomeController {
 		}
 		 bitSelect += "</select>";
 		 
-		 System.out.println(bitSelect);
 		int product_id = orderV.getProduct_id();
 		String member_id = orderV.getMember_id();
 		MemberVo memberVo =  memberDao.getOne_member(member_id);
