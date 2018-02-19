@@ -313,9 +313,9 @@ public class ProductController {
 	@ResponseBody
 	public String UpdateConditionToSell_product(int product_id, String condition) {
 		String str = "";
-		
+		System.out.println("a");
 		int re = dao.updateCondition_product(product_id, condition);
-		
+		System.out.println(re);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			str = mapper.writeValueAsString(re);

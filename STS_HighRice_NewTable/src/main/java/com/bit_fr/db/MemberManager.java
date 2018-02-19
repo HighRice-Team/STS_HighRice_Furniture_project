@@ -26,6 +26,13 @@ public class MemberManager {
 	}
 
 	// Select
+	
+	public static List<MemberVo> getBitMan_member(){
+		SqlSession session = factory.openSession();
+		List<MemberVo> list = session.selectList("member.getBitMan_member");
+		session.close();
+		return list;
+	}
 
 	public static List<MemberVo> getAll_member(MemberVo m) { // Member 테이블의 모든 객체를 member_id 순으로 정렬한 결과를 List로 반환한다.
 		SqlSession session = factory.openSession();

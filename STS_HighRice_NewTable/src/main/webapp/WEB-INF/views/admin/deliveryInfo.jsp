@@ -5,54 +5,54 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#sub").click(function(){
+		var product_id = $("#product_id").val();
+		var order_id = $("#order_id").val();
+		var condition = "배송중";
+		var data = {"product_id":product_id,"condition":condition}
+		$.ajax({
+			url:"../updateOrderlistCondition.do",
+			data:{"order_id":order_id,"condition":condition},
+			success:function(){
+				$.ajax({
+					url:"../UpdateCondition_product",
+					data:data,
+					success:function(){
+						$("#deliveryForm").submit()
+						window.opener.top.location.href="../admin.do";
+						self.close()
+					}
+				})
+			}
+		})
+	})
+})
+</script>
 </head>
 <body>
 	<h2>비트맨 지정</h2>
-	<form action="" method="post">
-		<table>
-			<tr>
-				<td>분류</td>
-				<td>
-					<select name="">
-						<option value="1">배송</option>
-						<option value="0">수거</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>비트맨 이름</td>
-				<td>${ bitman }</td>
-			</tr>
-			<tr>
-				<td>가구정보</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>오더리스트 정보</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>회원 정보</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>관리자의 배송또는 수거의 요청날짜</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>비트맨의 수행완료날짜</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>수거및 배송에대한 사용자의 사인기록(파일이름)</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td>상태: 완료 및 진행중 </td>
-				<td></td>
-			</tr>
-		</table>
-		<input type="button" id="testBtn" value="전송">
+	<form action="http://192.168.0.111:52273/delivery_Request" method="post" id="deliveryForm">
+				비트맨 이름
+			${ bitSelect }<br>
+			<input type="hidden" name="product_name" value="${product_info.product_name }"><br>
+			<input type="hidden" name="product_id" id="product_id" value="${product_info.product_id }"><br>
+			<input type="hidden" name="product_category" value="${product_info.category }"><br>
+			<input type="hidden" name="product_quality" value="${product_info.quality }"><br>
+			<input type="hidden" name="product_price" value="${product_info.price }"><br>
+			<input type="hidden" name="product_mainImg" value="${product_info.main_img}"><br>
+			<input type="hidden" name="product_subImg" value="${product_info.sub_img }"><br>
+			<input type="hidden" name="order_id" id="order_id" value="${orderlist_info.order_id }"><br>
+			<input type="hidden" name="orderlist_condition" value="${orderlist_info.orderlist_condition }"><br>
+			<input type="hidden" name="orderlist_rent_month" value="${orderlist_info.rent_month }"><br>
+			<input type="hidden" name="member_id" value="${member_info.member_id }"><br>
+			<input type="hidden" name="member_name" value="${member_info.name }"><br>
+			<input type="hidden" name="member_tel" value="${member_info.tel}"><br>
+			<input type="hidden" name="member_address" value="${member_info.address}"><br>
+			<input type="hidden" name="member_address_detail" value="${member_info.address_detail}"><br>
+		<input type="button" value="전송" id="sub">
 	</form>
 </body>
 </html>
