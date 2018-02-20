@@ -96,8 +96,8 @@ $(function(){
 	            { name: "category", title:"종류",type: "select", 
 	            	items:[{id:"", Name:""},{id:"DESK", Name:"DESK"}, {id:"CLOSET", Name:"CLOSET"}, {id:"SOFA", Name:"SOFA"}, {id:"BED", Name:"BED"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 50 },
-	            { name: "product_name",title:"품명", type: "text", width: 200 },
-	            { name: "main_img",title:"사진", width: 200, itemTemplate:function(_,item){
+	            { name: "product_name",title:"품명", type: "text", width: 150 },
+	            { name: "main_img",title:"사진", width: 50, itemTemplate:function(_,item){
 	            	if(item.main_img != null){
 	            		return $("<img/>").attr("src", "resources/img/product/"+item.main_img).css("width","70px")
 	            	}
@@ -111,28 +111,32 @@ $(function(){
 	            	items:[{id:"", Name:""},{id:"물품게시", Name:"물품게시"}, {id:"배송중", Name:"배송중"}, 
 	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},
 	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
-	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"}],
+	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"},{id:"반납대기",Name:"반납대기"},{id:"비트맨 지정단계",Name:"비트맨 지정단계"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
 	           { type: "control", deleteButton:false },
-	           {name:"deleteCondtion",title:"삭제", width:50, itemTemplate:function(_,item){
+	           {name:"deleteCondtion",title:"삭제", width:100, itemTemplate:function(_,item){
 	        	   
 	        	   if(item.condition=="등록" || item.condition=="검수"){
-	        		  return $("<button class='delCondition'>").text("삭제").on("click",function(){
-	        			   data = {"product_id":item.product_id}
-	        			   var con = confirm("정말로 삭제하시겠습니까?")
-	        				if(con == true){
-	        					$.ajax({
-			            			url:"delete_product.do",
-			            			data:data,
-			            			success:function(data){
-			            				alert("삭제 완료")
-			            				location.href=""
-			            			}
-			            		})
-			            		// 이 값에 해당되는 상품을 삭제
-	        				}
-		            		
-		            	})
+	        		   var str = $("<div></div>")
+	        		   		str.append($("<div style='float:left; padding-left:50px;'></div>").html("<input type='button' class='delCondition' value='삭제'>").on("click",function(){
+	        					alert("aa")
+	        					   data = {"product_id":item.product_id}
+	        					   var con = confirm("정말로 삭제하시겠습니까?")
+	        						if(con == true){
+	        							$.ajax({
+	        		            			url:"delete_product.do",
+	        		            			data:data,
+	        		            			success:function(data){
+	        		            				alert("삭제 완료")
+	        		            				location.href=""
+	        		            			}
+	        		            		})
+	        		            		// 이 값에 해당되는 상품을 삭제
+	        						}
+	        		        		
+	        		        	}))
+	            			str.append($("<div style='float:left; margin-left:10px;'></div>").html("<input type='button' value='수거' product_id='"+item.product_id+"' id='collectBtn_admin'>"))
+	        		  return str
 	        	   }
 	           }}
 	        ]
@@ -181,8 +185,8 @@ $(function(){
 	            { name: "rent_month",title:"대여기한(개월)", type: "number", width:60},
 	            { name: "orderlist_condition", title:"상태", type: "select",
 	            	items:[{id:"", Name:""},{id:"입금완료", Name:"입금완료"}, {id:"배송중", Name:"배송중"}, 
-	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},
-	            		{id:"검수완료", Name:"검수완료"},	{id:"반납요청", Name:"반납요청"}],
+	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},{id:"취소", Name:"취소"},
+	            		{id:"검수완료", Name:"검수완료"},	{id:"반납요청", Name:"반납요청"},{id:"반납대기", Name:"반납대기"},{id:"환불요청", Name:"환불요청"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 60 },
 	            { name:"비고", width:100, itemTemplate:function(_,item){
 	            	var str = $("<div></div>")
@@ -192,7 +196,7 @@ $(function(){
 	            	}else if(item.orderlist_condition=="반납요청"){
 	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='반납' order_id='"+item.order_id+"' id='returnBtn_admin'>"))
 	            	}else if(item.orderlist_condition=="환불요청"){
-	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='환불' order_id='"+item.order_id+"' id='refundBtn_admin'>"))
+	            		str.append($("<div style='float:left; padding-left:70px;'></div>").html("<input type='button' value='환불' order_id='"+item.order_id+"' product_id='"+item.product_id+"' id='refundBtn_admin'>"))
 	            	}
 	            	return str;
 	              }
@@ -289,14 +293,34 @@ $(function(){
 			order_id = $(this).attr("order_id")
 		})
 		$(document).on("click","#deliveryBtn_admin",function(){
-			var a = window.open("admin/deliveryInfo.do?order_id="+$(this).attr("order_id"),"배송처리","width=400,height=500")
+			var a = window.open("admin/deliveryInfo.do?order_id="+$(this).attr("order_id"),"배송처리","width=400,height=200")
 		})
 		$(document).on("click","#returnBtn_admin",function(){
-			var a = window.open("admin/deliveryInfo.do?order_id="+$(this).attr("order_id"),"배송처리","width=400,height=500")
+			var a = window.open("admin/returnInfo.do?order_id="+$(this).attr("order_id"),"반납처리","width=400,height=200")
 		})
 		$(document).on("click","#refundBtn_admin",function(){
-			alert("환불처리")
-			order_id = $(this).attr("order_id")
+			if(confirm("환불 처리하시겠습니까?")){
+				var order_id = $(this).attr("order_id")
+				var product_id = $(this).attr("product_id")
+				$.ajax({
+					url:"updateOrderlistCondition.do",
+					data:{"order_id":order_id,"condition":"취소"},
+					success:function(){
+						$.ajax({
+							url:"UpdateCondition_product",
+							data:{"product_id":product_id,"condition":"물품게시"},
+							success:function(){
+								alert("환불 완료")
+							}
+						})
+					}
+				})
+				
+			}
+			
+		})
+		$(document).on("click","#collectBtn_admin",function(){
+			var a = window.open("admin/collectInfo.do?product_id="+$(this).attr("product_id"),"수거처리","width=400,height=200")
 		})
 })
 
