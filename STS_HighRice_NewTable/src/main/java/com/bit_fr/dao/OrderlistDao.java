@@ -10,6 +10,10 @@ import com.bit_fr.vo.OrderlistVo;
 
 @Repository
 public class OrderlistDao {
+	
+	public OrderlistVo getOne_orderlist(int order_id) {
+		return OrderlistManager.getOne_orderlist(order_id);
+	}
 
 	public int getCheckExist_orderlist(String member_id, int product_id) {
 		return OrderlistManager.getCheckExist_orderlist(member_id, product_id);
@@ -82,6 +86,10 @@ public class OrderlistDao {
 
 	public int updateDepositToMaster_orderlist(long paymentOne) {
 		return OrderlistManager.updateDepositToMaster_orderlist(paymentOne);
+	}
+	
+	public int updateOrderlistCondition_orderlist(int order_id, String orderlist_condition) {
+		return OrderlistManager.updateOrderlistCondition_orderlist(order_id, orderlist_condition);
 	}
 
 	public int insertPayment_orderlist(OrderlistVo v) {

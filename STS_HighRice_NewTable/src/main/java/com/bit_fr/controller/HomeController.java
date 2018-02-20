@@ -41,7 +41,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
 	@Autowired
 	private MemberDao memberDao;
 
@@ -70,12 +69,85 @@ public class HomeController {
 	
 	@Scheduled(cron="0 0 0 * * *")
 	public void pro() {
-//		스케쥴링 내용적기
+		
 	}
 	
 	@RequestMapping("admin/deliveryInfo.do")
-	public void deliveryInfo() {
+	public ModelAndView deliveryInfo(int order_id) {
+		ModelAndView mav = new ModelAndView();
+		OrderlistVo orderV = orderlistDao.getOne_orderlist(order_id);
+		List<MemberVo> bitManList = memberDao.getBitMan_member();
+		String bitSelect="<select name='bitman'>";
 		
+		for(MemberVo mv : bitManList) {
+			bitSelect+= "<option value='"+mv.getName()+"'>"+mv.getName()+"</option>";
+		}
+		 bitSelect += "</select>";
+		 
+		int product_id = orderV.getProduct_id();
+		String member_id = orderV.getMember_id();
+		MemberVo memberVo =  memberDao.getOne_member(member_id);
+		
+		mav.addObject("bitSelect",bitSelect);
+		ProductVo productVo = productDao.getOne_product(product_id);
+		
+		mav.addObject("product_info",productVo);
+		mav.addObject("orderlist_info",orderV);
+		mav.addObject("member_info",memberVo);
+		
+		
+		return mav;
+	}
+	@RequestMapping("admin/collectInfo.do")
+	public ModelAndView collectInfo(int product_id) {
+		ModelAndView mav = new ModelAndView();
+		List<MemberVo> bitManList = memberDao.getBitMan_member();
+		String bitSelect="<select name='bitman'>";
+		
+		for(MemberVo mv : bitManList) {
+			bitSelect+= "<option value='"+mv.getName()+"'>"+mv.getName()+"</option>";
+		}
+		bitSelect += "</select>";
+		
+		ProductVo productVo = productDao.getOne_product(product_id);
+		
+		MemberVo memberVo =  memberDao.getOne_member(productVo.getMember_id());
+		
+		mav.addObject("bitSelect",bitSelect);
+		
+		
+		mav.addObject("product_info",productVo);
+		mav.addObject("member_info",memberVo);
+		
+		
+		return mav;
+	}
+	
+	@RequestMapping("admin/returnInfo.do")
+	public ModelAndView returnInfo(int order_id) {
+		ModelAndView mav = new ModelAndView();
+		OrderlistVo orderV = orderlistDao.getOne_orderlist(order_id);
+		List<MemberVo> bitManList = memberDao.getBitMan_member();
+		String bitSelect="<select name='bitman'>";
+		
+		for(MemberVo mv : bitManList) {
+			bitSelect+= "<option value='"+mv.getName()+"'>"+mv.getName()+"</option>";
+		}
+		bitSelect += "</select>";
+		
+		int product_id = orderV.getProduct_id();
+		String member_id = orderV.getMember_id();
+		MemberVo memberVo =  memberDao.getOne_member(member_id);
+		
+		mav.addObject("bitSelect",bitSelect);
+		ProductVo productVo = productDao.getOne_product(product_id);
+		
+		mav.addObject("product_info",productVo);
+		mav.addObject("orderlist_info",orderV);
+		mav.addObject("member_info",memberVo);
+		
+		
+		return mav;
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
