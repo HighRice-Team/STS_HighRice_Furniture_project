@@ -109,17 +109,16 @@ $(function(){
 	            { name: "price", title:"가격", type: "number", width:100},
 	            { name: "condition", title:"물품상태", type: "select",
 	            	items:[{id:"", Name:""},{id:"물품게시", Name:"물품게시"}, {id:"배송중", Name:"배송중"}, 
-	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},
-	            		{id:"등록", Name:"등록"},{id:"검수완료", Name:"검수완료"},{id:"입금완료", Name:"입금완료"},
-	            		{id:"반납신청", Name:"반납신청"}, {id:"검수",Name:"검수"},{id:"반납대기",Name:"반납대기"},{id:"비트맨 지정단계",Name:"비트맨 지정단계"}],
+	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"수취확인", Name:"수취확인"},
+	            		{id:"등록", Name:"등록"},{id:"입금완료", Name:"입금완료"},{id:"환불요청", Name:"환불요청"},
+	            		{id:"반납요청", Name:"반납요청"},{id:"반납대기",Name:"반납대기"},{id:"1차검수",Name:"1차검수"},{id:"2차검수",Name:"2차검수"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 100 },
 	           { type: "control", deleteButton:false },
 	           {name:"deleteCondtion",title:"삭제", width:100, itemTemplate:function(_,item){
 	        	   
-	        	   if(item.condition=="등록" || item.condition=="검수"){
+	        	   if(item.condition=="등록"){
 	        		   var str = $("<div></div>")
 	        		   		str.append($("<div style='float:left; padding-left:50px;'></div>").html("<input type='button' class='delCondition' value='삭제'>").on("click",function(){
-	        					alert("aa")
 	        					   data = {"product_id":item.product_id}
 	        					   var con = confirm("정말로 삭제하시겠습니까?")
 	        						if(con == true){
@@ -137,6 +136,21 @@ $(function(){
 	        		        	}))
 	            			str.append($("<div style='float:left; margin-left:10px;'></div>").html("<input type='button' value='수거' product_id='"+item.product_id+"' id='collectBtn_admin'>"))
 	        		  return str
+	        	   }else if(item.condition=="2차검수"){
+	        		   var str = $("<div></div>")
+	        		   str.append($("<div style='float:left; padding-left:35px;'></div>").html("<input type='button' class='delCondition' value='2차검수 완료'>").on("click",function(){
+	        					   data = {"product_id":item.product_id,"condition":"물품게시"}
+	        							$.ajax({
+	        		            			url:"UpdateCondition_product",
+	        		            			data:data,
+	        		            			success:function(data){
+	        		            				alert("변경 완료")
+	        		            				location.href=""
+	        		            			}
+	        		            		})
+	        		        		
+	        		        	}))
+	        		   return str;
 	        	   }
 	           }}
 	        ]
@@ -310,7 +324,13 @@ $(function(){
 							url:"UpdateCondition_product",
 							data:{"product_id":product_id,"condition":"물품게시"},
 							success:function(){
-								alert("환불 완료")
+								$.ajax({
+									url:"refund.do",
+									data:{"order_id":order_id},
+									success:function(){
+										alert("환불 완료")
+									}
+								})
 							}
 						})
 					}

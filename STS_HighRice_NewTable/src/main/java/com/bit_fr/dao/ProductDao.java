@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.bit_fr.db.OrderlistManager;
 import com.bit_fr.db.ProductManager;
 import com.bit_fr.vo.ProductVo;
 
@@ -80,6 +81,10 @@ public class ProductDao {
 
 	public int insert_product(ProductVo p) {
 		return ProductManager.insert_product(p);
+	}
+	
+	public int updateCron_product(String sql) {
+		return ProductManager.updateCron_product(sql);
 	}
 
 	public int update_product(String product_name, String category, String quality, String main_img, String sub_img) {

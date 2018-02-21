@@ -69,7 +69,54 @@ public class HomeController {
 	
 	@Scheduled(cron="0 0 0 * * *")
 	public void pro() {
+		//대여마감일과 현재 날짜가 같은경우 매일 0시에  프로덕트의 상태를 반납요청으로 변경하는 스케쥴러
 		
+		String sql = "update product set condition = '반납요청' where product_id in (select product_id from orderlist where rent_end = sysdate)";
+		productDao.updateCron_product(sql);
+		
+		
+		//대여마감일과 현재 날짜가 같은경우 매일 0시에  오더리스트의 상태를 반납요청으로 변경하는 스케쥴러
+		
+		sql = "update orderlist set orderlist_condition='반납요청' where rent_end = sysdate";
+		orderlistDao.updateCron_orderlist(sql);
+		
+		
+		//상태가 수취확인인 프로덕트의 상태를 대여중으로 변경
+		
+		sql = "update product set condition = '대여중' where condition = '수취확인'";
+		productDao.updateCron_product(sql);
+		
+		
+		//상태가 수취확인인 오더리스트의 상태를 대여중으로 변경
+		
+		sql = "update orderlist set orderlist_condition = '대여중' where orderlist_condition = '수취확인'";
+		orderlistDao.updateCron_orderlist(sql);
+	}
+	
+	@RequestMapping(value = "/refund.do", produces="text/plain; charset=utf-8")
+	@ResponseBody
+	public String refund(int order_id) {
+		String str = "";
+		
+		OrderlistVo orderVo = orderlistDao.getOne_orderlist(order_id);
+		String member_id = orderVo.getMember_id();
+		
+		MemberVo memverVo = memberDao.getOne_member(member_id);
+		
+		long memberBalance = memverVo.getBalance();
+		
+		int product_id = orderVo.getProduct_id();
+		int price = productDao.getOne_product(product_id).getPrice();
+		
+		int refundAmount = orderVo.getRent_month()*price;
+		
+		memverVo.setBalance(memberBalance - refundAmount);
+		
+		memberDao.updateInfo_member(memverVo);
+		memberDao.updateMasterForRefund_member(refundAmount);
+		
+		
+		return str;
 	}
 	
 	@RequestMapping("admin/deliveryInfo.do")

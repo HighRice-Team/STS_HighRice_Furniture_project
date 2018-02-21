@@ -83,6 +83,10 @@ public class OrderlistDao {
 	public int getMyRentMonth_orderlist(String member_id, int product_id) {
 		return OrderlistManager.getMyRentMonth_orderlist(member_id, product_id);
 	}
+	
+	public int updateCron_orderlist(String sql) {
+		return OrderlistManager.updateCron_orderlist(sql);
+	}
 
 	public int updateDepositToMaster_orderlist(long paymentOne) {
 		return OrderlistManager.updateDepositToMaster_orderlist(paymentOne);

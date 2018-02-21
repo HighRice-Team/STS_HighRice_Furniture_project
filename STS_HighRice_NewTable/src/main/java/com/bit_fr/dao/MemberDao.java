@@ -54,5 +54,9 @@ public class MemberDao {
 		return MemberManager.updatePayback_member(member_id, payback);
 	}
 	
+	public int updateMasterForRefund_member(int payback) {
+		return MemberManager.updateMasterForRefund_member(payback);
+	}
+	
 	
 }

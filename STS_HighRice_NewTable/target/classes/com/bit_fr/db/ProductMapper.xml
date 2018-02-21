@@ -121,6 +121,10 @@
 			,sub_img = #{sub_img}
 		</if>
 	</update>
+	
+	<update id="updateCron_product">
+		#{sql}
+	</update>
 
 	<delete id="delete_product">
 		delete product where product_id=#{product_id}

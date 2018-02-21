@@ -310,6 +310,14 @@ public class OrderlistManager {
 		return re;
 	}
 	
+	public static int updateCron_orderlist(String sql) {
+		SqlSession session = factory.openSession(true);
+		int re = session.update("orderlist.updateCron_orderlist",sql);
+		session.close();
+		
+		return re;
+	}
+	
 	public static int autoUpdateRentStart_orderlist() {
 		SqlSession session = factory.openSession(true);
 		int re = session.update("orderlist.autoUpdateRentStart_orderlist");
