@@ -218,7 +218,9 @@ public class ProductManager {
 	
 	public static int updateCron_product(String sql) {
 		SqlSession session = factory.openSession(true);
-		int re = session.update("product.updateCron_product",sql);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+		int re = session.update("product.updateCron_product",map);
 		session.close();
 		
 		return re;

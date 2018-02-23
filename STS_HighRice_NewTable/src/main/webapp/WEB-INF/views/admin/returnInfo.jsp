@@ -58,7 +58,7 @@ $(function(){
 				<input type="text" name="member_name" value="${member_info.name }" style="display:none ;">
 				<input type="text" name="member_tel" value="${member_info.tel}" style="display:none ;">
 				<input type="text" name="member_address" value="${member_info.address}" style="display:none ;">
-				<input type="text" name="member_address_detail" value="${member_info.address_detail}" style="display:no<ine ;">
+				<input type="text" name="member_address_detail" value="${member_info.address_detail}" style="display:none ;">
 				<input type="text" name="regDate" id ="regDate" style="display:none ;">
 		</form>
 	</center>

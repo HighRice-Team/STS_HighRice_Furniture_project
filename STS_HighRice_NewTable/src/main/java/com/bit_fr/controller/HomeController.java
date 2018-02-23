@@ -69,6 +69,7 @@ public class HomeController {
 	
 	@Scheduled(cron="0 0 0 * * *")
 	public void pro() {
+		System.out.println("스케쥴러 동작.");
 		//대여마감일과 현재 날짜가 같은경우 매일 0시에  프로덕트의 상태를 반납요청으로 변경하는 스케쥴러
 		
 		String sql = "update product set condition = '반납요청' where product_id in (select product_id from orderlist where rent_end = sysdate)";

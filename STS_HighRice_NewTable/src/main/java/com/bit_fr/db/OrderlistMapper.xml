@@ -103,7 +103,7 @@
 	</update>
 	
 	<update id="updateCron_orderlist">
-		#{sql}
+		${sql}
 	</update>
 	
 	<update id="autoUpdateRentStart_orderlist">

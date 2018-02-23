@@ -116,7 +116,7 @@ public class OrderlistController {
 
 		String sql = "select * from (" + "select rownum rnum,product_name,main_img,price,rent_month,pr,con "
 				+ "from ( select product_name,main_img,price,rent_month,o.product_id pr,p.condition con from orderlist o,product p where o.product_id=p.product_id and o.member_id='"
-				+ member_id + "' and p.condition='물품게시' order by order_id desc))";
+				+ member_id + "' and o.pay_date is not null order by order_id desc))";
 
 		// SQL
 		List<OrderlistVo> list = orderlistDao.getMyCartList_orderlist(sql);

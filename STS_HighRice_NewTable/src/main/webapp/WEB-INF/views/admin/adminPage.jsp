@@ -200,7 +200,7 @@ $(function(){
 	            { name: "orderlist_condition", title:"상태", type: "select",
 	            	items:[{id:"", Name:""},{id:"입금완료", Name:"입금완료"}, {id:"배송중", Name:"배송중"}, 
 	            		{id:"대여중", Name:"대여중"},{id:"반납", Name:"반납"},{id:"배송완료", Name:"배송완료"},{id:"취소", Name:"취소"},
-	            		{id:"검수완료", Name:"검수완료"},	{id:"반납요청", Name:"반납요청"},{id:"반납대기", Name:"반납대기"},{id:"환불요청", Name:"환불요청"}],
+	            		{id:"검수완료", Name:"검수완료"},{id:"수취확인", Name:"수취확인"},	{id:"반납요청", Name:"반납요청"},{id:"반납대기", Name:"반납대기"},{id:"환불요청", Name:"환불요청"}],
 	            	valueField: "id", textField: "Name", valueType:"String", width: 60 },
 	            { name:"비고", width:100, itemTemplate:function(_,item){
 	            	var str = $("<div></div>")

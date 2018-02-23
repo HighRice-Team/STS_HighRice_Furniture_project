@@ -312,7 +312,9 @@ public class OrderlistManager {
 	
 	public static int updateCron_orderlist(String sql) {
 		SqlSession session = factory.openSession(true);
-		int re = session.update("orderlist.updateCron_orderlist",sql);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+		int re = session.update("orderlist.updateCron_orderlist",map);
 		session.close();
 		
 		return re;
