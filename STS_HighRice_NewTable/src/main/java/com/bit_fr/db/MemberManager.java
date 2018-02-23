@@ -171,6 +171,13 @@ public class MemberManager {
 		return re;
 	}
 	
+	public static int updateMasterForRefund_member(int payback) {
+		int re = -1;
+		SqlSession session = factory.openSession(true);
+		session.update("member.paybackMaster_member", payback);
+		return re;
+	}
+	
 	public static List<String> getPwd_q(){
 		SqlSession session = factory.openSession();
 		List<String> list = session.selectList("member.getPwd_q");

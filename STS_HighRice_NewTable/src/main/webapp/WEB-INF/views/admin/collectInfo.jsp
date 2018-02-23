@@ -14,7 +14,7 @@ $(function(){
 		$("#deliveryForm").submit()
 		var product_id = $("#product_id").val();
 		var order_id = $("#order_id").val();
-		var condition = "비트맨 지정단계";
+		var condition = "1차검수";
 		var data = {"product_id":product_id,"condition":condition}
 		$.ajax({
 			url:"../UpdateCondition_product",

@@ -215,6 +215,16 @@ public class ProductManager {
 		session.close();
 		return re;
 	}
+	
+	public static int updateCron_product(String sql) {
+		SqlSession session = factory.openSession(true);
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sql", sql);
+		int re = session.update("product.updateCron_product",map);
+		session.close();
+		
+		return re;
+	}
 
 	public static int updateCondition_product(int product_id, String condition) {
 		SqlSession session = factory.openSession(true);

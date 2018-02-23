@@ -102,6 +102,10 @@
 		where member_id = 'master'
 	</update>
 	
+	<update id="updateCron_orderlist">
+		${sql}
+	</update>
+	
 	<update id="autoUpdateRentStart_orderlist">
 		<![CDATA[ update orderlist set rent_start = sysdate where pay_date+3 <= sysdate and pay_date != '1111-11-11' ]]> 
 	</update>
